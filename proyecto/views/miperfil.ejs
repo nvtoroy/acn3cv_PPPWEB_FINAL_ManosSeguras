@@ -1,0 +1,450 @@
+<main class="panel-pro">
+    <section class="panel-hero">
+        <div>
+            <p class="eyebrow">Mi Perfil</p>
+            <h1><%= user.nombre %></h1>
+            <p class="lead"><%= currentUser.rol === 'profesional' && professional ? professional.descripcion : 'Bienvenido a tu panel de control.' %></p>
+            <div class="hero-tags">
+                <% if (currentUser.rol === 'profesional' && professional && professional.verificado) { %>
+                    <span class="status-pill success">Perfil verificado</span>
+                <% } %>
+                <% if (currentUser.rol === 'profesional' && professional) { %>
+                    <span class="status-pill"><%= professional.experiencia || 0 %> años activo en ManosSeguras</span>
+                <% } else { %>
+                    <span class="status-pill"><%= currentUser.rol.charAt(0).toUpperCase() + currentUser.rol.slice(1) %></span>
+                <% } %>
+            </div>
+        </div>
+        <div class="hero-stats">
+            <% if (currentUser.rol === 'profesional' && professional) { %>
+                <div class="stat-block">
+                    <p class="stat-label">Trabajos finalizados</p>
+                    <p class="stat-value"><%= professional.trabajos_completados || 0 %></p>
+                </div>
+                <div class="stat-block">
+                    <p class="stat-label">Solicitudes abiertas</p>
+                    <p class="stat-value"><%= typeof solicitudesAbiertas !== 'undefined' ? solicitudesAbiertas : 0 %></p>
+                </div>
+                <div class="stat-block">
+                    <p class="stat-label">Calificación promedio</p>
+                    <p class="stat-value"><%= professional.calificacion_promedio ? professional.calificacion_promedio.toFixed(1) : '0.0' %></p>
+                </div>
+            <% } else { %>
+                <div class="stat-block">
+                    <p class="stat-label">Mis solicitudes</p>
+                    <p class="stat-value"><%= solicitudes ? solicitudes.length : 0 %></p>
+                </div>
+            <% } %>
+        </div>
+    </section>
+
+    <section class="panel-tabs">
+        <button class="tab-link active" type="button" data-tab="solicitudes">Solicitudes</button>
+        <% if (currentUser.rol === 'profesional') { %>
+            <button class="tab-link" type="button" data-tab="calendario">Calendario</button>
+        <% } %>
+        <button class="tab-link" type="button" data-tab="datos-personales">Datos personales</button>
+        <button class="tab-link" type="button" data-tab="seguridad">Seguridad</button>
+        <% if (currentUser.rol === 'profesional') { %>
+            <button class="tab-link" type="button" data-tab="servicios">Servicios</button>
+            <button class="tab-link" type="button" data-tab="certificaciones">Certificaciones</button>
+            <button class="tab-link" type="button" data-tab="zona">Zona de trabajo</button>
+        <% } %>
+    </section>
+
+    <section class="panel-grid">
+        <!-- Solicitudes -->
+        <article class="panel-card wide tab-panel active" id="solicitudes">
+            <div class="card-header">
+                <span class="marker"></span>
+                <div>
+                    <h2>Solicitudes y chat</h2>
+                    <p>Todos los pedidos quedan registrados y sirven como garantía.</p>
+                </div>
+            </div>
+            <div class="solicitudes-lista">
+                <% if (solicitudes && solicitudes.length > 0) { %>
+                    <% solicitudes.forEach(function(sol) { %>
+                        <div class="solicitud-card">
+                            <div class="solicitud-head">
+                                <div>
+                                    <h4><%= sol.tipo_servicio || 'Servicio' %></h4>
+                                    <p><%= currentUser.rol === 'profesional' ? (sol.cliente_nombre || 'Cliente') : (sol.profesional_nombre || 'Profesional') %> • <%= sol.fecha_preferida ? 'Fecha sugerida ' + new Date(sol.fecha_preferida).toLocaleDateString('es-AR', {day: '2-digit', month: '2-digit'}) : 'Sin fecha' %></p>
+                                </div>
+                                <span class="status-pill <%= sol.estado === 'completada' || sol.estado === 'aceptada' ? 'success' : '' %>"><%= sol.estado === 'pendiente' ? 'En revisión' : (sol.estado === 'aceptada' ? 'Tomado' : sol.estado) %></span>
+                            </div>
+                            <div class="solicitud-chat">
+                                <div class="chat-row">
+                                    <span class="chat-author">Cliente</span>
+                                    <p><%= sol.descripcion %></p>
+                                </div>
+                                <% if (sol.ultimo_mensaje) { %>
+                                <div class="chat-row professional">
+                                    <span class="chat-author"><%= currentUser.rol === 'profesional' ? user.nombre.split(' ')[0] + ' (vos)' : (sol.profesional_nombre ? sol.profesional_nombre.split(' ')[0] : 'Profesional') %></span>
+                                    <p><%= sol.ultimo_mensaje %></p>
+                                </div>
+                                <% } %>
+                            </div>
+                            <div class="solicitud-actions">
+                                <% if (currentUser.rol === 'profesional' && sol.estado === 'pendiente') { %>
+                                    <form method="POST" action="/solicitudes/<%= sol.id %>/aceptar" style="display:inline;">
+                                        <button type="submit" class="btn btn-outline">Aceptar trabajo</button>
+                                    </form>
+                                    <form method="POST" action="/solicitudes/<%= sol.id %>/rechazar" style="display:inline;">
+                                        <button type="submit" class="btn btn-outline">Rechazar</button>
+                                    </form>
+                                <% } %>
+                                <a href="/solicitudes/<%= sol.id %>" class="btn-link"><%= sol.estado === 'pendiente' ? 'Abrir solicitud completa' : 'Ver conversación' %></a>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p class="empty-state">No tenés solicitudes activas.</p>
+                <% } %>
+            </div>
+        </article>
+
+        <% if (currentUser.rol === 'profesional') { %>
+        <!-- Calendario -->
+        <article class="panel-card wide tab-panel" id="calendario">
+            <div class="card-header">
+                <span class="marker"></span>
+                <div>
+                    <h2>Calendario manual</h2>
+                    <p>Mantené tres meses a la vista y actualizá tu disponibilidad manualmente.</p>
+                </div>
+            </div>
+            <div class="pro-calendar" data-multi-calendar>
+                <div class="calendar-controls">
+                    <button class="cal-btn" data-cal-prev aria-label="Mes anterior">&larr;</button>
+                    <h3 class="calendar-range" data-cal-range>Diciembre 2025 - Febrero 2026</h3>
+                    <button class="cal-btn" data-cal-next aria-label="Mes siguiente">&rarr;</button>
+                </div>
+                <div class="calendar-columns" data-calendar-columns>
+                    <!-- columnas generadas por script -->
+                </div>
+                <div class="calendar-legend">
+                    <span><span class="legend-dot free"></span> Disponible</span>
+                    <span><span class="legend-dot busy"></span> Reservado</span>
+                    <span><span class="legend-dot past"></span> Pasado</span>
+                </div>
+            </div>
+        </article>
+        <% } %>
+
+        <!-- Datos personales -->
+        <article class="panel-card wide tab-panel" id="datos-personales">
+            <div class="card-header">
+                <span class="marker"></span>
+                <div>
+                    <h2>Datos personales</h2>
+                    <p>Actualizá tu información básica. Se mostrará en tu perfil público.</p>
+                </div>
+            </div>
+            <form class="panel-form" method="POST" action="/profile/update">
+                <div class="avatar-block">
+                    <% if (user.avatar) { %>
+                        <img src="<%= user.avatar %>" alt="Avatar" class="avatar">
+                    <% } else { %>
+                        <div class="avatar perfil-avatar-placeholder"><%= user.nombre.charAt(0).toUpperCase() %></div>
+                    <% } %>
+                    <div>
+                        <button type="button" class="btn-outline small">Cambiar foto</button>
+                        <p class="help-text">PNG o JPG - máx 2 MB</p>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label>Nombre
+                        <input type="text" name="nombre" value="<%= user.nombre.split(' ')[0] || '' %>" />
+                    </label>
+                    <label>Apellido
+                        <input type="text" name="apellido" value="<%= user.nombre.split(' ').slice(1).join(' ') || '' %>" />
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>Email
+                        <input type="email" value="<%= user.email %>" disabled />
+                    </label>
+                    <label>Teléfono
+                        <input type="tel" name="telefono" value="<%= user.telefono || '' %>" />
+                    </label>
+                </div>
+                <% if (currentUser.rol === 'profesional' && professional) { %>
+                <label>Descripción profesional
+                    <textarea name="descripcion" rows="4"><%= professional.descripcion || '' %></textarea>
+                </label>
+                <div class="form-row">
+                    <label>Años de experiencia
+                        <input type="number" name="experiencia" value="<%= professional.experiencia || 0 %>" />
+                    </label>
+                    <label>Especialidad principal
+                        <select name="especialidad">
+                            <option value="electricista" <%= professional.especialidad === 'electricista' ? 'selected' : '' %>>Electricista</option>
+                            <option value="plomero" <%= professional.especialidad === 'plomero' ? 'selected' : '' %>>Plomero</option>
+                            <option value="gasista" <%= professional.especialidad === 'gasista' ? 'selected' : '' %>>Gasista</option>
+                        </select>
+                    </label>
+                </div>
+                <% } else { %>
+                <label>Dirección
+                    <input type="text" name="direccion" value="<%= user.direccion || '' %>" />
+                </label>
+                <% } %>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline">Descartar</button>
+                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                </div>
+            </form>
+        </article>
+
+        <!-- Seguridad -->
+        <article class="panel-card tab-panel" id="seguridad">
+            <div class="card-header">
+                <span class="marker"></span>
+                <div>
+                    <h3>Seguridad y accesos</h3>
+                    <p>Mantené tus datos protegidos.</p>
+                </div>
+            </div>
+            <form class="panel-form compact" method="POST" action="/profile/password">
+                <label>Email de acceso
+                    <input type="email" value="<%= user.email %>" disabled>
+                </label>
+                <label>Contraseña actual
+                    <input type="password" name="current_password" placeholder="••••••••">
+                </label>
+                <div class="form-row">
+                    <label>Nueva contraseña
+                        <input type="password" name="new_password" placeholder="••••••">
+                    </label>
+                    <label>Confirmar
+                        <input type="password" name="confirm_password" placeholder="••••••">
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Actualizar seguridad</button>
+                </div>
+            </form>
+        </article>
+
+        <% if (currentUser.rol === 'profesional' && professional) { %>
+        <!-- Servicios -->
+        <article class="panel-card tab-panel" id="servicios">
+            <div class="card-header">
+                <span class="marker"></span>
+                <div>
+                    <h3>Servicios y tarifas</h3>
+                    <p>Define qué trabajos ofrecés.</p>
+                </div>
+            </div>
+            <div class="servicios-lista">
+                <div class="servicio-row">
+                    <div>
+                        <h4>Instalación eléctrica completa</h4>
+                        <p>$15.000 - $50.000</p>
+                    </div>
+                    <div class="row-actions">
+                        <button class="btn-link">Editar</button>
+                        <button class="btn-link danger">Eliminar</button>
+                    </div>
+                </div>
+                <div class="servicio-row">
+                    <div>
+                        <h4>Reparaciones urgentes</h4>
+                        <p>$3.000 - $10.000</p>
+                    </div>
+                    <div class="row-actions">
+                        <button class="btn-link">Editar</button>
+                        <button class="btn-link danger">Eliminar</button>
+                    </div>
+                </div>
+                <div class="servicio-row">
+                    <div>
+                        <h4>Mantenimiento preventivo</h4>
+                        <p>$2.000 - $8.000</p>
+                    </div>
+                    <div class="row-actions">
+                        <button class="btn-link">Editar</button>
+                        <button class="btn-link danger">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-outline full">Agregar nuevo servicio</button>
+        </article>
+
+        <!-- Certificaciones -->
+        <article class="panel-card tab-panel" id="certificaciones">
+            <div class="card-header">
+                <span class="marker"></span>
+                <div>
+                    <h3>Certificaciones</h3>
+                    <p>Documentos verificados por el administrador.</p>
+                </div>
+            </div>
+            <ul class="checklist">
+                <li>
+                    <div>
+                        <strong>Matrícula profesional</strong>
+                        <p>Renovación 2025 cargada</p>
+                    </div>
+                    <span class="status-pill success">Aprobado</span>
+                </li>
+                <li>
+                    <div>
+                        <strong>Curso de seguridad eléctrica</strong>
+                        <p>Certificado adjunto</p>
+                    </div>
+                    <span class="status-pill">En revisión</span>
+                </li>
+                <li>
+                    <div>
+                        <strong>Póliza de seguro</strong>
+                        <p>Vigente hasta 12/2025</p>
+                    </div>
+                    <span class="status-pill success">Validado</span>
+                </li>
+            </ul>
+        </article>
+
+        <!-- Zona de trabajo -->
+        <article class="panel-card tab-panel" id="zona">
+            <div class="card-header">
+                <span class="marker"></span>
+                <div>
+                    <h3>Zona de trabajo</h3>
+                    <p>Los clientes verán este radio de cobertura.</p>
+                </div>
+            </div>
+            <div class="zona-info">
+                <p><strong>Base:</strong> <%= professional.zona_cobertura || 'Caballito, CABA' %></p>
+                <p><strong>Radio:</strong> Hasta 25 km - GBA Oeste y Norte</p>
+                <p><strong>Disponibilidad:</strong> Lunes a sábado de 8 a 20 h</p>
+            </div>
+            <button class="btn btn-outline">Editar cobertura</button>
+        </article>
+        <% } %>
+    </section>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const tabButtons = document.querySelectorAll('.tab-link');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+
+    const showPanel = (panelId) => {
+        tabButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.tab === panelId));
+        tabPanels.forEach(panel => panel.classList.toggle('active', panel.id === panelId));
+    };
+
+    tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => showPanel(btn.dataset.tab));
+    });
+
+    const initial = document.querySelector('.tab-link.active');
+    if (initial) {
+        showPanel(initial.dataset.tab);
+    }
+
+    // Calendario script
+    const calendar = document.querySelector('[data-multi-calendar]');
+    if (calendar) {
+        const columnsEl = calendar.querySelector('[data-calendar-columns]');
+        const rangeEl = calendar.querySelector('[data-cal-range]');
+        const prevBtn = calendar.querySelector('[data-cal-prev]');
+        const nextBtn = calendar.querySelector('[data-cal-next]');
+        const monthNames = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+        const today = new Date();
+        today.setHours(0,0,0,0);
+        let centerMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+        const availability = {};
+
+        const formatMonth = (date) => `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+
+        const cycleStatus = (current) => {
+            if (current === 'free') return 'busy';
+            if (current === 'busy') return '';
+            return 'free';
+        };
+
+        const render = () => {
+            columnsEl.innerHTML = '';
+            const startRange = new Date(centerMonth.getFullYear(), centerMonth.getMonth() - 1, 1);
+            const endRange = new Date(centerMonth.getFullYear(), centerMonth.getMonth() + 1, 1);
+            rangeEl.textContent = `${formatMonth(startRange)} - ${formatMonth(endRange)}`;
+
+            for (let offset = -1; offset <= 1; offset++) {
+                const date = new Date(centerMonth.getFullYear(), centerMonth.getMonth() + offset, 1);
+                const wrapper = document.createElement('div');
+                wrapper.className = 'calendar-wrapper';
+                const title = document.createElement('h4');
+                title.textContent = formatMonth(date);
+                wrapper.appendChild(title);
+
+                const weekdays = document.createElement('div');
+                weekdays.className = 'calendar-weekdays';
+                ['L','M','M','J','V','S','D'].forEach(d => {
+                    const span = document.createElement('span');
+                    span.textContent = d;
+                    weekdays.appendChild(span);
+                });
+                wrapper.appendChild(weekdays);
+
+                const grid = document.createElement('div');
+                grid.className = 'calendar-grid';
+                const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+                const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+                const offsetStart = (firstDay.getDay() + 6) % 7;
+
+                for (let i = 0; i < offsetStart; i++) {
+                    const filler = document.createElement('span');
+                    filler.className = 'calendar-day empty';
+                    grid.appendChild(filler);
+                }
+
+                for (let day = 1; day <= lastDay; day++) {
+                    const cell = document.createElement('span');
+                    cell.className = 'calendar-day';
+                    cell.textContent = day;
+                    const iso = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+                    const cellDate = new Date(date.getFullYear(), date.getMonth(), day);
+                    const status = availability[iso];
+                    if (status) {
+                        cell.dataset.status = status;
+                    }
+                    if (cellDate < today) {
+                        cell.classList.add('past');
+                    } else {
+                        cell.addEventListener('click', () => {
+                            const nextStatus = cycleStatus(cell.dataset.status || '');
+                            if (nextStatus) {
+                                cell.dataset.status = nextStatus;
+                                availability[iso] = nextStatus;
+                            } else {
+                                cell.removeAttribute('data-status');
+                                delete availability[iso];
+                            }
+                        });
+                    }
+                    grid.appendChild(cell);
+                }
+
+                wrapper.appendChild(grid);
+                columnsEl.appendChild(wrapper);
+            }
+        };
+
+        prevBtn.addEventListener('click', () => {
+            centerMonth.setMonth(centerMonth.getMonth() - 1);
+            render();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            centerMonth.setMonth(centerMonth.getMonth() + 1);
+            render();
+        });
+
+        render();
+    }
+});
+</script>

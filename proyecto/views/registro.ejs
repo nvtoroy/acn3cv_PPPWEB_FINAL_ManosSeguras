@@ -1,0 +1,115 @@
+<main class="auth-wrapper">
+    <section class="auth-card">
+        <div class="auth-header">
+            <p class="eyebrow">Registro</p>
+            <h1>Crear cuenta</h1>
+            <p>Elegí si vas a solicitar servicios o a ofrecerlos, completa tus datos y comenzá a operar en la plataforma</p>
+        </div>
+        <form method="POST" action="/registro" class="auth-form">
+            <div class="role-toggle" aria-label="Tipo de usuario">
+                <label class="role-option" data-active="true">
+                    <input type="radio" name="rol" value="cliente" checked>
+                    Cliente
+                </label>
+                <label class="role-option" data-active="false">
+                    <input type="radio" name="rol" value="profesional">
+                    Profesional
+                </label>
+            </div>
+
+            <div class="form-grid two-columns">
+                <div class="input-group">
+                    <label for="nombre">Nombre completo</label>
+                    <input type="text" id="nombre" name="nombre" class="input-control" required>
+                </div>
+                <div class="input-group">
+                    <label for="telefono">Teléfono</label>
+                    <input type="tel" id="telefono" name="telefono" class="input-control" required>
+                </div>
+                <div class="input-group">
+                    <label for="email">Correo electrónico</label>
+                    <input type="email" id="email" name="email" class="input-control" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" name="password" class="input-control" required minlength="6">
+                </div>
+                <div class="input-group">
+                    <label for="direccion">Dirección</label>
+                    <input type="text" id="direccion" name="direccion" class="input-control" required>
+                </div>
+            </div>
+
+            <div class="input-group professional-fields">
+                <label for="especialidad">Especialidad</label>
+                <select id="especialidad" name="especialidad" class="input-control">
+                    <option value="">Selecciona una especialidad</option>
+                    <option value="electricista">Electricista</option>
+                    <option value="plomero">Plomero</option>
+                    <option value="gasista">Gasista</option>
+                </select>
+            </div>
+
+            <div class="form-grid two-columns professional-fields">
+                <div class="input-group">
+                    <label for="certificaciones">Certificaciones (separadas por coma)</label>
+                    <input type="text" id="certificaciones" name="certificaciones" class="input-control">
+                </div>
+                <div class="input-group">
+                    <label for="experiencia">Años de experiencia</label>
+                    <input type="number" id="experiencia" name="experiencia" min="0" class="input-control">
+                </div>
+            </div>
+
+            <div class="input-group professional-fields">
+                <label for="descripcion">Descripción de tus servicios</label>
+                <textarea id="descripcion" name="descripcion" class="input-control" rows="3"></textarea>
+            </div>
+
+            <div class="auth-actions">
+                <button type="submit" class="btn btn-primary">Crear cuenta</button>
+            </div>
+            <div class="auth-meta">
+                ¿Ya tenés una cuenta? <a href="/login">Iniciá sesión</a>
+            </div>
+        </form>
+    </section>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const professionalFields = document.querySelectorAll('.professional-fields');
+    const tipoUsuario = document.querySelectorAll('input[name="rol"]');
+    const roleLabels = document.querySelectorAll('.role-option');
+
+    const updateRoleStyles = () => {
+        roleLabels.forEach(label => {
+            const radio = label.querySelector('input');
+            label.dataset.active = radio.checked ? 'true' : 'false';
+        });
+    };
+
+    const toggleProfessionalFields = (isProfessional) => {
+        professionalFields.forEach(field => {
+            const controls = field.querySelectorAll('input, select, textarea');
+            if (isProfessional) {
+                field.classList.add('active');
+                controls.forEach(ctrl => ctrl.required = true);
+            } else {
+                field.classList.remove('active');
+                controls.forEach(ctrl => ctrl.required = false);
+            }
+        });
+    };
+
+    tipoUsuario.forEach(radio => {
+        radio.addEventListener('change', function() {
+            updateRoleStyles();
+            toggleProfessionalFields(this.value === 'profesional');
+        });
+    });
+
+    updateRoleStyles();
+    toggleProfessionalFields(false);
+});
+</script>

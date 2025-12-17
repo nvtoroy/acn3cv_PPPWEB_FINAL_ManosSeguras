@@ -1,0 +1,229 @@
+<main class="perfil-container">
+    <section class="perfil-header">
+        <div class="perfil-info">
+            <% if (professional.foto_url) { %>
+                <img src="<%= professional.foto_url %>" alt="<%= professional.nombre %>" class="perfil-avatar">
+            <% } else { %>
+                <div class="perfil-avatar perfil-avatar-placeholder"><%= professional.nombre.charAt(0) %></div>
+            <% } %>
+            <div class="perfil-detalles">
+                <h1><%= professional.nombre %></h1>
+                <p class="perfil-especialidad"><%= professional.especialidad.charAt(0).toUpperCase() + professional.especialidad.slice(1) %></p>
+                <% if (professional.verificado) { %>
+                    <div class="perfil-verificado">
+                        <span class="status-pill success">Perfil verificado</span>
+                    </div>
+                <% } %>
+                <div class="perfil-stats">
+                    <div class="stat">
+                        <div class="stat-value"><%= professional.calificacion_promedio ? professional.calificacion_promedio.toFixed(1) : '0.0' %></div>
+                        <div class="stat-label">Calificación</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value"><%= professional.trabajos_completados || 0 %></div>
+                        <div class="stat-label">Trabajos</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value"><%= professional.experiencia || 0 %></div>
+                        <div class="stat-label">Años exp.</div>
+                    </div>
+                </div>
+            </div>
+            <% if (typeof currentUser !== 'undefined' && currentUser && currentUser.rol === 'cliente') { %>
+                <a class="btn-solicitar" href="/solicitudes/crear?profesional=<%= professional.id %>">Solicitar Servicio</a>
+            <% } %>
+        </div>
+    </section>
+
+    <div class="perfil-content">
+        <div class="perfil-principal">
+            <section class="perfil-seccion">
+                <h2>Sobre mí</h2>
+                <p><%= professional.descripcion || 'Profesional con experiencia en ' + professional.especialidad + '. Disponible para emergencias 24/7.' %></p>
+            </section>
+
+            <section class="perfil-seccion">
+                <h2>Servicios y Tarifas</h2>
+                <div class="servicios-lista">
+                    <% if (typeof servicios !== 'undefined' && servicios && servicios.length > 0) { %>
+                        <% servicios.forEach(function(servicio) { %>
+                            <div class="servicio-item">
+                                <span><%= servicio.nombre %></span>
+                                <span class="servicio-precio">Desde $<%= servicio.precio %></span>
+                            </div>
+                        <% }); %>
+                    <% } else { %>
+                        <div class="servicio-item">
+                            <span>Consulta general</span>
+                            <span class="servicio-precio">A convenir</span>
+                        </div>
+                        <div class="servicio-item">
+                            <span>Reparación</span>
+                            <span class="servicio-precio">Desde $100</span>
+                        </div>
+                        <div class="servicio-item">
+                            <span>Instalación</span>
+                            <span class="servicio-precio">Desde $200</span>
+                        </div>
+                        <div class="servicio-item">
+                            <span>Mantenimiento preventivo</span>
+                            <span class="servicio-precio">Desde $150</span>
+                        </div>
+                    <% } %>
+                </div>
+            </section>
+
+            <section class="perfil-seccion">
+                <h2>Reseñas</h2>
+                <div class="resenas-lista">
+                    <% if (typeof reviews !== 'undefined' && reviews && reviews.length > 0) { %>
+                        <% reviews.forEach(function(review) { %>
+                            <div class="resena">
+                                <div class="resena-header">
+                                    <span class="resena-autor"><%= review.cliente_nombre %></span>
+                                    <span class="resena-fecha"><%= new Date(review.created_at).toLocaleDateString('es-AR') %></span>
+                                </div>
+                                <div class="resena-estrellas">
+                                    <% for(let i = 1; i <= 5; i++) { %>
+                                        <span class="star <%= i <= review.calificacion ? 'filled' : '' %>"></span>
+                                    <% } %>
+                                </div>
+                                <p><%= review.comentario %></p>
+                            </div>
+                        <% }); %>
+                    <% } else { %>
+                        <p>Este profesional aún no tiene reseñas.</p>
+                    <% } %>
+                </div>
+            </section>
+        </div>
+
+        <div class="perfil-sidebar">
+            <section class="perfil-seccion">
+                <h2>Disponibilidad</h2>
+                <div class="calendar-wrapper" data-calendar>
+                    <div class="calendar-controls">
+                        <button class="cal-btn" data-calendar-prev aria-label="Mes anterior" disabled>
+                            <span>&larr;</span>
+                        </button>
+                        <h3 class="calendar-title" data-calendar-title></h3>
+                        <button class="cal-btn" data-calendar-next aria-label="Mes siguiente">
+                            <span>&rarr;</span>
+                        </button>
+                    </div>
+                    <div class="calendar-weekdays">
+                        <span>L</span>
+                        <span>M</span>
+                        <span>M</span>
+                        <span>J</span>
+                        <span>V</span>
+                        <span>S</span>
+                        <span>D</span>
+                    </div>
+                    <div class="calendar-grid" data-calendar-grid></div>
+                    <div class="calendar-legend">
+                        <span><span class="legend-dot free"></span> Disponible</span>
+                        <span><span class="legend-dot busy"></span> Reservado</span>
+                        <span><span class="legend-dot mixed"></span> Visitas / media jornada</span>
+                    </div>
+                    <p class="calendar-note">La agenda es referencial. Las fechas finales se confirman en el chat privado.</p>
+                </div>
+            </section>
+
+            <section class="perfil-seccion">
+                <h2>Certificaciones</h2>
+                <div class="certificaciones-lista">
+                    <% if (professional.certificaciones) { %>
+                        <% professional.certificaciones.split(',').forEach(function(cert) { %>
+                            <div class="certificacion"><%= cert.trim() %></div>
+                        <% }); %>
+                    <% } else { %>
+                        <div class="certificacion">Técnico Matriculado</div>
+                        <div class="certificacion">Seguridad e Higiene</div>
+                    <% } %>
+                </div>
+            </section>
+
+            <section class="perfil-seccion">
+                <h2>Zona de Trabajo</h2>
+                <p><%= professional.direccion || 'Ciudad Autónoma de Buenos Aires y Gran Buenos Aires' %></p>
+            </section>
+        </div>
+    </div>
+</main>
+
+<script>
+(() => {
+    const calendar = document.querySelector('[data-calendar]');
+    if (!calendar) return;
+
+    const titleEl = calendar.querySelector('[data-calendar-title]');
+    const gridEl = calendar.querySelector('[data-calendar-grid]');
+    const prevBtn = calendar.querySelector('[data-calendar-prev]');
+    const nextBtn = calendar.querySelector('[data-calendar-next]');
+
+    const today = new Date();
+    const initialMonth = new Date(today.getFullYear(), today.getMonth());
+    const maxMonthsAhead = 5;
+    let currentMonth = new Date(initialMonth);
+
+    // Sample availability data
+    const availability = {};
+
+    const monthNames = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    const formatMonth = (date) => `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+
+    const renderCalendar = () => {
+        const year = currentMonth.getFullYear();
+        const month = currentMonth.getMonth();
+        titleEl.textContent = formatMonth(currentMonth);
+        gridEl.innerHTML = '';
+
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0).getDate();
+        const offset = (firstDay.getDay() + 6) % 7;
+
+        for (let i = 0; i < offset; i++) {
+            const filler = document.createElement('span');
+            filler.className = 'calendar-day empty';
+            gridEl.appendChild(filler);
+        }
+
+        for (let day = 1; day <= lastDay; day++) {
+            const cell = document.createElement('span');
+            cell.className = 'calendar-day';
+            cell.textContent = day;
+            const iso = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            const status = availability[iso];
+            if (status) {
+                cell.dataset.status = status;
+            }
+            // Mark some random days as available for demo
+            if (day > today.getDate() || month > today.getMonth() || year > today.getFullYear()) {
+                if (day % 3 === 0) cell.dataset.status = 'free';
+                if (day % 7 === 0) cell.dataset.status = 'busy';
+                if (day % 5 === 0 && day % 3 !== 0) cell.dataset.status = 'mixed';
+            }
+            gridEl.appendChild(cell);
+        }
+
+        const nextLimit = new Date(initialMonth.getFullYear(), initialMonth.getMonth() + maxMonthsAhead);
+        prevBtn.disabled = currentMonth <= initialMonth;
+        nextBtn.disabled = currentMonth >= nextLimit;
+    };
+
+    prevBtn.addEventListener('click', () => {
+        if (prevBtn.disabled) return;
+        currentMonth.setMonth(currentMonth.getMonth() - 1);
+        renderCalendar();
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (nextBtn.disabled) return;
+        currentMonth.setMonth(currentMonth.getMonth() + 1);
+        renderCalendar();
+    });
+
+    renderCalendar();
+})();
+</script>

@@ -1,0 +1,30 @@
+{
+  "name": "manoseguras",
+  "version": "1.0.0",
+  "description": "Plataforma de búsqueda y contratación de profesionales (electricistas, plomeros, gasistas)",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "db:init": "node database/init.js",
+    "db:seed": "node database/seed.js"
+  },
+  "keywords": ["express", "sqlite", "ejs", "authentication"],
+  "author": "Estudiante ManosSeguras",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "express-ejs-layouts": "^2.5.1",
+    "ejs": "^3.1.9",
+    "sqlite3": "^5.1.6",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.3.1",
+    "connect-flash": "^0.1.1",
+    "express-validator": "^7.0.1",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

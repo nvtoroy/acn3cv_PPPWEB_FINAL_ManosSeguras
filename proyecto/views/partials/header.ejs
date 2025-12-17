@@ -1,0 +1,30 @@
+<header class="site-header">
+    <nav class="nav-main">
+        <div class="logo">
+            <a href="/">
+                <img src="/img/main-logo.png" alt="ManosSeguras">
+            </a>
+        </div>
+        <div class="nav-links-wrapper">
+            <ul class="nav-links">
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/profesionales">Profesionales</a></li>
+                <% if (currentUser.isAuthenticated) { %>
+                    <li><a href="/profile">Mi Perfil</a></li>
+                    <% if (currentUser.rol === 'admin') { %>
+                        <li><a href="/admin">Admin</a></li>
+                    <% } %>
+                <% } %>
+            </ul>
+            <div class="nav-actions">
+                <% if (currentUser.isAuthenticated) { %>
+                    <span class="user-greeting">Hola, <%= currentUser.nombre %></span>
+                    <a href="/logout" class="btn btn-outline">Salir</a>
+                <% } else { %>
+                    <a href="/login" class="btn btn-outline">Ingresar</a>
+                    <a href="/registro" class="btn btn-primary">Crear cuenta</a>
+                <% } %>
+            </div>
+        </div>
+    </nav>
+</header>

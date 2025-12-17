@@ -1,0 +1,193 @@
+<main class="admin-container">
+    <!-- Dashboard principal -->
+    <section class="admin-header">
+        <h1>Panel de Administración</h1>
+        <p>Gestión de usuarios, profesionales y contenido de la plataforma</p>
+    </section>
+
+    <!-- Estadísticas -->
+    <section class="admin-stats">
+        <div class="stat-card">
+            <div class="stat-icon" data-icon="US" aria-hidden="true"></div>
+            <div class="stat-info">
+                <h3><%= stats.totalUsers %></h3>
+                <p>Usuarios Totales</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" data-icon="PR" aria-hidden="true"></div>
+            <div class="stat-info">
+                <h3><%= stats.totalProfessionals %></h3>
+                <p>Profesionales Activos</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" data-icon="SL" aria-hidden="true"></div>
+            <div class="stat-info">
+                <h3><%= stats.unverifiedProfs %></h3>
+                <p>Pendientes Verificar</p>
+            </div>
+        </div>
+        <div class="stat-card warning">
+            <div class="stat-icon" data-icon="RV" aria-hidden="true"></div>
+            <div class="stat-info">
+                <h3><%= stats.pendingReviews %></h3>
+                <p>Reseñas Pendientes</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="admin-tabs">
+        <button class="admin-tab-link active" data-admin-tab="pendientes">Pendientes</button>
+        <button class="admin-tab-link" data-admin-tab="usuarios">Usuarios</button>
+        <button class="admin-tab-link" data-admin-tab="resenas">Reseñas</button>
+    </section>
+
+    <section class="admin-panels">
+        <!-- Profesionales Pendientes -->
+        <article class="admin-section admin-panel active" id="pendientes">
+            <h2>Profesionales Pendientes de Aprobación</h2>
+            <div class="admin-table">
+                <div class="table-row header-row">
+                    <div class="col-photo">Foto</div>
+                    <div class="col-name">Nombre</div>
+                    <div class="col-specialty">Especialidad</div>
+                    <div class="col-docs">Documentos</div>
+                    <div class="col-actions">Acciones</div>
+                </div>
+
+                <% if (pendingProfessionals && pendingProfessionals.length > 0) { %>
+                    <% pendingProfessionals.forEach(function(prof) { %>
+                        <div class="table-row">
+                            <div class="col-photo">
+                                <% if (prof.foto_url) { %>
+                                    <img src="<%= prof.foto_url %>" alt="Profesional" class="avatar-small">
+                                <% } else { %>
+                                    <div class="avatar-small avatar-placeholder"><%= prof.nombre.charAt(0) %></div>
+                                <% } %>
+                            </div>
+                            <div class="col-name">
+                                <strong><%= prof.nombre %></strong><br>
+                                <small><%= prof.email %></small>
+                            </div>
+                            <div class="col-specialty">
+                                <span class="badge badge-<%= prof.especialidad %>"><%= prof.especialidad %></span>
+                            </div>
+                            <div class="col-docs">
+                                <span class="doc-link"><%= prof.experiencia %> años exp.</span>
+                            </div>
+                            <div class="col-actions">
+                                <form method="POST" action="/admin/profesionales/<%= prof.id %>/verificar" style="display: inline;">
+                                    <input type="hidden" name="action" value="aprobar">
+                                    <button type="submit" class="btn-approve">Aprobar</button>
+                                </form>
+                                <form method="POST" action="/admin/profesionales/<%= prof.id %>/verificar" style="display: inline;">
+                                    <input type="hidden" name="action" value="rechazar">
+                                    <button type="submit" class="btn-reject">Rechazar</button>
+                                </form>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <div class="table-row">
+                        <div class="col-name" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+                            No hay profesionales pendientes de aprobación.
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        </article>
+
+        <!-- Gestión de Usuarios -->
+        <article class="admin-section admin-panel" id="usuarios">
+            <h2>Gestión de Usuarios</h2>
+            <div class="filters">
+                <button class="filter-btn active">Todos</button>
+                <button class="filter-btn">Clientes</button>
+                <button class="filter-btn">Profesionales</button>
+            </div>
+            <div class="admin-table">
+                <div class="table-row header-row">
+                    <div class="col-name">Nombre</div>
+                    <div class="col-email">Email</div>
+                    <div class="col-type">Tipo</div>
+                    <div class="col-date">Registro</div>
+                    <div class="col-status">Estado</div>
+                    <div class="col-actions">Acciones</div>
+                </div>
+
+                <% if (typeof users !== 'undefined' && users.length > 0) { %>
+                    <% users.forEach(function(user) { %>
+                        <div class="table-row">
+                            <div class="col-name"><%= user.nombre %></div>
+                            <div class="col-email"><%= user.email %></div>
+                            <div class="col-type"><span class="badge badge-<%= user.rol %>"><%= user.rol %></span></div>
+                            <div class="col-date"><%= new Date(user.fecha_registro).toLocaleDateString('es-AR') %></div>
+                            <div class="col-status"><span class="status-active">Activo</span></div>
+                            <div class="col-actions">
+                                <button class="btn-view">Ver</button>
+                                <button class="btn-suspend">Suspender</button>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } %>
+            </div>
+        </article>
+
+        <!-- Moderación de Reseñas -->
+        <article class="admin-section admin-panel" id="resenas">
+            <h2>Moderación de Reseñas</h2>
+            <div class="reviews-list">
+                <% if (pendingReviewsList && pendingReviewsList.length > 0) { %>
+                    <% pendingReviewsList.forEach(function(review) { %>
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="review-info">
+                                    <strong><%= review.cliente_nombre %></strong> &gt; <strong><%= review.profesional_nombre %></strong>
+                                </div>
+                                <div class="review-rating">
+                                    <% for(let i = 1; i <= 5; i++) { %>
+                                        <span class="star <%= i <= review.calificacion ? 'filled' : '' %>"></span>
+                                    <% } %>
+                                </div>
+                            </div>
+                            <p class="review-text">"<%= review.comentario %>"</p>
+                            <div class="review-date">Publicado: <%= new Date(review.fecha).toLocaleDateString('es-AR') %></div>
+                            <div class="review-actions">
+                                <form method="POST" action="/admin/reviews/<%= review.id %>/moderar" style="display: inline;">
+                                    <input type="hidden" name="action" value="aprobar">
+                                    <button type="submit" class="btn-approve-review">Aprobar</button>
+                                </form>
+                                <form method="POST" action="/admin/reviews/<%= review.id %>/moderar" style="display: inline;">
+                                    <input type="hidden" name="action" value="rechazar">
+                                    <button type="submit" class="btn-hide-review">Ocultar</button>
+                                </form>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p>No hay reseñas pendientes de moderación.</p>
+                <% } %>
+            </div>
+        </article>
+    </section>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tabLinks = document.querySelectorAll('.admin-tab-link');
+    const panels = document.querySelectorAll('.admin-panel');
+
+    tabLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            const targetTab = this.dataset.adminTab;
+
+            tabLinks.forEach(l => l.classList.remove('active'));
+            panels.forEach(p => p.classList.remove('active'));
+
+            this.classList.add('active');
+            document.getElementById(targetTab).classList.add('active');
+        });
+    });
+});
+</script>

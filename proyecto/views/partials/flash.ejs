@@ -1,0 +1,33 @@
+<% if (typeof messages !== 'undefined') { %>
+    <% if (messages.success && messages.success.length > 0) { %>
+        <div class="alert alert-success">
+            <div class="container">
+                ✅ <%= messages.success[0] %>
+            </div>
+        </div>
+    <% } %>
+    
+    <% if (messages.error && messages.error.length > 0) { %>
+        <div class="alert alert-error">
+            <div class="container">
+                ❌ <%= messages.error[0] %>
+            </div>
+        </div>
+    <% } %>
+    
+    <% if (messages.warning && messages.warning.length > 0) { %>
+        <div class="alert alert-warning">
+            <div class="container">
+                ⚠️ <%= messages.warning[0] %>
+            </div>
+        </div>
+    <% } %>
+    
+    <% if (messages.info && messages.info.length > 0) { %>
+        <div class="alert alert-info">
+            <div class="container">
+                ℹ️ <%= messages.info[0] %>
+            </div>
+        </div>
+    <% } %>
+<% } %>

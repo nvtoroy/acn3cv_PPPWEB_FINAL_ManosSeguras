@@ -1,0 +1,94 @@
+<main class="profesionales-container">
+    <section class="profesionales-filtros">
+        <h1>Buscar profesionales</h1>
+        <form action="/profesionales" method="GET" class="filtros-grid">
+            <div class="filtro-grupo">
+                <label for="especialidad">Especialidad</label>
+                <select id="especialidad" name="especialidad" onchange="this.form.submit()">
+                    <option value="" <%= !especialidad ? 'selected' : '' %>>Todas las especialidades</option>
+                    <option value="electricista" <%= especialidad === 'electricista' ? 'selected' : '' %>>Electricista</option>
+                    <option value="plomero" <%= especialidad === 'plomero' ? 'selected' : '' %>>Plomero</option>
+                    <option value="gasista" <%= especialidad === 'gasista' ? 'selected' : '' %>>Gasista</option>
+                </select>
+            </div>
+            <div class="filtro-grupo">
+                <label for="ubicacion">Ubicación</label>
+                <input type="text" id="ubicacion" name="ubicacion" placeholder="Ingresa tu ubicación" value="<%= typeof ubicacion !== 'undefined' ? ubicacion : '' %>">
+            </div>
+            <div class="filtro-grupo">
+                <label for="calificacion">Calificación mínima</label>
+                <select id="calificacion" name="calificacion">
+                    <option value="">Todas las calificaciones</option>
+                    <option value="4">4+ estrellas</option>
+                    <option value="4.5">4.5+ estrellas</option>
+                    <option value="5">5 estrellas</option>
+                </select>
+            </div>
+            <div class="filtro-grupo">
+                <label for="verificado">Estado</label>
+                <select id="verificado" name="verificado">
+                    <option value="">Todos</option>
+                    <option value="verificado">Verificados</option>
+                </select>
+            </div>
+        </form>
+    </section>
+
+    <section class="profesionales-grid">
+        <% if (professionals && professionals.length > 0) { %>
+            <% professionals.forEach(function(prof) { %>
+                <article class="profesional-card">
+                    <div class="profesional-info">
+                        <div class="profesional-header">
+                            <% if (prof.foto_url) { %>
+                                <img src="<%= prof.foto_url %>" alt="<%= prof.nombre %>" class="profesional-avatar">
+                            <% } else { %>
+                                <div class="profesional-avatar profesional-avatar-placeholder"><%= prof.nombre.charAt(0) %></div>
+                            <% } %>
+                            <div>
+                                <h3 class="profesional-nombre"><%= prof.nombre %></h3>
+                                <p class="profesional-especialidad"><%= prof.especialidad.charAt(0).toUpperCase() + prof.especialidad.slice(1) %></p>
+                            </div>
+                        </div>
+                        <% if (prof.verificado) { %>
+                            <div class="profesional-verificado">
+                                <span class="status-pill success">Perfil verificado</span>
+                            </div>
+                        <% } %>
+                        <div class="profesional-stats">
+                            <div class="stat">
+                                <div class="stat-value"><%= prof.calificacion_promedio ? prof.calificacion_promedio.toFixed(1) : '0.0' %></div>
+                                <div class="stat-label">Calificación</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value"><%= prof.trabajos_completados || 0 %></div>
+                                <div class="stat-label">Trabajos</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value"><%= prof.experiencia || 0 %></div>
+                                <div class="stat-label">Años exp.</div>
+                            </div>
+                        </div>
+                        <a href="/profesionales/<%= prof.id %>" class="btn-contactar">Ver Perfil</a>
+                    </div>
+                </article>
+            <% }); %>
+        <% } else { %>
+            <div class="profesionales-empty">
+                <p>No se encontraron profesionales con estos filtros.</p>
+                <a href="/profesionales" class="btn btn-primary">Ver todos</a>
+            </div>
+        <% } %>
+    </section>
+
+    <% if (totalPages > 1) { %>
+        <div class="paginacion">
+            <% for (let i = 1; i <= totalPages; i++) { %>
+                <button onclick="window.location.href='?page=<%= i %><%= especialidad ? '&especialidad=' + especialidad : '' %>'" class="<%= i === currentPage ? 'active' : '' %>"><%= i %></button>
+            <% } %>
+            <% if (currentPage < totalPages) { %>
+                <button onclick="window.location.href='?page=<%= currentPage + 1 %><%= especialidad ? '&especialidad=' + especialidad : '' %>'">></button>
+            <% } %>
+        </div>
+    <% } %>
+</main>
