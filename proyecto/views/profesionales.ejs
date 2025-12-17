@@ -1,10 +1,10 @@
 <main class="profesionales-container">
     <section class="profesionales-filtros">
         <h1>Buscar profesionales</h1>
-        <form action="/profesionales" method="GET" class="filtros-grid">
+        <form id="filtros-prof" action="/profesionales" method="GET" class="filtros-grid">
             <div class="filtro-grupo">
                 <label for="especialidad">Especialidad</label>
-                <select id="especialidad" name="especialidad" onchange="this.form.submit()">
+                <select id="especialidad" name="especialidad">
                     <option value="" <%= !especialidad ? 'selected' : '' %>>Todas las especialidades</option>
                     <option value="electricista" <%= especialidad === 'electricista' ? 'selected' : '' %>>Electricista</option>
                     <option value="plomero" <%= especialidad === 'plomero' ? 'selected' : '' %>>Plomero</option>
@@ -32,6 +32,10 @@
                 </select>
             </div>
         </form>
+        <div class="filtros-actions">
+            <button type="submit" form="filtros-prof" class="btn btn-primary">Aplicar filtros</button>
+            <a href="/profesionales" class="btn btn-outline">Limpiar</a>
+        </div>
     </section>
 
     <section class="profesionales-grid">
@@ -92,3 +96,20 @@
         </div>
     <% } %>
 </main>
+
+<script>
+(() => {
+    const form = document.getElementById('filtros-prof');
+    if (!form) return;
+    ['especialidad', 'calificacion', 'verificado'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('change', () => form.submit());
+    });
+    const ubic = document.getElementById('ubicacion');
+    if (ubic) {
+        ubic.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') form.submit();
+        });
+    }
+})();
+</script>

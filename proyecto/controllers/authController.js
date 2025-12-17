@@ -47,6 +47,7 @@ exports.login = async (req, res) => {
         req.session.userId = user.id;
         req.session.userRole = user.rol;
         req.session.userName = user.nombre;
+        req.session.userAvatar = user.avatar;
 
         // Перенаправляем в зависимости от роли
         if (user.rol === 'admin') {

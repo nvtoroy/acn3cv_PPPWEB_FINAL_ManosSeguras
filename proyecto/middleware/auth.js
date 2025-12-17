@@ -55,6 +55,7 @@ function userLocals(req, res, next) {
         id: req.session.userId || null,
         rol: req.session.userRole || null,
         nombre: req.session.userName || null,
+        avatar: req.session.userAvatar || null,
         isAuthenticated: !!req.session.userId  // true если залогинен
     };
     

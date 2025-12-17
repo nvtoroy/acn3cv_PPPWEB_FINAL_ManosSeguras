@@ -31,7 +31,10 @@
                     <small><%= prof.email %></small>
                 </div>
                 <div class="col-specialty"><span class="badge badge-<%= prof.especialidad %>"><%= prof.especialidad %></span></div>
-                <div class="col-docs"><%= prof.experiencia %> años</div>
+                <div class="col-docs">
+                    <div><%= prof.experiencia %> años</div>
+                    <div><a href="/profesionales/<%= prof.id %>" class="btn-link">Ver perfil</a></div>
+                </div>
                 <div class="col-actions">
                     <form method="POST" action="/admin/profesionales/<%= prof.id %>/verificar" style="display:inline;">
                         <input type="hidden" name="action" value="aprobar">

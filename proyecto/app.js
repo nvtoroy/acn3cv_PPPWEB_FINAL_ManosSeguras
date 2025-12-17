@@ -75,8 +75,7 @@ app.use((req, res, next) => {
         error: req.flash('error'),
         info: req.flash('info'),
         warning: req.flash('warning')
-    };
-    next();
+    };    res.locals.currentPath = req.path;    next();
 });
 
 // ============================================

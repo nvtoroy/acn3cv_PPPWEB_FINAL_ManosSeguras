@@ -27,7 +27,7 @@ exports.dashboard = async (req, res) => {
         // Получаем непроверенных профессионалов
         const pendingProfessionals = await Professional.findAll({
             verificado: 0,
-            limit: 5,
+            limit: 10,
             offset: 0
         });
 
@@ -45,6 +45,7 @@ exports.dashboard = async (req, res) => {
             recentUsers,
             pendingProfessionals,
             pendingReviewsList,
+            users: recentUsers,
             extraCSS: '<link rel="stylesheet" href="/css/admin.css">'
         });
 
@@ -158,12 +159,12 @@ exports.verifyProfessional = async (req, res) => {
             await Professional.setVerificado(professionalId, true);
             req.flash('success', 'Profesional verificado correctamente');
         } else if (action === 'rechazar') {
-            await Professional.setVerificado(professionalId, false);
-            // TODO: Opcionalmente enviar email de rechazo
+            await Professional.setVerificado(professionalId, -1); // marcado como rechazado, sale de pendientes
             req.flash('success', 'Profesional rechazado');
         }
 
-        res.redirect('/admin/profesionales');
+        const back = req.get('referer') || '/admin/profesionales';
+        res.redirect(back.includes('/admin') ? back : '/admin/profesionales');
 
     } catch (error) {
         console.error('Error al verificar profesional:', error);
@@ -227,7 +228,8 @@ exports.moderateReview = async (req, res) => {
             req.flash('success', 'Review rechazado');
         }
 
-        res.redirect('/admin/reviews');
+        const back = req.get('referer') || '/admin/reviews';
+        res.redirect(back.includes('/admin') ? back : '/admin/reviews');
 
     } catch (error) {
         console.error('Error al moderar review:', error);

@@ -66,37 +66,23 @@ main {
     gap: 2rem;
 }
 
-.nav-links-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 1.5rem;
-    flex: 1;
-}
-
-.nav-links {
-    list-style: none;
-    display: flex;
-    gap: 1.5rem;
-}
-
-.nav-links a {
-    color: var(--color-secondary);
-    font-weight: 600;
-    padding-bottom: 2px;
-    border-bottom: 2px solid transparent;
-    transition: color 0.2s ease, border-color 0.2s ease;
-}
-
-.nav-links a:hover,
-.nav-links a:focus-visible {
-    color: var(--color-primary);
-    border-color: var(--color-primary);
-}
-
 .nav-actions {
     display: flex;
+    align-items: center;
     gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.nav-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
+}
+
+.nav-user-name {
+    font-size: 0.8rem;
+    color: var(--color-muted);
 }
 
 .btn,
@@ -144,6 +130,12 @@ main {
 .btn-outline:hover,
 .btn-login:hover {
     background: rgba(29, 111, 242, 0.08);
+}
+
+.btn-outline.active {
+    background: rgba(29, 111, 242, 0.1);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
 }
 
 /* Utilidades & layout */
@@ -217,6 +209,28 @@ main {
     background: var(--color-border);
     color: var(--color-text);
 }
+
+/* Flash messages */
+.alert {
+    margin: 0 0 1rem 0;
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+}
+
+.alert .container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.alert-success { border-color: rgba(24, 176, 164, 0.35); background: rgba(24, 176, 164, 0.1); color: #0b7c72; }
+.alert-error { border-color: rgba(220, 53, 69, 0.35); background: rgba(220, 53, 69, 0.08); color: #b21f2d; }
+.alert-warning { border-color: rgba(255, 193, 7, 0.45); background: rgba(255, 193, 7, 0.14); color: #c17d00; }
+.alert-info { border-color: rgba(29, 111, 242, 0.35); background: rgba(29, 111, 242, 0.08); color: var(--color-primary); }
 
 .chip {
     display: inline-flex;
@@ -759,8 +773,15 @@ footer {
     font-size: 1.5rem;
 }
 
-/* User greeting in header */
-.user-greeting {
-    color: var(--color-muted);
-    font-size: 0.9rem;
+/* Button with avatar */
+.btn-with-avatar {
+    padding-right: 0.35rem;
+}
+
+.nav-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-left: 0.25rem;
 }

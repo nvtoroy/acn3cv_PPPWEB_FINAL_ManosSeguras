@@ -33,31 +33,31 @@ INSERT INTO users (nombre, email, password, telefono, direccion, rol) VALUES
 ('Federico Díaz', 'federico.diaz@email.com', '$2b$10$qMSBmEEKnuWyshIuzdT/WOte.vWjAYuCyBtanflomIsAraeJksBWq', '+54 11 1818-2222', 'San Martín, Buenos Aires', 'cliente'),
 
 -- 25 profesionales (id 17-41)
-('Carlos Electricista', 'carlos.elec@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 4444-4444', 'Belgrano, CABA', 'profesional'),
-('Roberto Plomero', 'roberto.plomero@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 5555-5555', 'Palermo, CABA', 'profesional'),
-('Diego Gasista', 'diego.gasista@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 6666-6666', 'Recoleta, CABA', 'profesional'),
-('Laura Electricista', 'laura.elec@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 6767-4444', 'Colegiales, CABA', 'profesional'),
-('Nicolás Plomero', 'nicolas.plomero@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 6868-5555', 'Caballito, CABA', 'profesional'),
-('Sofía Gasista', 'sofia.gasista@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 6969-6666', 'Villa Urquiza, CABA', 'profesional'),
-('Marcelo Electricista', 'marcelo.elec@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7070-4444', 'Boedo, CABA', 'profesional'),
-('Javier Plomero', 'javier.plomero@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7171-5555', 'Parque Patricios, CABA', 'profesional'),
-('Esteban Gasista', 'esteban.gasista@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7272-6666', 'Almagro, CABA', 'profesional'),
-('Rodrigo Electricista', 'rodrigo.elec@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7373-4444', 'Villa Crespo, CABA', 'profesional'),
-('Mariana Plomera', 'mariana.plomera@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7474-5555', 'Chacarita, CABA', 'profesional'),
-('Julieta Gasista', 'julieta.gasista@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7575-6666', 'Villa Devoto, CABA', 'profesional'),
-('Andrés Electricista', 'andres.elec@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7676-4444', 'San Telmo, CABA', 'profesional'),
-('Pablo Plomero', 'pablo.plomero@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7777-5555', 'Barracas, CABA', 'profesional'),
-('Gabriela Gasista', 'gabriela.gasista@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7878-6666', 'Pompeya, CABA', 'profesional'),
-('Hernán Electricista', 'hernan.elec@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7979-4444', 'Villa Lugano, CABA', 'profesional'),
-('Carla Plomera', 'carla.plomera@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 8080-5555', 'Mataderos, CABA', 'profesional'),
-('Facundo Gasista', 'facundo.gasista@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 8181-6666', 'Liniers, CABA', 'profesional'),
-('Florencia Electricista', 'florencia.elec@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 8282-4444', 'Ramos Mejía, Buenos Aires', 'profesional'),
-('Bruno Plomero', 'bruno.plomero@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 8383-5555', 'Ituzaingó, Buenos Aires', 'profesional'),
-('Daniela Gasista', 'daniela.gasista@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 8484-6666', 'Castelar, Buenos Aires', 'profesional'),
-('Ignacio Electricista', 'ignacio.elec@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 8585-4444', 'Haedo, Buenos Aires', 'profesional'),
-('Micaela Plomera', 'micaela.plomera@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 8686-5555', 'Morón, Buenos Aires', 'profesional'),
-('Sebastián Gasista', 'sebastian.gasista@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 8787-6666', 'Avellaneda, Buenos Aires', 'profesional'),
-('Eugenia Electricista', 'eugenia.elec@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 8888-4444', 'San Justo, Buenos Aires', 'profesional');
+('Carlos Mendoza', 'carlos.mendoza@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 4444-4444', 'Belgrano, CABA', 'profesional'),
+('Roberto Sánchez', 'roberto.sanchez@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 5555-5555', 'Palermo, CABA', 'profesional'),
+('Diego Morales', 'diego.morales@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 6666-6666', 'Recoleta, CABA', 'profesional'),
+('Laura Pereyra', 'laura.pereyra@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 6767-4444', 'Colegiales, CABA', 'profesional'),
+('Nicolás Acosta', 'nicolas.acosta@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 6868-5555', 'Caballito, CABA', 'profesional'),
+('Sofía Romero', 'sofia.romero@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 6969-6666', 'Villa Urquiza, CABA', 'profesional'),
+('Marcelo Ibáñez', 'marcelo.ibanez@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7070-4444', 'Boedo, CABA', 'profesional'),
+('Javier Aguirre', 'javier.aguirre@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7171-5555', 'Parque Patricios, CABA', 'profesional'),
+('Esteban Vargas', 'esteban.vargas@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7272-6666', 'Almagro, CABA', 'profesional'),
+('Rodrigo Navarro', 'rodrigo.navarro@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7373-4444', 'Villa Crespo, CABA', 'profesional'),
+('Mariana Campos', 'mariana.campos@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7474-5555', 'Chacarita, CABA', 'profesional'),
+('Julieta Medina', 'julieta.medina@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7575-6666', 'Villa Devoto, CABA', 'profesional'),
+('Andrés Domínguez', 'andres.dominguez@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7676-4444', 'San Telmo, CABA', 'profesional'),
+('Pablo Figueroa', 'pablo.figueroa@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7777-5555', 'Barracas, CABA', 'profesional'),
+('Gabriela Ruiz', 'gabriela.ruiz@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7878-6666', 'Pompeya, CABA', 'profesional'),
+('Hernán Giménez', 'hernan.gimenez@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7979-4444', 'Villa Lugano, CABA', 'profesional'),
+('Carla Soria', 'carla.soria@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 8080-5555', 'Mataderos, CABA', 'profesional'),
+('Facundo Ledesma', 'facundo.ledesma@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 8181-6666', 'Liniers, CABA', 'profesional'),
+('Florencia Benítez', 'florencia.benitez@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 8282-4444', 'Ramos Mejía, Buenos Aires', 'profesional'),
+('Bruno Pacheco', 'bruno.pacheco@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 8383-5555', 'Ituzaingó, Buenos Aires', 'profesional'),
+('Daniela Villalba', 'daniela.villalba@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 8484-6666', 'Castelar, Buenos Aires', 'profesional'),
+('Ignacio Molina', 'ignacio.molina@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 8585-4444', 'Haedo, Buenos Aires', 'profesional'),
+('Micaela Rojas', 'micaela.rojas@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 8686-5555', 'Morón, Buenos Aires', 'profesional'),
+('Sebastián Paredes', 'sebastian.paredes@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 8787-6666', 'Avellaneda, Buenos Aires', 'profesional'),
+('Eugenia Suárez', 'eugenia.suarez@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 8888-4444', 'San Justo, Buenos Aires', 'profesional');
 
 -- ============================================
 -- PROFESIONALES (tabla professionals)
@@ -95,17 +95,17 @@ INSERT INTO professionals (user_id, especialidad, experiencia, descripcion, foto
 -- CERTIFICACIONES (для первых профи)
 -- ============================================
 INSERT INTO certificaciones (professional_id, nombre, archivo) VALUES
-(1, 'Matrícula Electricista Profesional', 'certificaciones/cert_electricista_carlos.pdf'),
-(1, 'Curso Seguridad Eléctrica', 'certificaciones/cert_seguridad_carlos.pdf'),
-(2, 'Matrícula Plomero', 'certificaciones/cert_plomero_roberto.pdf'),
-(3, 'Matrícula Gasista', 'certificaciones/cert_gasista_diego.pdf'),
-(4, 'Habilitación tableros trifásicos', 'certificaciones/cert_tableros_laura.pdf'),
-(5, 'Curso soldadura plástica', 'certificaciones/cert_soldadura_nicolas.pdf'),
-(6, 'Certificación gasista de 1ra', 'certificaciones/cert_gasista_sofia.pdf'),
-(7, 'Matrícula Electricista A2', 'certificaciones/cert_electricista_marcelo.pdf'),
-(8, 'Curso bombas de agua', 'certificaciones/cert_bombas_javier.pdf'),
-(9, 'Certificado instalación de gas', 'certificaciones/cert_gas_esteban.pdf'),
-(10, 'Curso domótica básica', 'certificaciones/cert_domotica_rodrigo.pdf');
+(1, 'Matrícula Electricista Profesional', 'certificaciones/cert_electricista_carlos_mendoza.pdf'),
+(1, 'Curso Seguridad Eléctrica', 'certificaciones/cert_seguridad_carlos_mendoza.pdf'),
+(2, 'Matrícula Plomero', 'certificaciones/cert_plomero_roberto_sanchez.pdf'),
+(3, 'Matrícula Gasista', 'certificaciones/cert_gasista_diego_morales.pdf'),
+(4, 'Habilitación tableros trifásicos', 'certificaciones/cert_tableros_laura_pereyra.pdf'),
+(5, 'Curso soldadura plástica', 'certificaciones/cert_soldadura_nicolas_acosta.pdf'),
+(6, 'Certificación gasista de 1ra', 'certificaciones/cert_gasista_sofia_romero.pdf'),
+(7, 'Matrícula Electricista A2', 'certificaciones/cert_electricista_marcelo_ibanez.pdf'),
+(8, 'Curso bombas de agua', 'certificaciones/cert_bombas_javier_aguirre.pdf'),
+(9, 'Certificado instalación de gas', 'certificaciones/cert_gas_esteban_vargas.pdf'),
+(10, 'Curso domótica básica', 'certificaciones/cert_domotica_rodrigo_navarro.pdf');
 
 -- ============================================
 -- SOLICITUDES

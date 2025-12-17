@@ -19,7 +19,7 @@ exports.list = async (req, res) => {
         const especialidad = req.query.especialidad || null;
         const ubicacion = req.query.ubicacion || null;
         const calificacion = req.query.calificacion ? parseFloat(req.query.calificacion) : null;
-        const verificadoParam = typeof req.query.verificado !== 'undefined' ? req.query.verificado : 'verificado';
+        const verificadoParam = req.query.verificado || '';
         const verificado = verificadoParam === 'verificado' ? 1 : null;
         const perPage = 12;
         const offset = (page - 1) * perPage;

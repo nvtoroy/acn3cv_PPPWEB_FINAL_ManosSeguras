@@ -47,6 +47,7 @@
         <!-- Profesionales Pendientes -->
         <article class="admin-section admin-panel active" id="pendientes">
             <h2>Profesionales Pendientes de Aprobación</h2>
+            <p><a href="/admin/profesionales" class="btn-link">Ver todos</a></p>
             <div class="admin-table">
                 <div class="table-row header-row">
                     <div class="col-photo">Foto</div>
@@ -75,6 +76,7 @@
                             </div>
                             <div class="col-docs">
                                 <span class="doc-link"><%= prof.experiencia %> años exp.</span>
+                                <div><a href="/profesionales/<%= prof.id %>" class="btn-link">Ver perfil</a></div>
                             </div>
                             <div class="col-actions">
                                 <form method="POST" action="/admin/profesionales/<%= prof.id %>/verificar" style="display: inline;">
@@ -103,8 +105,8 @@
             <h2>Gestión de Usuarios</h2>
             <div class="filters">
                 <button class="filter-btn active">Todos</button>
-                <button class="filter-btn">Clientes</button>
-                <button class="filter-btn">Profesionales</button>
+                <button class="filter-btn" type="button">Clientes</button>
+                <button class="filter-btn" type="button">Profesionales</button>
             </div>
             <div class="admin-table">
                 <div class="table-row header-row">
@@ -125,8 +127,9 @@
                             <div class="col-date"><%= new Date(user.created_at).toLocaleDateString('es-AR') %></div>
                             <div class="col-status"><span class="status-active">Activo</span></div>
                             <div class="col-actions">
-                                <button class="btn-view">Ver</button>
-                                <button class="btn-suspend">Suspender</button>
+                                <form method="POST" action="/admin/usuarios/<%= user.id %>/delete" style="display:inline;">
+                                    <button class="btn-reject" type="submit">Eliminar</button>
+                                </form>
                             </div>
                         </div>
                     <% }); %>
@@ -137,6 +140,7 @@
         <!-- Moderación de Reseñas -->
         <article class="admin-section admin-panel" id="resenas">
             <h2>Moderación de Reseñas</h2>
+            <p><a href="/admin/reviews" class="btn-link">Ver todas</a></p>
             <div class="reviews-list">
                 <% if (pendingReviewsList && pendingReviewsList.length > 0) { %>
                     <% pendingReviewsList.forEach(function(review) { %>

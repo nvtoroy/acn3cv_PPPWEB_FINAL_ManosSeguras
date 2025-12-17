@@ -5,24 +5,25 @@
                 <img src="/img/main-logo.png" alt="ManosSeguras">
             </a>
         </div>
-        <div class="nav-links-wrapper">
-            <ul class="nav-links">
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/profesionales">Profesionales</a></li>
-                <% if (currentUser.isAuthenticated) { %>
-                    <li><a href="/profile">Mi Perfil</a></li>
-                    <% if (currentUser.rol === 'admin') { %>
-                        <li><a href="/admin">Admin</a></li>
-                    <% } %>
-                <% } %>
-            </ul>
+        <div class="nav-right">
+            <% if (currentUser.isAuthenticated) { %>
+                <div class="nav-user-name"><%= currentUser.nombre %></div>
+            <% } %>
             <div class="nav-actions">
+                <a href="/" class="btn btn-outline<%= currentPath === '/' ? ' active' : '' %>">Inicio</a>
+                <a href="/profesionales" class="btn btn-outline<%= currentPath.startsWith('/profesionales') ? ' active' : '' %>">Profesionales</a>
+                <% if (currentUser.isAuthenticated && currentUser.rol === 'admin') { %>
+                    <a href="/admin" class="btn btn-outline<%= currentPath.startsWith('/admin') ? ' active' : '' %>">Admin</a>
+                <% } %>
                 <% if (currentUser.isAuthenticated) { %>
-                    <span class="user-greeting">Hola, <%= currentUser.nombre %></span>
+                    <a href="/profile" class="btn btn-outline btn-with-avatar<%= currentPath.startsWith('/profile') ? ' active' : '' %>">
+                        <span>Mi Perfil</span>
+                        <img class="nav-avatar" src="<%= currentUser.avatar || '/img/usuarios/placeholder.jpg' %>" alt="">
+                    </a>
                     <a href="/logout" class="btn btn-outline">Salir</a>
                 <% } else { %>
-                    <a href="/login" class="btn btn-outline">Ingresar</a>
-                    <a href="/registro" class="btn btn-primary">Crear cuenta</a>
+                    <a href="/login" class="btn btn-outline<%= currentPath === '/login' ? ' active' : '' %>">Ingresar</a>
+                    <a href="/registro" class="btn btn-primary<%= currentPath === '/registro' ? ' active' : '' %>">Crear cuenta</a>
                 <% } %>
             </div>
         </div>
