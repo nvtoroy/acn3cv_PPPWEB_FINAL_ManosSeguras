@@ -29,6 +29,47 @@ class User {
     }
 
     /**
+     * Obtener usuario con hash de contraseña
+     * @param {number} id 
+     * @returns {Promise<Object|null>}
+     */
+    static findByIdWithPassword(id) {
+        return new Promise((resolve, reject) => {
+            const db = createConnection();
+            db.get(
+                'SELECT * FROM users WHERE id = ?',
+                [id],
+                (err, row) => {
+                    db.close();
+                    if (err) reject(err);
+                    else resolve(row || null);
+                }
+            );
+        });
+    }
+
+    /**
+     * Actualizar contraseña
+     * @param {number} id 
+     * @param {string} hashedPassword 
+     * @returns {Promise<boolean>}
+     */
+    static updatePassword(id, hashedPassword) {
+        return new Promise((resolve, reject) => {
+            const db = createConnection();
+            db.run(
+                'UPDATE users SET password = ? WHERE id = ?',
+                [hashedPassword, id],
+                function(err) {
+                    db.close();
+                    if (err) reject(err);
+                    else resolve(this.changes > 0);
+                }
+            );
+        });
+    }
+
+    /**
      * Найти пользователя по ID
      * @param {number} id 
      * @returns {Promise<Object|null>}

@@ -1,0 +1,134 @@
+<main class="solicitud-detail">
+    <section class="solicitud-hero">
+        <div>
+            <p class="eyebrow">Solicitud #<%= solicitud.id %></p>
+            <h1><%= solicitud.tipo_servicio %></h1>
+            <p class="lead"><%= solicitud.descripcion %></p>
+            <div class="hero-tags">
+                <span class="status-pill <%= estadoBadgeClass(solicitud.estado) %>"><%= translateEstado(solicitud.estado) %></span>
+                <% if (solicitud.fecha_preferida) { %>
+                    <span class="status-pill">Fecha: <%= formatDate(solicitud.fecha_preferida) %></span>
+                <% } %>
+            </div>
+        </div>
+        <div class="solicitud-meta">
+            <div class="meta-block">
+                <p class="stat-label">Cliente</p>
+                <p class="stat-value"><%= solicitud.cliente_nombre %></p>
+            </div>
+            <div class="meta-block">
+                <p class="stat-label">Profesional</p>
+                <p class="stat-value"><%= solicitud.profesional_nombre || 'Sin asignar' %></p>
+            </div>
+            <div class="meta-block">
+                <p class="stat-label">Presupuesto</p>
+                <p class="stat-value"><%= solicitud.presupuesto_estimado ? formatMoney(solicitud.presupuesto_estimado) : 'A convenir' %></p>
+            </div>
+        </div>
+    </section>
+
+    <section class="solicitud-grid">
+        <article class="panel-card wide">
+            <div class="card-header">
+                <span class="marker"></span>
+                <div>
+                    <h2>Detalle y dirección</h2>
+                    <p>Revisá la información cargada por el cliente.</p>
+                </div>
+            </div>
+            <div class="solicitud-info">
+                <p><strong>Dirección:</strong> <%= solicitud.direccion %></p>
+                <% if (solicitud.ciudad) { %>
+                    <p><strong>Ciudad:</strong> <%= solicitud.ciudad %> <%= solicitud.codigo_postal ? '(' + solicitud.codigo_postal + ')' : '' %></p>
+                <% } %>
+                <p><strong>Horario sugerido:</strong> <%= solicitud.horario || 'No indicado' %></p>
+            </div>
+        </article>
+
+        <article class="panel-card wide">
+            <div class="card-header">
+                <span class="marker"></span>
+                <div>
+                    <h2>Chat</h2>
+                    <p>Toda la coordinación queda registrada aquí.</p>
+                </div>
+            </div>
+            <div class="solicitud-chat">
+                <% if (mensajes && mensajes.length > 0) { %>
+                    <% mensajes.forEach(function(msg) { %>
+                        <div class="chat-row <%= msg.autor_id === currentUser.id ? 'professional' : '' %>">
+                            <span class="chat-author"><%= msg.autor_nombre %></span>
+                            <p><%= msg.contenido %></p>
+                            <small><%= formatDateTime(msg.created_at) %></small>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p class="empty-state">Aún no hay mensajes en esta solicitud.</p>
+                <% } %>
+            </div>
+            <form class="panel-form" method="POST" action="/solicitudes/<%= solicitud.id %>/mensaje">
+                <label>Nuevo mensaje
+                    <textarea name="contenido" rows="3" required></textarea>
+                </label>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </div>
+            </form>
+        </article>
+
+        <% if (currentUser.rol === 'profesional' || currentUser.rol === 'admin') { %>
+        <article class="panel-card">
+            <div class="card-header">
+                <span class="marker"></span>
+                <div>
+                    <h3>Actualizar estado</h3>
+                    <p>Comunicá avances al cliente.</p>
+                </div>
+            </div>
+            <form class="panel-form compact" method="POST" action="/solicitudes/<%= solicitud.id %>/estado">
+                <label>Estado
+                    <select name="estado" required>
+                        <option value="aceptada">Aceptada</option>
+                        <option value="en_progreso">En progreso</option>
+                        <option value="completada">Completada</option>
+                        <option value="rechazada">Rechazada</option>
+                        <option value="cancelada">Cancelada</option>
+                    </select>
+                </label>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </article>
+        <% } %>
+
+        <% if (canReview) { %>
+        <article class="panel-card">
+            <div class="card-header">
+                <span class="marker"></span>
+                <div>
+                    <h3>Calificar trabajo</h3>
+                    <p>Tu reseña se publicará tras aprobación de admin.</p>
+                </div>
+            </div>
+            <form class="panel-form compact" method="POST" action="/solicitudes/<%= solicitud.id %>/review">
+                <label>Calificación
+                    <select name="calificacion" required>
+                        <option value="5">5 - Excelente</option>
+                        <option value="4">4 - Muy bueno</option>
+                        <option value="3">3 - Bueno</option>
+                        <option value="2">2 - Regular</option>
+                        <option value="1">1 - Malo</option>
+                    </select>
+                </label>
+                <label>Comentario
+                    <textarea name="comentario" rows="3" required></textarea>
+                </label>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Enviar reseña</button>
+                </div>
+            </form>
+        </article>
+        <% } %>
+    </section>
+</main>

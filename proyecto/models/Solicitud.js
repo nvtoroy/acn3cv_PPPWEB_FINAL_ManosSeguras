@@ -102,16 +102,19 @@ class Solicitud {
                 tipo_servicio,
                 descripcion,
                 direccion,
+                ciudad,
+                codigo_postal,
                 fecha_preferida,
                 horario,
-                presupuesto_estimado
+                presupuesto_estimado,
+                profesional_id = null
             } = data;
             
             db.run(
                 `INSERT INTO solicitudes 
-                 (cliente_id, tipo_servicio, descripcion, direccion, fecha_preferida, horario, presupuesto_estimado, estado) 
-                 VALUES (?, ?, ?, ?, ?, ?, ?, 'pendiente')`,
-                [cliente_id, tipo_servicio, descripcion, direccion, fecha_preferida, horario, presupuesto_estimado],
+                 (cliente_id, profesional_id, tipo_servicio, descripcion, direccion, ciudad, codigo_postal, fecha_preferida, horario, presupuesto_estimado, estado) 
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pendiente')`,
+                [cliente_id, profesional_id || null, tipo_servicio, descripcion, direccion, ciudad, codigo_postal, fecha_preferida, horario, presupuesto_estimado],
                 function(err) {
                     db.close();
                     if (err) reject(err);

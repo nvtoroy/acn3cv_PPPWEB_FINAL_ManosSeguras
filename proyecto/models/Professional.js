@@ -65,6 +65,8 @@ class Professional {
             const db = createConnection();
             const {
                 especialidad = null,
+                ubicacion = null,
+                calificacionMin = null,
                 verificado = null,
                 limit = 12,
                 offset = 0
@@ -90,6 +92,17 @@ class Professional {
                 params.push(verificado ? 1 : 0);
             }
 
+            if (calificacionMin) {
+                query += ' AND p.calificacion_promedio >= ?';
+                params.push(calificacionMin);
+            }
+
+            if (ubicacion) {
+                query += ' AND (LOWER(u.direccion) LIKE ? OR LOWER(p.zona_cobertura) LIKE ?)';
+                const like = `%${ubicacion.toLowerCase()}%`;
+                params.push(like, like);
+            }
+
             // Сортировка и пагинация
             query += ' ORDER BY p.calificacion_promedio DESC, p.trabajos_completados DESC';
             query += ' LIMIT ? OFFSET ?';
@@ -111,12 +124,12 @@ class Professional {
     static create(data) {
         return new Promise((resolve, reject) => {
             const db = createConnection();
-            const { user_id, especialidad, experiencia, descripcion } = data;
+            const { user_id, especialidad, experiencia, descripcion, foto_url, zona_cobertura } = data;
             
             db.run(
-                `INSERT INTO professionals (user_id, especialidad, experiencia, descripcion, verificado) 
-                 VALUES (?, ?, ?, ?, 0)`,
-                [user_id, especialidad, experiencia || 0, descripcion || ''],
+                `INSERT INTO professionals (user_id, especialidad, experiencia, descripcion, foto_url, zona_cobertura, verificado) 
+                 VALUES (?, ?, ?, ?, ?, ?, 0)`,
+                [user_id, especialidad, experiencia || 0, descripcion || '', foto_url || null, zona_cobertura || null],
                 function(err) {
                     db.close();
                     if (err) reject(err);
@@ -135,13 +148,13 @@ class Professional {
     static update(id, data) {
         return new Promise((resolve, reject) => {
             const db = createConnection();
-            const { especialidad, experiencia, descripcion } = data;
+            const { especialidad, experiencia, descripcion, foto_url, zona_cobertura } = data;
             
             db.run(
                 `UPDATE professionals 
-                 SET especialidad = ?, experiencia = ?, descripcion = ?
+                 SET especialidad = ?, experiencia = ?, descripcion = ?, foto_url = ?, zona_cobertura = ?
                  WHERE id = ?`,
-                [especialidad, experiencia, descripcion, id],
+                [especialidad, experiencia, descripcion, foto_url, zona_cobertura, id],
                 function(err) {
                     db.close();
                     if (err) reject(err);
@@ -209,7 +222,7 @@ class Professional {
     static count(filters = {}) {
         return new Promise((resolve, reject) => {
             const db = createConnection();
-            const { especialidad = null, verificado = null } = filters;
+            const { especialidad = null, verificado = null, calificacionMin = null, ubicacion = null } = filters;
 
             let query = 'SELECT COUNT(*) as total FROM professionals WHERE 1=1';
             const params = [];
@@ -222,6 +235,16 @@ class Professional {
             if (verificado !== null) {
                 query += ' AND verificado = ?';
                 params.push(verificado ? 1 : 0);
+            }
+
+            if (calificacionMin) {
+                query += ' AND calificacion_promedio >= ?';
+                params.push(calificacionMin);
+            }
+
+            if (ubicacion) {
+                query += ' AND (LOWER(zona_cobertura) LIKE ?)';
+                params.push(`%${ubicacion.toLowerCase()}%`);
             }
 
             db.get(query, params, (err, row) => {

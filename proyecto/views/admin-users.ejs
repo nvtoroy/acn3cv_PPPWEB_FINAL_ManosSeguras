@@ -1,0 +1,37 @@
+<main class="admin-container">
+    <section class="admin-header">
+        <h1>Gestión de Usuarios</h1>
+        <p>Listado paginado de cuentas registradas.</p>
+    </section>
+
+    <div class="admin-table">
+        <div class="table-row header-row">
+            <div class="col-name">Nombre</div>
+            <div class="col-email">Email</div>
+            <div class="col-type">Tipo</div>
+            <div class="col-date">Registro</div>
+            <div class="col-actions">Acciones</div>
+        </div>
+        <% users.forEach(function(user) { %>
+            <div class="table-row">
+                <div class="col-name"><%= user.nombre %></div>
+                <div class="col-email"><%= user.email %></div>
+                <div class="col-type"><span class="badge badge-<%= user.rol %>"><%= user.rol %></span></div>
+                <div class="col-date"><%= new Date(user.created_at).toLocaleDateString('es-AR') %></div>
+                <div class="col-actions">
+                    <form method="POST" action="/admin/usuarios/<%= user.id %>/delete" style="display:inline;">
+                        <button class="btn-reject" type="submit">Eliminar</button>
+                    </form>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+
+    <% if (totalPages > 1) { %>
+        <div class="paginacion">
+            <% for (let i = 1; i <= totalPages; i++) { %>
+                <button onclick="window.location.href='?page=<%= i %>'" class="<%= i === currentPage ? 'active' : '' %>"><%= i %></button>
+            <% } %>
+        </div>
+    <% } %>
+</main>

@@ -7,6 +7,7 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const Professional = require('../models/Professional');
+const Certificacion = require('../models/Certificacion');
 
 /**
  * Показать страницу логина
@@ -92,7 +93,8 @@ exports.registro = async (req, res) => {
             // Campos para profesionales
             especialidad,
             experiencia,
-            descripcion
+            descripcion,
+            certificaciones
         } = req.body;
 
         // Verificar que el email no esté en uso
@@ -117,12 +119,25 @@ exports.registro = async (req, res) => {
 
         // Si es profesional, crear también perfil profesional
         if (rol === 'profesional') {
-            await Professional.create({
+            const professionalId = await Professional.create({
                 user_id: userId,
                 especialidad: especialidad || 'electricista',
                 experiencia: experiencia || 0,
-                descripcion: descripcion || ''
+                descripcion: descripcion || '',
+                zona_cobertura: req.body.zona_cobertura || null
             });
+            
+            // Guardar certificaciones si se enviaron
+            if (certificaciones) {
+                const listaCerts = certificaciones.split(',').map(c => c.trim()).filter(Boolean);
+                for (const cert of listaCerts) {
+                    await Certificacion.create({
+                        professional_id: professionalId,
+                        nombre: cert,
+                        archivo: ''
+                    });
+                }
+            }
         }
 
         req.flash('success', 'Registro exitoso! Ya puedes iniciar sesión.');

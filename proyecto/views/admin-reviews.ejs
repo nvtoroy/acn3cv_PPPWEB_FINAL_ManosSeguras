@@ -1,0 +1,52 @@
+<main class="admin-container">
+    <section class="admin-header">
+        <h1>Moderación de reseñas</h1>
+        <p>Aprueba o rechaza comentarios de clientes.</p>
+    </section>
+
+    <div class="filters">
+        <a href="/admin/reviews?estado=pendiente" class="filter-btn <%= estado === 'pendiente' ? 'active' : '' %>">Pendientes</a>
+        <a href="/admin/reviews?estado=aprobada" class="filter-btn <%= estado === 'aprobada' ? 'active' : '' %>">Aprobadas</a>
+        <a href="/admin/reviews?estado=rechazada" class="filter-btn <%= estado === 'rechazada' ? 'active' : '' %>">Rechazadas</a>
+    </div>
+
+    <div class="reviews-list">
+        <% if (reviews.length === 0) { %>
+            <p>No hay reseñas en este estado.</p>
+        <% } %>
+        <% reviews.forEach(function(review) { %>
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="review-info">
+                        <strong><%= review.cliente_nombre %></strong> &gt; <strong><%= review.profesional_nombre %></strong>
+                    </div>
+                    <div class="review-rating">
+                        <% for(let i = 1; i <= 5; i++) { %>
+                            <span class="star <%= i <= review.calificacion ? 'filled' : '' %>"></span>
+                        <% } %>
+                    </div>
+                </div>
+                <p class="review-text">"<%= review.comentario %>"</p>
+                <div class="review-date">Publicado: <%= new Date(review.created_at).toLocaleDateString('es-AR') %></div>
+                <div class="review-actions">
+                    <form method="POST" action="/admin/reviews/<%= review.id %>/moderar" style="display:inline;">
+                        <input type="hidden" name="action" value="aprobar">
+                        <button type="submit" class="btn-approve-review">Aprobar</button>
+                    </form>
+                    <form method="POST" action="/admin/reviews/<%= review.id %>/moderar" style="display:inline;">
+                        <input type="hidden" name="action" value="rechazar">
+                        <button type="submit" class="btn-hide-review">Ocultar</button>
+                    </form>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+
+    <% if (totalPages > 1) { %>
+        <div class="paginacion">
+            <% for (let i = 1; i <= totalPages; i++) { %>
+                <button onclick="window.location.href='?page=<%= i %>&estado=<%= estado %>'" class="<%= i === currentPage ? 'active' : '' %>"><%= i %></button>
+            <% } %>
+        </div>
+    <% } %>
+</main>

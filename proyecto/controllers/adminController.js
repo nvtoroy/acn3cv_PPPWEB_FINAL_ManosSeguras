@@ -73,7 +73,8 @@ exports.listUsers = async (req, res) => {
             title: 'Gestión de Usuarios',
             users,
             currentPage: page,
-            totalPages
+            totalPages,
+            extraCSS: '<link rel="stylesheet" href="/css/admin.css">'
         });
 
     } catch (error) {
@@ -133,7 +134,8 @@ exports.listProfessionals = async (req, res) => {
             title: 'Verificación de Profesionales',
             professionals,
             currentPage: page,
-            totalPages
+            totalPages,
+            extraCSS: '<link rel="stylesheet" href="/css/admin.css">'
         });
 
     } catch (error) {
@@ -190,7 +192,8 @@ exports.listReviews = async (req, res) => {
             reviews,
             currentPage: page,
             totalPages,
-            estado
+            estado,
+            extraCSS: '<link rel="stylesheet" href="/css/admin.css">'
         });
 
     } catch (error) {

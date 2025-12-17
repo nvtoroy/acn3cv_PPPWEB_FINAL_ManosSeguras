@@ -71,7 +71,7 @@
                                     <h4><%= sol.tipo_servicio || 'Servicio' %></h4>
                                     <p><%= currentUser.rol === 'profesional' ? (sol.cliente_nombre || 'Cliente') : (sol.profesional_nombre || 'Profesional') %> • <%= sol.fecha_preferida ? 'Fecha sugerida ' + new Date(sol.fecha_preferida).toLocaleDateString('es-AR', {day: '2-digit', month: '2-digit'}) : 'Sin fecha' %></p>
                                 </div>
-                                <span class="status-pill <%= sol.estado === 'completada' || sol.estado === 'aceptada' ? 'success' : '' %>"><%= sol.estado === 'pendiente' ? 'En revisión' : (sol.estado === 'aceptada' ? 'Tomado' : sol.estado) %></span>
+                                <span class="status-pill <%= estadoBadgeClass(sol.estado) %>"><%= translateEstado(sol.estado) %></span>
                             </div>
                             <div class="solicitud-chat">
                                 <div class="chat-row">
@@ -87,10 +87,12 @@
                             </div>
                             <div class="solicitud-actions">
                                 <% if (currentUser.rol === 'profesional' && sol.estado === 'pendiente') { %>
-                                    <form method="POST" action="/solicitudes/<%= sol.id %>/aceptar" style="display:inline;">
+                                    <form method="POST" action="/solicitudes/<%= sol.id %>/estado" style="display:inline;">
+                                        <input type="hidden" name="estado" value="aceptada">
                                         <button type="submit" class="btn btn-outline">Aceptar trabajo</button>
                                     </form>
-                                    <form method="POST" action="/solicitudes/<%= sol.id %>/rechazar" style="display:inline;">
+                                    <form method="POST" action="/solicitudes/<%= sol.id %>/estado" style="display:inline;">
+                                        <input type="hidden" name="estado" value="rechazada">
                                         <button type="submit" class="btn btn-outline">Rechazar</button>
                                     </form>
                                 <% } %>
@@ -185,6 +187,9 @@
                         </select>
                     </label>
                 </div>
+                <label>Zona de cobertura
+                    <input type="text" name="zona_cobertura" value="<%= professional.zona_cobertura || '' %>" placeholder="Ej: CABA y GBA Norte" />
+                </label>
                 <% } else { %>
                 <label>Dirección
                     <input type="text" name="direccion" value="<%= user.direccion || '' %>" />
@@ -282,27 +287,25 @@
                 </div>
             </div>
             <ul class="checklist">
-                <li>
-                    <div>
-                        <strong>Matrícula profesional</strong>
-                        <p>Renovación 2025 cargada</p>
-                    </div>
-                    <span class="status-pill success">Aprobado</span>
-                </li>
-                <li>
-                    <div>
-                        <strong>Curso de seguridad eléctrica</strong>
-                        <p>Certificado adjunto</p>
-                    </div>
-                    <span class="status-pill">En revisión</span>
-                </li>
-                <li>
-                    <div>
-                        <strong>Póliza de seguro</strong>
-                        <p>Vigente hasta 12/2025</p>
-                    </div>
-                    <span class="status-pill success">Validado</span>
-                </li>
+                <% if (certificaciones && certificaciones.length > 0) { %>
+                    <% certificaciones.forEach(function(cert) { %>
+                        <li>
+                            <div>
+                                <strong><%= cert.nombre %></strong>
+                                <p><%= cert.archivo || 'Documento cargado' %></p>
+                            </div>
+                            <span class="status-pill success">Cargado</span>
+                        </li>
+                    <% }); %>
+                <% } else { %>
+                    <li>
+                        <div>
+                            <strong>Sin certificaciones cargadas</strong>
+                            <p>Agregá tus credenciales para verificación.</p>
+                        </div>
+                        <span class="status-pill">Pendiente</span>
+                    </li>
+                <% } %>
             </ul>
         </article>
 

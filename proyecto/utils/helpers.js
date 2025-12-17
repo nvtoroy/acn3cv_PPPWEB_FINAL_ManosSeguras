@@ -97,15 +97,15 @@ function translateEstado(estado) {
  */
 function estadoBadgeClass(estado) {
     const classes = {
-        'pendiente': 'badge-warning',
-        'aceptada': 'badge-info',
-        'en_progreso': 'badge-primary',
-        'completada': 'badge-success',
-        'rechazada': 'badge-danger',
-        'cancelada': 'badge-secondary'
+        'pendiente': 'warning',
+        'aceptada': 'info',
+        'en_progreso': 'primary',
+        'completada': 'success',
+        'rechazada': 'danger',
+        'cancelada': 'secondary'
     };
     
-    return classes[estado] || 'badge-secondary';
+    return classes[estado] || 'secondary';
 }
 
 /**

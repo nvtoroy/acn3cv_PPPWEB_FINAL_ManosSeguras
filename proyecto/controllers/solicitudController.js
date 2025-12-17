@@ -17,11 +17,27 @@ exports.showCreate = (req, res) => {
     // Опционально получить ID профессионала если выбран
     const profesionalId = req.query.profesional || null;
     
-    res.render('solicitar', {
-        title: 'Solicitar Servicio',
-        profesionalId,
-        extraCSS: '<link rel="stylesheet" href="/css/solicitar.css">'
-    });
+    let professional = null;
+    
+    const renderForm = () => {
+        res.render('solicitar', {
+            title: 'Solicitar Servicio',
+            profesionalId,
+            professional,
+            extraCSS: '<link rel="stylesheet" href="/css/solicitar.css">'
+        });
+    };
+    
+    if (profesionalId) {
+        Professional.findById(profesionalId)
+            .then((prof) => {
+                professional = prof;
+                renderForm();
+            })
+            .catch(() => renderForm());
+    } else {
+        renderForm();
+    }
 };
 
 /**
@@ -35,10 +51,22 @@ exports.create = async (req, res) => {
             tipo_servicio,
             descripcion,
             direccion,
+            ciudad,
+            codigo_postal,
             fecha_preferida,
             horario,
-            presupuesto_estimado
+            presupuesto_estimado,
+            profesional_id
         } = req.body;
+
+        // Validar profesional si viene seteado
+        let profesionalIdClean = null;
+        if (profesional_id) {
+            const prof = await Professional.findById(parseInt(profesional_id));
+            if (prof) {
+                profesionalIdClean = prof.id;
+            }
+        }
 
         // Crear solicitud
         const solicitudId = await Solicitud.create({
@@ -46,9 +74,12 @@ exports.create = async (req, res) => {
             tipo_servicio,
             descripcion,
             direccion,
+            ciudad: ciudad || null,
+            codigo_postal: codigo_postal || null,
             fecha_preferida: fecha_preferida || null,
             horario: horario || null,
-            presupuesto_estimado: presupuesto_estimado || null
+            presupuesto_estimado: presupuesto_estimado || null,
+            profesional_id: profesionalIdClean
         });
 
         req.flash('success', 'Solicitud creada correctamente. Los profesionales podrán verla y contactarte.');
@@ -101,7 +132,8 @@ exports.show = async (req, res) => {
             solicitud,
             mensajes,
             hasReview,
-            canReview: isCliente && solicitud.estado === 'completada' && !hasReview
+            canReview: isCliente && solicitud.estado === 'completada' && !hasReview,
+            extraCSS: '<link rel="stylesheet" href="/css/miperfil.css">'
         });
 
     } catch (error) {
@@ -124,6 +156,21 @@ exports.sendMessage = async (req, res) => {
         if (!contenido || contenido.trim().length === 0) {
             req.flash('error', 'El mensaje no puede estar vacío');
             return res.redirect(`/solicitudes/${solicitudId}`);
+        }
+
+        // Validar acceso
+        const solicitud = await Solicitud.findById(solicitudId);
+        if (!solicitud) {
+            req.flash('error', 'Solicitud no encontrada');
+            return res.redirect('/profile');
+        }
+        const isCliente = solicitud.cliente_id === userId;
+        const isProfesional = solicitud.profesional_id && (await Professional.findByUserId(userId))?.id === solicitud.profesional_id;
+        const isAdmin = req.session.userRole === 'admin';
+
+        if (!isCliente && !isProfesional && !isAdmin) {
+            req.flash('error', 'No tienes permiso para enviar mensajes aquí');
+            return res.redirect('/profile');
         }
 
         // Crear mensaje
@@ -153,11 +200,23 @@ exports.updateEstado = async (req, res) => {
         const { estado } = req.body;
         const userRole = req.session.userRole;
 
+        // Obtener solicitud para validar
+        const solicitud = await Solicitud.findById(solicitudId);
+        if (!solicitud) {
+            req.flash('error', 'Solicitud no encontrada');
+            return res.redirect('/profile');
+        }
+
         // Obtener datos del profesional si es profesional
         let professionalId = null;
         if (userRole === 'profesional') {
             const prof = await Professional.findByUserId(req.session.userId);
             professionalId = prof?.id;
+
+            if (solicitud.profesional_id && solicitud.profesional_id !== professionalId) {
+                req.flash('error', 'No puedes modificar esta solicitud');
+                return res.redirect('/profile');
+            }
         }
 
         // Actualizar estado

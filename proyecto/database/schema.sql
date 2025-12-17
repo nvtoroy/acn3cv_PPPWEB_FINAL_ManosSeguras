@@ -24,6 +24,8 @@ CREATE TABLE IF NOT EXISTS professionals (
     especialidad VARCHAR(50) NOT NULL,  -- 'electricista', 'plomero', 'gasista'
     experiencia INTEGER DEFAULT 0,  -- лет опыта
     descripcion TEXT,
+    foto_url VARCHAR(255),  -- путь к фото профиля (опционально)
+    zona_cobertura TEXT,  -- área donde trabaja
     verificado BOOLEAN DEFAULT 0,  -- проверен ли админом
     calificacion_promedio DECIMAL(3,2) DEFAULT 0.00,
     trabajos_completados INTEGER DEFAULT 0,
@@ -49,6 +51,8 @@ CREATE TABLE IF NOT EXISTS solicitudes (
     tipo_servicio VARCHAR(100) NOT NULL,
     descripcion TEXT NOT NULL,
     direccion TEXT NOT NULL,
+    ciudad TEXT,  -- ciudad declarada
+    codigo_postal TEXT,
     fecha_preferida DATE,
     horario VARCHAR(50),  -- 'mañana', 'tarde', 'noche'
     presupuesto_estimado DECIMAL(10,2),

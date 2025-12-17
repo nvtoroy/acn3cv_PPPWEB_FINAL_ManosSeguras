@@ -9,7 +9,7 @@ const router = express.Router();
 const solicitudController = require('../controllers/solicitudController');
 const { requireAuth } = require('../middleware/auth');
 const { requireRole } = require('../middleware/roles');
-const { validateSolicitud, handleValidationErrors } = require('../utils/validation');
+const { validateSolicitud, validateReview, handleValidationErrors } = require('../utils/validation');
 
 // GET /solicitudes/crear - Форма создания solicitud (solo clientes)
 router.get('/crear', 
@@ -44,6 +44,8 @@ router.post('/:id/estado',
 router.post('/:id/review', 
     requireAuth, 
     requireRole('cliente'),
+    validateReview,
+    handleValidationErrors,
     solicitudController.createReview
 );
 

@@ -1,102 +1,157 @@
 -- ============================================
 -- ТЕСТОВЫЕ ДАННЫЕ (SEED) - ManosSeguras
 -- ============================================
--- Начальные данные для тестирования приложения
+
+-- Пароли (bcrypt):
+-- admin: admin123  -> $2b$10$.aQMuhoKJbTIdnHoCWUbJezTO1eJy/55amKG4SE/1ZaHbmEyD83C.
+-- clientes: cliente123 -> $2b$10$qMSBmEEKnuWyshIuzdT/WOte.vWjAYuCyBtanflomIsAraeJksBWq
+-- profesionales: prof123 -> $2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q
 
 -- ============================================
--- ПОЛЬЗОВАТЕЛИ
+-- USUARIOS
 -- ============================================
 
--- Администратор
--- Email: admin@manoseguras.com
--- Пароль: admin123
 INSERT INTO users (nombre, email, password, telefono, direccion, rol) VALUES
-('Administrador del Sistema', 'admin@manoseguras.com', '$2b$10$.aQMuhoKJbTIdnHoCWUbJezTO1eJy/55amKG4SE/1ZaHbmEyD83C.', '+54 11 1111-1111', 'Oficina Central, Buenos Aires', 'admin');
+-- Admin
+('Administrador del Sistema', 'admin@manoseguras.com', '$2b$10$.aQMuhoKJbTIdnHoCWUbJezTO1eJy/55amKG4SE/1ZaHbmEyD83C.', '+54 11 0000-0000', 'Oficina Central, Buenos Aires', 'admin'),
 
--- Клиенты (2 пользователя)
--- Email: juan.perez@email.com, maria.gonzalez@email.com
--- Пароль для всех: cliente123
-INSERT INTO users (nombre, email, password, telefono, direccion, rol) VALUES
+-- 15 clientes (id 2-16)
 ('Juan Pérez', 'juan.perez@email.com', '$2b$10$qMSBmEEKnuWyshIuzdT/WOte.vWjAYuCyBtanflomIsAraeJksBWq', '+54 11 2222-2222', 'Av. Corrientes 1234, CABA', 'cliente'),
-('María González', 'maria.gonzalez@email.com', '$2b$10$qMSBmEEKnuWyshIuzdT/WOte.vWjAYuCyBtanflomIsAraeJksBWq', '+54 11 3333-3333', 'Calle 50 n° 567, La Plata', 'cliente');
+('María González', 'maria.gonzalez@email.com', '$2b$10$qMSBmEEKnuWyshIuzdT/WOte.vWjAYuCyBtanflomIsAraeJksBWq', '+54 11 3333-3333', 'Calle 50 n° 567, La Plata', 'cliente'),
+('Pedro Ramírez', 'pedro.ramirez@email.com', '$2b$10$qMSBmEEKnuWyshIuzdT/WOte.vWjAYuCyBtanflomIsAraeJksBWq', '+54 11 4444-2222', 'Lanús, Buenos Aires', 'cliente'),
+('Ana Martínez', 'ana.martinez@email.com', '$2b$10$qMSBmEEKnuWyshIuzdT/WOte.vWjAYuCyBtanflomIsAraeJksBWq', '+54 11 5555-2222', 'Quilmes, Buenos Aires', 'cliente'),
+('Luis Fernández', 'luis.fernandez@email.com', '$2b$10$qMSBmEEKnuWyshIuzdT/WOte.vWjAYuCyBtanflomIsAraeJksBWq', '+54 11 6666-2222', 'San Isidro, Buenos Aires', 'cliente'),
+('Sofía Torres', 'sofia.torres@email.com', '$2b$10$qMSBmEEKnuWyshIuzdT/WOte.vWjAYuCyBtanflomIsAraeJksBWq', '+54 11 7777-2222', 'Belgrano, CABA', 'cliente'),
+('Carlos López', 'carlos.lopez@email.com', '$2b$10$qMSBmEEKnuWyshIuzdT/WOte.vWjAYuCyBtanflomIsAraeJksBWq', '+54 11 8888-2222', 'Palermo, CABA', 'cliente'),
+('Lucía Álvarez', 'lucia.alvarez@email.com', '$2b$10$qMSBmEEKnuWyshIuzdT/WOte.vWjAYuCyBtanflomIsAraeJksBWq', '+54 11 9999-2222', 'Recoleta, CABA', 'cliente'),
+('Diego Gutiérrez', 'diego.gutierrez@email.com', '$2b$10$qMSBmEEKnuWyshIuzdT/WOte.vWjAYuCyBtanflomIsAraeJksBWq', '+54 11 1212-2222', 'Vicente López, Buenos Aires', 'cliente'),
+('Valentina Ríos', 'valentina.rios@email.com', '$2b$10$qMSBmEEKnuWyshIuzdT/WOte.vWjAYuCyBtanflomIsAraeJksBWq', '+54 11 1313-2222', 'Caballito, CABA', 'cliente'),
+('Martín Castro', 'martin.castro@email.com', '$2b$10$qMSBmEEKnuWyshIuzdT/WOte.vWjAYuCyBtanflomIsAraeJksBWq', '+54 11 1414-2222', 'Flores, CABA', 'cliente'),
+('Camila Vega', 'camila.vega@email.com', '$2b$10$qMSBmEEKnuWyshIuzdT/WOte.vWjAYuCyBtanflomIsAraeJksBWq', '+54 11 1515-2222', 'Almagro, CABA', 'cliente'),
+('Tomás Herrera', 'tomas.herrera@email.com', '$2b$10$qMSBmEEKnuWyshIuzdT/WOte.vWjAYuCyBtanflomIsAraeJksBWq', '+54 11 1616-2222', 'Morón, Buenos Aires', 'cliente'),
+('Paula Ortiz', 'paula.ortiz@email.com', '$2b$10$qMSBmEEKnuWyshIuzdT/WOte.vWjAYuCyBtanflomIsAraeJksBWq', '+54 11 1717-2222', 'Berazategui, Buenos Aires', 'cliente'),
+('Federico Díaz', 'federico.diaz@email.com', '$2b$10$qMSBmEEKnuWyshIuzdT/WOte.vWjAYuCyBtanflomIsAraeJksBWq', '+54 11 1818-2222', 'San Martín, Buenos Aires', 'cliente'),
 
--- Профессионалы (3 пользователя)
--- Email: carlos.elec@email.com, roberto.plomero@email.com, diego.gasista@email.com
--- Пароль для всех: prof123
-INSERT INTO users (nombre, email, password, telefono, direccion, rol) VALUES
+-- 25 profesionales (id 17-41)
 ('Carlos Electricista', 'carlos.elec@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 4444-4444', 'Belgrano, CABA', 'profesional'),
 ('Roberto Plomero', 'roberto.plomero@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 5555-5555', 'Palermo, CABA', 'profesional'),
-('Diego Gasista', 'diego.gasista@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 6666-6666', 'Recoleta, CABA', 'profesional');
+('Diego Gasista', 'diego.gasista@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 6666-6666', 'Recoleta, CABA', 'profesional'),
+('Laura Electricista', 'laura.elec@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 6767-4444', 'Colegiales, CABA', 'profesional'),
+('Nicolás Plomero', 'nicolas.plomero@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 6868-5555', 'Caballito, CABA', 'profesional'),
+('Sofía Gasista', 'sofia.gasista@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 6969-6666', 'Villa Urquiza, CABA', 'profesional'),
+('Marcelo Electricista', 'marcelo.elec@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7070-4444', 'Boedo, CABA', 'profesional'),
+('Javier Plomero', 'javier.plomero@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7171-5555', 'Parque Patricios, CABA', 'profesional'),
+('Esteban Gasista', 'esteban.gasista@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7272-6666', 'Almagro, CABA', 'profesional'),
+('Rodrigo Electricista', 'rodrigo.elec@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7373-4444', 'Villa Crespo, CABA', 'profesional'),
+('Mariana Plomera', 'mariana.plomera@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7474-5555', 'Chacarita, CABA', 'profesional'),
+('Julieta Gasista', 'julieta.gasista@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7575-6666', 'Villa Devoto, CABA', 'profesional'),
+('Andrés Electricista', 'andres.elec@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7676-4444', 'San Telmo, CABA', 'profesional'),
+('Pablo Plomero', 'pablo.plomero@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7777-5555', 'Barracas, CABA', 'profesional'),
+('Gabriela Gasista', 'gabriela.gasista@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7878-6666', 'Pompeya, CABA', 'profesional'),
+('Hernán Electricista', 'hernan.elec@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 7979-4444', 'Villa Lugano, CABA', 'profesional'),
+('Carla Plomera', 'carla.plomera@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 8080-5555', 'Mataderos, CABA', 'profesional'),
+('Facundo Gasista', 'facundo.gasista@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 8181-6666', 'Liniers, CABA', 'profesional'),
+('Florencia Electricista', 'florencia.elec@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 8282-4444', 'Ramos Mejía, Buenos Aires', 'profesional'),
+('Bruno Plomero', 'bruno.plomero@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 8383-5555', 'Ituzaingó, Buenos Aires', 'profesional'),
+('Daniela Gasista', 'daniela.gasista@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 8484-6666', 'Castelar, Buenos Aires', 'profesional'),
+('Ignacio Electricista', 'ignacio.elec@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 8585-4444', 'Haedo, Buenos Aires', 'profesional'),
+('Micaela Plomera', 'micaela.plomera@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 8686-5555', 'Morón, Buenos Aires', 'profesional'),
+('Sebastián Gasista', 'sebastian.gasista@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 8787-6666', 'Avellaneda, Buenos Aires', 'profesional'),
+('Eugenia Electricista', 'eugenia.elec@email.com', '$2b$10$.img109dE2uBzR3JA1Isp.juQniEUAhwqC5mDioMe6emk1oQrPO0q', '+54 11 8888-4444', 'San Justo, Buenos Aires', 'profesional');
 
 -- ============================================
--- ПРОФЕССИОНАЛЫ (расширенные профили)
+-- PROFESIONALES (tabla professionals)
+-- id 1..25 corresponden a user_id 17..41
 -- ============================================
 
-INSERT INTO professionals (user_id, especialidad, experiencia, descripcion, verificado, calificacion_promedio, trabajos_completados) VALUES
-(4, 'electricista', 8, 'Electricista matriculado con 8 años de experiencia. Especializado en instalaciones, reparaciones y mantenimiento eléctrico residencial y comercial. Trabajo prolijo y con garantía.', 1, 4.50, 127),
-(5, 'plomero', 12, 'Plomero profesional con amplia experiencia en instalaciones sanitarias, reparación de cañerías, destapes y mantenimiento. Atención las 24 horas para emergencias.', 1, 4.80, 245),
-(6, 'gasista', 15, 'Gasista matriculado con 15 años de experiencia. Especializado en instalaciones de gas natural, conversión de artefactos, certificaciones y mantenimiento preventivo.', 1, 4.90, 189);
+INSERT INTO professionals (user_id, especialidad, experiencia, descripcion, foto_url, zona_cobertura, verificado, calificacion_promedio, trabajos_completados) VALUES
+(17, 'electricista', 8, 'Electricista matriculado. Instalaciones, reparaciones y mantenimiento eléctrico.', '/img/usuarios/nicolas.jpg', 'CABA norte y centro', 1, 4.5, 127),
+(18, 'plomero', 12, 'Plomero profesional 24/7. Destapes, pérdidas y refacciones.', '/img/usuarios/sofia.jpg', 'CABA y zona norte', 1, 4.8, 245),
+(19, 'gasista', 15, 'Gasista matriculado. Calefactores, certificaciones y mantenimiento.', '/img/usuarios/carlos.jpg', 'CABA y GBA norte', 1, 4.9, 189),
+(20, 'electricista', 6, 'Montaje de tableros, iluminación y emergencias.', '/img/usuarios/placeholder.jpg', 'Colegiales y alrededores', 1, 4.3, 85),
+(21, 'plomero', 5, 'Instalaciones sanitarias y cocina. Presupuestos claros.', '/img/usuarios/placeholder.jpg', 'Caballito y Flores', 1, 4.2, 63),
+(22, 'gasista', 7, 'Conversión a gas natural y mantenimiento preventivo.', '/img/usuarios/placeholder.jpg', 'Villa Urquiza y Saavedra', 1, 4.4, 71),
+(23, 'electricista', 10, 'Obra nueva, reformas y corrección de fallas.', '/img/usuarios/placeholder.jpg', 'Boedo y San Cristóbal', 1, 4.6, 140),
+(24, 'plomero', 9, 'Cañerías, bombas y destapes. Atención rápida.', '/img/usuarios/placeholder.jpg', 'Parque Patricios y Constitución', 0, 0, 0),
+(25, 'gasista', 11, 'Instalaciones de gas y revisión de fugas.', '/img/usuarios/placeholder.jpg', 'Almagro y Balvanera', 0, 0, 0),
+(26, 'electricista', 4, 'Instalaciones domiciliarias y comerciales básicas.', '/img/usuarios/placeholder.jpg', 'Villa Crespo y Chacarita', 1, 4.1, 54),
+(27, 'plomero', 6, 'Reparaciones rápidas y mantenimiento preventivo.', '/img/usuarios/placeholder.jpg', 'Chacarita y Palermo', 1, 4.0, 60),
+(28, 'gasista', 8, 'Calderas, calefones y certificaciones.', '/img/usuarios/placeholder.jpg', 'Villa Devoto y Villa Pueyrredón', 1, 4.3, 88),
+(29, 'electricista', 7, 'Cableado, puesta a tierra y tableros.', '/img/usuarios/placeholder.jpg', 'San Telmo y Montserrat', 0, 0, 0),
+(30, 'plomero', 10, 'Gas y agua. Remodelaciones integrales.', '/img/usuarios/placeholder.jpg', 'Barracas y La Boca', 0, 0, 0),
+(31, 'gasista', 12, 'Instalaciones industriales y domiciliarias.', '/img/usuarios/placeholder.jpg', 'Pompeya y Lugano', 0, 0, 0),
+(32, 'electricista', 9, 'Cableado estructurado y domótica básica.', '/img/usuarios/placeholder.jpg', 'Villa Lugano y Liniers', 1, 4.2, 90),
+(33, 'plomero', 5, 'Plomería fina y terminaciones.', '/img/usuarios/placeholder.jpg', 'Mataderos y Liniers', 1, 4.1, 58),
+(34, 'gasista', 9, 'Instalación de estufas y calefones.', '/img/usuarios/placeholder.jpg', 'Liniers y Ciudadela', 0, 0, 0),
+(35, 'electricista', 11, 'Proyectos grandes y certificaciones.', '/img/usuarios/placeholder.jpg', 'Ramos Mejía y Haedo', 1, 4.7, 150),
+(36, 'plomero', 13, 'Obras y reparaciones de baño/cocina.', '/img/usuarios/placeholder.jpg', 'Ituzaingó y Castelar', 1, 4.6, 160),
+(37, 'gasista', 10, 'Mantenimiento de gas y seguridad.', '/img/usuarios/placeholder.jpg', 'Castelar y Morón', 1, 4.5, 120),
+(38, 'electricista', 5, 'Urgencias eléctricas 24/7.', '/img/usuarios/placeholder.jpg', 'Haedo y Ramos Mejía', 0, 0, 0),
+(39, 'plomero', 4, 'Destapes y pérdidas menores.', '/img/usuarios/placeholder.jpg', 'Morón y Haedo', 0, 0, 0),
+(40, 'gasista', 6, 'Ajustes y chequeo de instalaciones.', '/img/usuarios/placeholder.jpg', 'Avellaneda y Wilde', 0, 0, 0),
+(41, 'electricista', 7, 'Mantenimiento preventivo y mejoras.', '/img/usuarios/placeholder.jpg', 'San Justo y Lomas', 0, 0, 0);
 
 -- ============================================
--- CERTIFICACIONES
+-- CERTIFICACIONES (для первых профи)
 -- ============================================
-
 INSERT INTO certificaciones (professional_id, nombre, archivo) VALUES
-(1, 'Matrícula de Electricista Profesional', 'certificaciones/cert_electricista_carlos.pdf'),
-(1, 'Curso de Seguridad Eléctrica', 'certificaciones/cert_seguridad_carlos.pdf'),
-(2, 'Matrícula de Plomero Gasista', 'certificaciones/cert_plomero_roberto.pdf'),
-(3, 'Matrícula de Gasista Matriculado', 'certificaciones/cert_gasista_diego.pdf'),
-(3, 'Certificación en Instalación de Calderas', 'certificaciones/cert_calderas_diego.pdf');
+(1, 'Matrícula Electricista Profesional', 'certificaciones/cert_electricista_carlos.pdf'),
+(1, 'Curso Seguridad Eléctrica', 'certificaciones/cert_seguridad_carlos.pdf'),
+(2, 'Matrícula Plomero', 'certificaciones/cert_plomero_roberto.pdf'),
+(3, 'Matrícula Gasista', 'certificaciones/cert_gasista_diego.pdf'),
+(4, 'Habilitación tableros trifásicos', 'certificaciones/cert_tableros_laura.pdf'),
+(5, 'Curso soldadura plástica', 'certificaciones/cert_soldadura_nicolas.pdf'),
+(6, 'Certificación gasista de 1ra', 'certificaciones/cert_gasista_sofia.pdf'),
+(7, 'Matrícula Electricista A2', 'certificaciones/cert_electricista_marcelo.pdf'),
+(8, 'Curso bombas de agua', 'certificaciones/cert_bombas_javier.pdf'),
+(9, 'Certificado instalación de gas', 'certificaciones/cert_gas_esteban.pdf'),
+(10, 'Curso domótica básica', 'certificaciones/cert_domotica_rodrigo.pdf');
 
 -- ============================================
--- SOLICITUDES DE SERVICIOS
+-- SOLICITUDES
+-- estados variados, con y sin profesional asignado
 -- ============================================
-
--- Solicitud 1: Aceptada por Carlos (electricista)
-INSERT INTO solicitudes (cliente_id, profesional_id, tipo_servicio, descripcion, direccion, fecha_preferida, horario, presupuesto_estimado, estado) VALUES
-(2, 1, 'Instalación eléctrica', 'Necesito instalar 4 tomas adicionales en la cocina y cambiar el tablero eléctrico principal por uno más moderno con térmica diferencial.', 'Av. Corrientes 1234, CABA', '2025-12-20', 'mañana', 35000.00, 'aceptada');
-
--- Solicitud 2: En progreso con Roberto (plomero)
-INSERT INTO solicitudes (cliente_id, profesional_id, tipo_servicio, descripcion, direccion, fecha_preferida, horario, presupuesto_estimado, estado) VALUES
-(3, 2, 'Reparación de cañería', 'Hay una pérdida de agua importante en el baño. Se ve humedad en la pared y se escucha goteo. Es urgente.', 'Calle 50 n° 567, La Plata', '2025-12-18', 'tarde', 15000.00, 'en_progreso');
-
--- Solicitud 3: Pendiente (sin asignar profesional)
-INSERT INTO solicitudes (cliente_id, profesional_id, tipo_servicio, descripcion, direccion, fecha_preferida, horario, presupuesto_estimado, estado) VALUES
-(2, NULL, 'Instalación de calefón', 'Quiero instalar un calefón a gas natural en el baño principal. El baño ya tiene salida de gas.', 'Av. Corrientes 1234, CABA', '2025-12-22', 'tarde', 45000.00, 'pendiente');
-
--- Solicitud 4: Pendiente (sin asignar)
-INSERT INTO solicitudes (cliente_id, profesional_id, tipo_servicio, descripcion, direccion, fecha_preferida, horario, presupuesto_estimado, estado) VALUES
-(3, NULL, 'Reparación eléctrica', 'Se queman las luces de una habitación frecuentemente. Puede ser problema en el cableado o instalación.', 'Calle 50 n° 567, La Plata', '2025-12-19', 'mañana', 10000.00, 'pendiente');
-
--- Solicitud 5: Completada (ya finalizada)
-INSERT INTO solicitudes (cliente_id, profesional_id, tipo_servicio, descripcion, direccion, fecha_preferida, horario, presupuesto_estimado, estado) VALUES
-(2, 1, 'Instalación de ventilador de techo', 'Instalación de ventilador de techo con luz en el living. Ya tengo comprado el ventilador.', 'Av. Corrientes 1234, CABA', '2025-12-10', 'tarde', 8000.00, 'completada');
+INSERT INTO solicitudes (cliente_id, profesional_id, tipo_servicio, descripcion, direccion, ciudad, codigo_postal, fecha_preferida, horario, presupuesto_estimado, estado) VALUES
+(2, 1, 'Instalación eléctrica', 'Agregar 4 tomas y modernizar tablero.', 'Av. Corrientes 1234', 'CABA', 'C1043', '2025-12-20', 'mañana', 35000.00, 'aceptada'),
+(3, 2, 'Reparación de cañería', 'Pérdida importante en baño, se escucha goteo.', 'Calle 50 n° 567', 'La Plata', '1900', '2025-12-18', 'tarde', 15000.00, 'en_progreso'),
+(4, NULL, 'Colocación de luminarias', 'Instalar 6 spots en living y pasillo.', 'Blanco Encalada 234', 'CABA', 'C1431', '2025-12-22', 'tarde', 12000.00, 'pendiente'),
+(5, 3, 'Instalación de calefón', 'Instalar calefón a gas natural.', 'Mitre 233', 'Avellaneda', '1870', '2025-12-23', 'mañana', 45000.00, 'completada'),
+(6, 4, 'Revisión eléctrica', 'Luces se apagan al encender microondas.', 'Virrey Loreto 321', 'CABA', 'C1426', '2025-12-19', 'tarde', 8000.00, 'pendiente'),
+(7, 5, 'Destape de cocina', 'Desagüe tapado, olor fuerte.', 'Neuquén 998', 'CABA', 'C1406', '2025-12-21', 'mañana', 6000.00, 'cancelada'),
+(8, 6, 'Chequeo de estufa', 'Revisión por olor a gas leve.', 'Larrea 554', 'CABA', 'C1114', '2025-12-24', 'tarde', 9000.00, 'completada'),
+(9, 7, 'Cableado nuevo', 'Reemplazar cableado viejo en dormitorio.', 'Inclán 223', 'CABA', 'C1241', '2025-12-26', 'mañana', 18000.00, 'en_progreso'),
+(10, 8, 'Cambio de bomba de agua', 'Bomba deja de cebar, revisar.', 'Uspallata 123', 'CABA', 'C1261', '2025-12-27', 'mañana', 22000.00, 'aceptada'),
+(11, 9, 'Certificación de gas', 'Necesito certificado para habilitación.', 'Sarmiento 443', 'CABA', 'C1041', '2025-12-28', 'tarde', 30000.00, 'pendiente'),
+(12, 10, 'Tablero trifásico', 'Instalar tablero con protecciones nuevas.', 'Caseros 890', 'CABA', 'C1152', '2025-12-29', 'mañana', 50000.00, 'completada'),
+(13, 11, 'Filtración en baño', 'Humedad en pared lindera.', 'Suipacha 450', 'CABA', 'C1008', '2025-12-30', 'tarde', 14000.00, 'rechazada'),
+(14, 12, 'Calefactor sin encender', 'No prende chispa.', 'Yapeyú 345', 'CABA', 'C1201', '2025-12-19', 'mañana', 11000.00, 'completada'),
+(15, 13, 'Luces parpadean', 'Posible neutro suelto.', 'Bacacay 1500', 'CABA', 'C1407', '2025-12-18', 'noche', 7000.00, 'pendiente'),
+(16, 14, 'Perdida en cocina', 'Se filtra agua en bajo mesada.', 'Castelli 77', 'CABA', 'C1036', '2025-12-25', 'tarde', 9000.00, 'aceptada');
 
 -- ============================================
--- MENSAJES (chat en solicitudes)
+-- MENSAJES (chat)
 -- ============================================
-
--- Mensajes de la solicitud 1
 INSERT INTO mensajes (solicitud_id, autor_id, contenido) VALUES
-(1, 2, 'Hola Carlos, ¿cuándo podrías venir a revisar el trabajo?'),
-(1, 4, 'Hola Juan, puedo ir mañana por la mañana. ¿Te viene bien a las 10?'),
-(1, 2, 'Perfecto, te espero a las 10. Muchas gracias!');
-
--- Mensajes de la solicitud 2
-INSERT INTO mensajes (solicitud_id, autor_id, contenido) VALUES
-(2, 3, 'La pérdida es importante, ¿pueden venir hoy?'),
-(2, 5, 'Sí, paso en 2 horas. Ya llevo los materiales necesarios.'),
-(2, 5, 'Ya llegué, estoy esperando abajo.'),
-(2, 3, 'Bajo ahora mismo!');
+(1, 2, 'Hola, ¿podés venir esta semana?'),
+(1, 17, 'Sí, el jueves por la mañana confirmo.'),
+(2, 3, 'La pérdida creció, ¿pueden venir antes?'),
+(2, 18, 'Estoy camino, llego en 1 hora.'),
+(5, 6, '¿Te sirve mañana por la tarde?'),
+(5, 20, 'Prefiero por la mañana, gracias.'),
+(8, 9, '¿Cuánto demora el trabajo?'),
+(8, 23, 'En 3 horas lo dejo listo.'),
+(10, 10, 'Necesito factura A.'),
+(10, 24, 'De acuerdo, la llevo.'),
+(12, 12, 'Confirmo fecha 29/12.'),
+(12, 26, 'Confirmado, llevo materiales.');
 
 -- ============================================
--- REVIEWS (отзывы clientes sobre profesionales)
+-- REVIEWS (una por solicitud completada)
 -- ============================================
-
--- Review de Juan sobre Carlos (por solicitud completada 5)
 INSERT INTO reviews (solicitud_id, cliente_id, profesional_id, calificacion, comentario, estado) VALUES
-(5, 2, 1, 5, 'Excelente trabajo! Carlos fue muy profesional, prolijo y puntual. El ventilador quedó perfecto. Lo recomiendo 100%.', 'aprobada');
-
--- Review pendiente de moderación
-INSERT INTO reviews (solicitud_id, cliente_id, profesional_id, calificacion, comentario, estado) VALUES
-(2, 3, 2, 5, 'Roberto solucionó el problema de la pérdida muy rápido. Muy buen servicio y precio justo.', 'pendiente');
+(1, 2, 1, 5, 'Trabajo prolijo y puntual. Muy recomendado.', 'aprobada'),
+(5, 6, 4, 4, 'Revisión rápida, buen trato.', 'aprobada'),
+(8, 8, 6, 5, 'Detectó y solucionó la fuga al instante.', 'aprobada'),
+(10, 10, 8, 4, 'Cambio de bomba sin problemas.', 'pendiente'),
+(12, 12, 10, 5, 'Tablero quedó impecable, explicó todo.', 'aprobada'),
+(14, 14, 12, 5, 'Calefactor funcionando perfecto.', 'pendiente');

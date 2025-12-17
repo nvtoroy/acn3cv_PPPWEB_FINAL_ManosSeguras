@@ -6,6 +6,7 @@
 
 const Professional = require('../models/Professional');
 const Review = require('../models/Review');
+const Certificacion = require('../models/Certificacion');
 
 /**
  * Показать список профессионалов с фильтрами
@@ -16,13 +17,19 @@ exports.list = async (req, res) => {
         // Получаем параметры из query string
         const page = parseInt(req.query.page) || 1;
         const especialidad = req.query.especialidad || null;
+        const ubicacion = req.query.ubicacion || null;
+        const calificacion = req.query.calificacion ? parseFloat(req.query.calificacion) : null;
+        const verificadoParam = typeof req.query.verificado !== 'undefined' ? req.query.verificado : 'verificado';
+        const verificado = verificadoParam === 'verificado' ? 1 : null;
         const perPage = 12;
         const offset = (page - 1) * perPage;
 
         // Получаем профессионалов (только verificados)
         const professionals = await Professional.findAll({
             especialidad,
-            verificado: 1,
+            verificado,
+            calificacionMin: calificacion,
+            ubicacion,
             limit: perPage,
             offset
         });
@@ -30,7 +37,9 @@ exports.list = async (req, res) => {
         // Подсчитываем общее количество для пагинации
         const total = await Professional.count({ 
             especialidad, 
-            verificado: 1 
+            verificado,
+            calificacionMin: calificacion,
+            ubicacion
         });
         const totalPages = Math.ceil(total / perPage);
 
@@ -40,6 +49,9 @@ exports.list = async (req, res) => {
             currentPage: page,
             totalPages,
             especialidad,
+            ubicacion,
+            calificacion,
+            verificado: verificadoParam,
             extraCSS: '<link rel="stylesheet" href="/css/profesionales.css">'
         });
 
@@ -68,11 +80,13 @@ exports.show = async (req, res) => {
 
         // Obtener reviews aprobadas
         const reviews = await Review.findByProfessional(professionalId, true);
+        const certificaciones = await Certificacion.findByProfessional(professionalId);
 
         res.render('perfil-public', {
             title: professional.nombre,
             professional,
             reviews,
+            certificaciones,
             extraCSS: '<link rel="stylesheet" href="/css/perfil-public.css">'
         });
 

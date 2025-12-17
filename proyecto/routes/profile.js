@@ -15,4 +15,7 @@ router.get('/', requireAuth, profileController.show);
 // POST /profile/update - Actualizar perfil
 router.post('/update', requireAuth, profileController.update);
 
+// POST /profile/password - Actualizar contraseña
+router.post('/password', requireAuth, profileController.changePassword);
+
 module.exports = router;

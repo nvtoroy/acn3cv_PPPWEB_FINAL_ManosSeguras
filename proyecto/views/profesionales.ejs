@@ -19,16 +19,16 @@
                 <label for="calificacion">Calificación mínima</label>
                 <select id="calificacion" name="calificacion">
                     <option value="">Todas las calificaciones</option>
-                    <option value="4">4+ estrellas</option>
-                    <option value="4.5">4.5+ estrellas</option>
-                    <option value="5">5 estrellas</option>
+                    <option value="4" <%= calificacion === 4 ? 'selected' : '' %>>4+ estrellas</option>
+                    <option value="4.5" <%= calificacion === 4.5 ? 'selected' : '' %>>4.5+ estrellas</option>
+                    <option value="5" <%= calificacion === 5 ? 'selected' : '' %>>5 estrellas</option>
                 </select>
             </div>
             <div class="filtro-grupo">
                 <label for="verificado">Estado</label>
                 <select id="verificado" name="verificado">
                     <option value="">Todos</option>
-                    <option value="verificado">Verificados</option>
+                    <option value="verificado" <%= verificado === 'verificado' ? 'selected' : '' %>>Verificados</option>
                 </select>
             </div>
         </form>
@@ -84,10 +84,10 @@
     <% if (totalPages > 1) { %>
         <div class="paginacion">
             <% for (let i = 1; i <= totalPages; i++) { %>
-                <button onclick="window.location.href='?page=<%= i %><%= especialidad ? '&especialidad=' + especialidad : '' %>'" class="<%= i === currentPage ? 'active' : '' %>"><%= i %></button>
+                <button onclick="window.location.href='?page=<%= i %><%= especialidad ? '&especialidad=' + especialidad : '' %><%= ubicacion ? '&ubicacion=' + encodeURIComponent(ubicacion) : '' %><%= calificacion ? '&calificacion=' + calificacion : '' %><%= verificado ? '&verificado=' + verificado : '' %>'" class="<%= i === currentPage ? 'active' : '' %>"><%= i %></button>
             <% } %>
             <% if (currentPage < totalPages) { %>
-                <button onclick="window.location.href='?page=<%= currentPage + 1 %><%= especialidad ? '&especialidad=' + especialidad : '' %>'">></button>
+                <button onclick="window.location.href='?page=<%= currentPage + 1 %><%= especialidad ? '&especialidad=' + especialidad : '' %><%= ubicacion ? '&ubicacion=' + encodeURIComponent(ubicacion) : '' %><%= calificacion ? '&calificacion=' + calificacion : '' %><%= verificado ? '&verificado=' + verificado : '' %>'">></button>
             <% } %>
         </div>
     <% } %>

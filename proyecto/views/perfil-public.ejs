@@ -133,9 +133,9 @@
             <section class="perfil-seccion">
                 <h2>Certificaciones</h2>
                 <div class="certificaciones-lista">
-                    <% if (professional.certificaciones) { %>
-                        <% professional.certificaciones.split(',').forEach(function(cert) { %>
-                            <div class="certificacion"><%= cert.trim() %></div>
+                    <% if (certificaciones && certificaciones.length > 0) { %>
+                        <% certificaciones.forEach(function(cert) { %>
+                            <div class="certificacion"><%= cert.nombre %></div>
                         <% }); %>
                     <% } else { %>
                         <div class="certificacion">Técnico Matriculado</div>
@@ -146,7 +146,7 @@
 
             <section class="perfil-seccion">
                 <h2>Zona de Trabajo</h2>
-                <p><%= professional.direccion || 'Ciudad Autónoma de Buenos Aires y Gran Buenos Aires' %></p>
+                <p><%= professional.zona_cobertura || professional.direccion || 'Ciudad Autónoma de Buenos Aires y Gran Buenos Aires' %></p>
             </section>
         </div>
     </div>

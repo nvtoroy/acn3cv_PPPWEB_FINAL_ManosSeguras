@@ -7,6 +7,7 @@
 const User = require('../models/User');
 const Professional = require('../models/Professional');
 const Solicitud = require('../models/Solicitud');
+const Certificacion = require('../models/Certificacion');
 
 /**
  * Показать личный кабинет
@@ -27,10 +28,14 @@ exports.show = async (req, res) => {
 
         let professional = null;
         let solicitudes = [];
+        let certificaciones = [];
 
         // Если профессионал - получаем доп. данные
         if (userRole === 'profesional') {
             professional = await Professional.findByUserId(userId);
+            if (professional) {
+                certificaciones = await Certificacion.findByProfessional(professional.id);
+            }
             
             // Получаем заявки профессионала
             solicitudes = await Solicitud.findAll({
@@ -54,6 +59,7 @@ exports.show = async (req, res) => {
             user,
             professional,
             solicitudes,
+            certificaciones,
             extraCSS: '<link rel="stylesheet" href="/css/miperfil.css">'
         });
 
@@ -71,11 +77,13 @@ exports.show = async (req, res) => {
 exports.update = async (req, res) => {
     try {
         const userId = req.session.userId;
-        const { nombre, telefono, direccion, experiencia, descripcion } = req.body;
+        const { nombre, apellido, telefono, direccion, experiencia, descripcion, especialidad, zona_cobertura } = req.body;
 
         // Actualizar datos básicos del usuario
+        const nombreCompleto = [nombre, apellido].filter(Boolean).join(' ').trim() || nombre;
+
         await User.update(userId, {
-            nombre,
+            nombre: nombreCompleto,
             telefono,
             direccion,
             avatar: null  // TODO: implementar upload de avatar
@@ -86,15 +94,17 @@ exports.update = async (req, res) => {
             const professional = await Professional.findByUserId(userId);
             if (professional) {
                 await Professional.update(professional.id, {
-                    especialidad: professional.especialidad,  // No cambiar especialidad
+                    especialidad: especialidad || professional.especialidad,
                     experiencia: experiencia || professional.experiencia,
-                    descripcion: descripcion || professional.descripcion
+                    descripcion: descripcion || professional.descripcion,
+                    zona_cobertura: zona_cobertura || professional.zona_cobertura,
+                    foto_url: professional.foto_url
                 });
             }
         }
 
         // Actualizar nombre en sesión
-        req.session.userName = nombre;
+        req.session.userName = nombreCompleto;
 
         req.flash('success', 'Perfil actualizado correctamente');
         res.redirect('/profile');
@@ -102,6 +112,49 @@ exports.update = async (req, res) => {
     } catch (error) {
         console.error('Error al actualizar perfil:', error);
         req.flash('error', 'Error al actualizar el perfil');
+        res.redirect('/profile');
+    }
+};
+
+/**
+ * Actualizar contraseña del usuario
+ * POST /profile/password
+ */
+exports.changePassword = async (req, res) => {
+    try {
+        const userId = req.session.userId;
+        const { current_password, new_password, confirm_password } = req.body;
+
+        if (!current_password || !new_password || !confirm_password) {
+            req.flash('error', 'Completa todos los campos de seguridad');
+            return res.redirect('/profile');
+        }
+
+        if (new_password !== confirm_password) {
+            req.flash('error', 'Las contraseñas nuevas no coinciden');
+            return res.redirect('/profile');
+        }
+
+        const user = await User.findByIdWithPassword(userId);
+        if (!user) {
+            req.flash('error', 'Usuario no encontrado');
+            return res.redirect('/profile');
+        }
+
+        const passwordOk = await require('bcrypt').compare(current_password, user.password);
+        if (!passwordOk) {
+            req.flash('error', 'La contraseña actual es incorrecta');
+            return res.redirect('/profile');
+        }
+
+        const hashed = await require('bcrypt').hash(new_password, 10);
+        await User.updatePassword(userId, hashed);
+
+        req.flash('success', 'Contraseña actualizada correctamente');
+        res.redirect('/profile');
+    } catch (error) {
+        console.error('Error al actualizar contraseña:', error);
+        req.flash('error', 'No se pudo actualizar la contraseña');
         res.redirect('/profile');
     }
 };

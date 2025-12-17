@@ -1,0 +1,56 @@
+<main class="admin-container">
+    <section class="admin-header">
+        <h1>Profesionales pendientes</h1>
+        <p>Verificá documentación y aprobá perfiles.</p>
+    </section>
+
+    <div class="admin-table">
+        <div class="table-row header-row">
+            <div class="col-photo">Foto</div>
+            <div class="col-name">Nombre</div>
+            <div class="col-specialty">Especialidad</div>
+            <div class="col-docs">Experiencia</div>
+            <div class="col-actions">Acciones</div>
+        </div>
+        <% if (professionals.length === 0) { %>
+            <div class="table-row">
+                <div class="col-name" style="grid-column:1/-1;text-align:center;">No hay profesionales pendientes</div>
+            </div>
+        <% } %>
+        <% professionals.forEach(function(prof) { %>
+            <div class="table-row">
+                <div class="col-photo">
+                    <% if (prof.foto_url) { %>
+                        <img src="<%= prof.foto_url %>" class="avatar-small" alt="">
+                    <% } else { %>
+                        <div class="avatar-small avatar-placeholder"><%= prof.nombre.charAt(0) %></div>
+                    <% } %>
+                </div>
+                <div class="col-name">
+                    <strong><%= prof.nombre %></strong><br>
+                    <small><%= prof.email %></small>
+                </div>
+                <div class="col-specialty"><span class="badge badge-<%= prof.especialidad %>"><%= prof.especialidad %></span></div>
+                <div class="col-docs"><%= prof.experiencia %> años</div>
+                <div class="col-actions">
+                    <form method="POST" action="/admin/profesionales/<%= prof.id %>/verificar" style="display:inline;">
+                        <input type="hidden" name="action" value="aprobar">
+                        <button class="btn-approve" type="submit">Aprobar</button>
+                    </form>
+                    <form method="POST" action="/admin/profesionales/<%= prof.id %>/verificar" style="display:inline;">
+                        <input type="hidden" name="action" value="rechazar">
+                        <button class="btn-reject" type="submit">Rechazar</button>
+                    </form>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+
+    <% if (totalPages > 1) { %>
+        <div class="paginacion">
+            <% for (let i = 1; i <= totalPages; i++) { %>
+                <button onclick="window.location.href='?page=<%= i %>'" class="<%= i === currentPage ? 'active' : '' %>"><%= i %></button>
+            <% } %>
+        </div>
+    <% } %>
+</main>
