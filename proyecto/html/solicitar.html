@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitar Servicio - ManosSeguras</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/solicitar.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="nav-main">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="../img/main-logo.png" alt="ManosSeguras">
+                </a>
+            </div>
+            <div class="nav-links-wrapper">
+                <ul class="nav-links">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="profesionales.html">Profesionales</a></li>
+                                        <li><a href="miperfil.html">Mi Perfil</a></li>
+                    <li><a href="admin.html">Admin</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <a href="login.html" class="btn btn-outline">Ingresar</a>
+                    <a href="registro.html" class="btn btn-primary">Crear cuenta</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="solicitar-page">
+        <section class="solicitar-hero">
+            <div>
+                <p class="eyebrow">Solicitud manual</p>
+                <h1>Coordinemos tu próximo trabajo</h1>
+                <p>Completá los campos del formulario y revisá el calendario público del profesional. La fecha final se confirma por chat.</p>
+            </div>
+        </section>
+
+        <div class="solicitar-grid">
+            <div class="solicitar-left">
+                <section class="solicitar-card profile-card">
+                    <h2>Profesional seleccionado</h2>
+                    <div class="profesional-card-compact">
+                        <img src="../img/usuarios/nicolas.jpg" alt="Juan Pérez" class="profesional-avatar-small">
+                        <div class="profesional-info-compact">
+                            <h3>Juan Pérez</h3>
+                            <p class="especialidad">Electricista</p>
+                            <div class="rating">
+                                <span class="rating-pill">4.9</span>
+                                127 trabajos completados
+                            </div>
+                        </div>
+                    </div>
+                    <p class="profile-note">Toda la coordinación se realiza por escrito dentro de la plataforma. El profesional confirmará la fecha exacta luego de revisar tu solicitud.</p>
+                </section>
+
+                <section class="solicitar-card">
+                    <h2>Detalles de tu Solicitud</h2>
+                    <form class="solicitar-form">
+                        <div class="form-group">
+                            <label for="tipo-servicio">Tipo de Servicio <span class="requerido">*</span></label>
+                            <select id="tipo-servicio" required>
+                                <option value="">Selecciona un servicio</option>
+                                <option value="instalacion">Instalación eléctrica</option>
+                                <option value="reparacion">Reparación</option>
+                                <option value="mantenimiento">Mantenimiento</option>
+                                <option value="emergencia">Emergencia</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="fecha-preferida">Fecha Preferida <span class="requerido">*</span></label>
+                                <input type="date" id="fecha-preferida" min="2025-11-19" required>
+                                <small>Elegí una fecha disponible del calendario</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="horario-preferido">Horario Preferido <span class="requerido">*</span></label>
+                                <select id="horario-preferido" required>
+                                    <option value="">Selecciona un horario</option>
+                                    <option value="mañana">Mañana (8:00 - 12:00)</option>
+                                    <option value="mediodia">Mediodía (12:00 - 15:00)</option>
+                                    <option value="tarde">Tarde (15:00 - 19:00)</option>
+                                    <option value="flexible">Horario flexible</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="descripcion">Descripción del Trabajo <span class="requerido">*</span></label>
+                            <textarea id="descripcion" rows="6" required placeholder="Describe detalladamente el trabajo que necesitas. Incluye ubicación exacta, materiales disponibles y cualquier restricción."></textarea>
+                            <small>Mínimo 20 caracteres</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="direccion">Dirección del Trabajo <span class="requerido">*</span></label>
+                            <input type="text" id="direccion" required placeholder="Calle, número, piso, departamento...">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="ciudad">Ciudad <span class="requerido">*</span></label>
+                                <input type="text" id="ciudad" required placeholder="Buenos Aires">
+                            </div>
+                            <div class="form-group">
+                                <label for="codigo-postal">Código Postal</label>
+                                <input type="text" id="codigo-postal" placeholder="C1234ABC">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="presupuesto">Presupuesto Estimado (opcional)</label>
+                            <input type="number" id="presupuesto" min="0" step="100" placeholder="Ej: 5000">
+                            <small>Si tenés un rango, compartilo para acelerar la respuesta.</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fotos">Adjuntar Fotos (opcional)</label>
+                            <div class="file-upload">
+                                <input type="file" id="fotos" multiple accept="image/*">
+                                <label for="fotos" class="file-upload-label">
+                                    <span class="file-icon">IMG</span>
+                                    Seleccionar fotos del problema
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="info-box">
+                            <h4>Información importante</h4>
+                            <ul>
+                                <li>El profesional responde por chat interno y confirma fecha final.</li>
+                                <li>Podés adjuntar fotos y documentos de referencia.</li>
+                                <li>Toda la conversación queda registrada como garantía.</li>
+                            </ul>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn-cancelar" onclick="history.back()">Cancelar</button>
+                            <button type="submit" class="btn-enviar">Enviar solicitud</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+
+            <aside class="solicitar-right">
+                <section class="solicitar-card calendario-section">
+                    <h2>Disponibilidad pública</h2>
+                    <p class="calendario-nota">El calendario refleja los bloques que el profesional marcó como libres. Podés sugerir cualquiera de esas fechas.</p>
+                    <div class="calendario-wrapper" data-solicitar-calendar>
+                        <div class="calendario-header">
+                            <button class="mes-btn" type="button" aria-label="Mes anterior" disabled>
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <polyline points="15 5 8 12 15 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </button>
+                            <h3>Noviembre 2025</h3>
+                            <button class="mes-btn" type="button" aria-label="Mes siguiente">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <polyline points="9 5 16 12 9 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="calendario-grid">
+                            <div class="dia-semana">L</div>
+                            <div class="dia-semana">M</div>
+                            <div class="dia-semana">M</div>
+                            <div class="dia-semana">J</div>
+                            <div class="dia-semana">V</div>
+                            <div class="dia-semana">S</div>
+                            <div class="dia-semana">D</div>
+                            <div class="dia vacio"></div><div class="dia vacio"></div><div class="dia vacio"></div><div class="dia vacio"></div><div class="dia pasado">1</div><div class="dia pasado">2</div><div class="dia pasado">3</div>
+                            <div class="dia pasado">4</div><div class="dia pasado">5</div><div class="dia pasado">6</div><div class="dia pasado">7</div><div class="dia pasado">8</div><div class="dia pasado">9</div><div class="dia pasado">10</div>
+                            <div class="dia pasado">11</div><div class="dia pasado">12</div><div class="dia pasado">13</div><div class="dia pasado">14</div><div class="dia pasado">15</div><div class="dia pasado">16</div><div class="dia pasado">17</div>
+                            <div class="dia hoy">18</div><div class="dia disponible" data-fecha="2025-11-19">19</div><div class="dia disponible" data-fecha="2025-11-20">20</div><div class="dia disponible" data-fecha="2025-11-21">21</div><div class="dia ocupado" data-fecha="2025-11-22">22</div><div class="dia disponible" data-fecha="2025-11-23">23</div><div class="dia disponible" data-fecha="2025-11-24">24</div>
+                            <div class="dia disponible" data-fecha="2025-11-25">25</div><div class="dia disponible" data-fecha="2025-11-26">26</div><div class="dia ocupado" data-fecha="2025-11-27">27</div><div class="dia disponible" data-fecha="2025-11-28">28</div><div class="dia ocupado" data-fecha="2025-11-29">29</div><div class="dia disponible" data-fecha="2025-11-30">30</div><div class="dia vacio"></div>
+                        </div>
+                        <div class="calendario-leyenda">
+                            <span><span class="indicador disponible"></span> Disponible</span>
+                            <span><span class="indicador ocupado"></span> Reservado</span>
+                            <span><span class="indicador hoy"></span> Hoy</span>
+                        </div>
+                    </div>
+                </section>
+            </aside>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2025 ManosSeguras</p>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('.dia.disponible').forEach(dia => {
+            dia.addEventListener('click', function() {
+                document.querySelectorAll('.dia.seleccionado').forEach(d => d.classList.remove('seleccionado'));
+                this.classList.add('seleccionado');
+                const fecha = this.getAttribute('data-fecha');
+                if (fecha) {
+                    const input = document.getElementById('fecha-preferida');
+                    if (input) input.value = fecha;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

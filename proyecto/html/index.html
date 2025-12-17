@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manos Seguras - Encuentra profesionales de confianza</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="nav-main">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="../img/main-logo.png" alt="ManosSeguras">
+                </a>
+            </div>
+            <div class="nav-links-wrapper">
+                <ul class="nav-links">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="profesionales.html">Profesionales</a></li>
+                                        <li><a href="miperfil.html">Mi Perfil</a></li>
+                    <li><a href="admin.html">Admin</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <a href="login.html" class="btn btn-outline">Ingresar</a>
+                    <a href="registro.html" class="btn btn-primary">Crear cuenta</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="landing">
+        <section class="landing-hero">
+            <div class="hero-inner">
+                <h1>Profesionales validados para vos</h1>
+                <p class="lead">Gestionamos perfiles de electricistas, plomeros y gasistas con documentación verificada y agendas públicas para que encuentres ayuda rápida en tu barrio.</p>
+                <div class="hero-search">
+                    <div class="search-box">
+                        <select name="servicio" id="servicio">
+                            <option value="">Selecciona un servicio</option>
+                            <option value="electricista">Electricista</option>
+                            <option value="plomero">Plomero</option>
+                            <option value="gasista">Gasista</option>
+                        </select>
+                        <input type="text" placeholder="Tu ubicación">
+                        <button class="btn-buscar">Buscar</button>
+                    </div>
+                </div>
+                <div class="hero-pillars">
+                    <article class="pillar-card">
+                        <h4>Perfiles verificados</h4>
+                        <p>Revisamos matrículas, antecedentes y reseñas antes de publicar cada profesional.</p>
+                    </article>
+                    <article class="pillar-card">
+                        <h4>Solicitudes documentadas</h4>
+                        <p>Chat interno, adjuntos y registro de acuerdos para evitar malentendidos.</p>
+                    </article>
+                    <article class="pillar-card">
+                        <h4>Seguimiento transparente</h4>
+                        <p>Estados visibles, responsables asignados y acompañamiento del equipo de admin.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="landing-especialidades">
+            <div class="section-header">
+                <p class="eyebrow">Especialidades destacadas</p>
+                <h3>Servicios que podés solicitar</h3>
+            </div>
+            <div class="especialidades-grid">
+                <article class="especialidad-card">
+                    <span class="especialidad-icon">⚡</span>
+                    <h4>Electricidad</h4>
+                    <p>Instalaciones completas, tableros y mantenimiento para hogares y comercios.</p>
+                </article>
+                <article class="especialidad-card">
+                    <span class="especialidad-icon">🚰</span>
+                    <h4>Plomería</h4>
+                    <p>Refacciones de baño y cocina, detección de fugas y destapaciones.</p>
+                </article>
+                <article class="especialidad-card">
+                    <span class="especialidad-icon">🔥</span>
+                    <h4>Gas</h4>
+                    <p>Certificaciones, instalación de calefactores y mantenimiento preventivo.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="como-funciona" id="sobre">
+            <div class="cf-header">
+                <p class="eyebrow">Cómo funciona</p>
+                <h3>Un puente rápido entre hogares y especialistas validados</h3>
+                <p>Muchas personas necesitan electricistas, plomeros o gasistas confiables y cercanos. ManosSeguras verifica cada perfil, documenta los acuerdos y acompaña todo el proceso para que la coordinación sea segura.</p>
+            </div>
+            <div class="pasos-grid">
+                <article class="paso">
+                    <span class="paso-numero">1</span>
+                    <h4>Registro</h4>
+                    <p>El cliente ingresa, crea su cuenta y completa los datos básicos para empezar</p>
+                </article>
+                <article class="paso">
+                    <span class="paso-numero">2</span>
+                    <h4>Búsqueda</h4>
+                    <p>Filtra por especialidad y barrio para ver técnicos disponibles con matrículas verificadas</p>
+                </article>
+                <article class="paso">
+                    <span class="paso-numero">3</span>
+                    <h4>Selección</h4>
+                    <p>Revisa reseñas, tarifas y agendas públicas para elegir el profesional que mejor encaja</p>
+                </article>
+                <article class="paso">
+                    <span class="paso-numero">4</span>
+                    <h4>Solicitud</h4>
+                    <p>Envía un pedido con fotos y fechas tentativas, mientras el chat guarda cada acuerdo</p>
+                </article>
+                <article class="paso">
+                    <span class="paso-numero">5</span>
+                    <h4>Valoración</h4>
+                    <p>Tras finalizar el trabajo deja una reseña, que el administrador supervisa para mantener la calidad</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="landing-soluciones">
+            <div class="section-header">
+                <p class="eyebrow">Herramientas y compromiso</p>
+                <h3>Procesos claros para coordinar trabajos seguros</h3>
+            </div>
+            <div class="soluciones-grid">
+                <article class="solution-card">
+                    <h4>Chat interno</h4>
+                    <p>La conversación actúa como garantía. Allí se pactan visitas, cambios o cancelaciones.</p>
+                </article>
+                <article class="solution-card">
+                    <h4>Validación humana</h4>
+                    <p>Revisamos matrículas, certificados y referencias antes de habilitar a un profesional.</p>
+                </article>
+                <article class="solution-card">
+                    <h4>Acompañamiento</h4>
+                    <p>El equipo de administración supervisa los casos y ayuda si surge algún inconveniente.</p>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2025 ManosSeguras</p>
+        </div>
+    </footer>
+</body>
+</html>

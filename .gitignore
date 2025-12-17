@@ -1,0 +1,37 @@
+# macOS
+.DS_Store
+
+# Node modules (if you use Node)
+node_modules/
+
+# Build / output directories
+dist/
+build/
+.cache/
+.sass-cache/
+
+# Environment files
+.env
+.env.local
+
+# Logs
+npm-debug.log*
+*.log
+logs/
+
+# Editor/IDE
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Thumbnails and system files
+Thumbs.db
+
+# Swap files
+*.swp
+
+# Ignore OS files
+._*
+
+# other OS/project specific files

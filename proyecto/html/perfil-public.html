@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil Profesional - ManosSeguras</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/perfil-public.css">
+</head>
+<body>
+        <header class="site-header">
+        <nav class="nav-main">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="../img/main-logo.png" alt="ManosSeguras">
+                </a>
+            </div>
+            <div class="nav-links-wrapper">
+                <ul class="nav-links">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="profesionales.html">Profesionales</a></li>
+                    <li><a href="miperfil.html">Mi Perfil</a></li>
+                    <li><a href="admin.html">Admin</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <a href="login.html" class="btn btn-outline">Ingresar</a>
+                    <a href="registro.html" class="btn btn-primary">Crear cuenta</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <main class="perfil-container">
+        <section class="perfil-header">
+            <div class="perfil-info">
+                <img src="../img/usuarios/nicolas.jpg" alt="Juan Pérez" class="perfil-avatar">
+                <div class="perfil-detalles">
+                    <h1>Juan Pérez</h1>
+                    <p class="perfil-especialidad">Electricista</p>
+                    <div class="perfil-verificado">
+                        <span class="status-pill success">Perfil verificado</span>
+                    </div>
+                    <div class="perfil-stats">
+                        <div class="stat">
+                            <div class="stat-value">4.9</div>
+                            <div class="stat-label">Calificación</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">127</div>
+                            <div class="stat-label">Trabajos</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">8</div>
+                            <div class="stat-label">Años exp.</div>
+                        </div>
+                    </div>
+                </div>
+                <a class="btn-solicitar" href="solicitar.html">Solicitar Servicio</a>
+            </div>
+        </section>
+
+        <div class="perfil-content">
+            <div class="perfil-principal">
+                <section class="perfil-seccion">
+                    <h2>Sobre mí</h2>
+                    <p>Electricista profesional con más de 8 años de experiencia en instalaciones residenciales y comerciales. Especializado en soluciones eléctricas eficientes y seguras. Disponible para emergencias 24/7.</p>
+                </section>
+
+                <section class="perfil-seccion">
+                    <h2>Servicios y Tarifas</h2>
+                    <div class="servicios-lista">
+                        <div class="servicio-item">
+                            <span>Instalación eléctrica completa</span>
+                            <span class="servicio-precio">Desde $500</span>
+                        </div>
+                        <div class="servicio-item">
+                            <span>Reparación de cortocircuitos</span>
+                            <span class="servicio-precio">Desde $100</span>
+                        </div>
+                        <div class="servicio-item">
+                            <span>Instalación de luminarias</span>
+                            <span class="servicio-precio">Desde $80</span>
+                        </div>
+                        <div class="servicio-item">
+                            <span>Mantenimiento preventivo</span>
+                            <span class="servicio-precio">Desde $200</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="perfil-seccion">
+                    <h2>Reseñas</h2>
+                    <div class="resenas-lista">
+                        <div class="resena">
+                            <div class="resena-header">
+                                <span class="resena-autor">Ana Martínez</span>
+                                <span class="resena-fecha">Hace 2 días</span>
+                            </div>
+                            <div class="resena-estrellas">
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                            </div>
+                            <p>Excelente trabajo. Muy profesional y puntual. Solucionó el problema rápidamente.</p>
+                        </div>
+                        <div class="resena">
+                            <div class="resena-header">
+                                <span class="resena-autor">Carlos López</span>
+                                <span class="resena-fecha">Hace 1 semana</span>
+                            </div>
+                            <div class="resena-estrellas">
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                            </div>
+                            <p>Realizó la instalación eléctrica de mi casa. Muy buen trabajo y precio justo.</p>
+                        </div>
+                        <div class="resena">
+                            <div class="resena-header">
+                                <span class="resena-autor">María González</span>
+                                <span class="resena-fecha">Hace 2 semanas</span>
+                            </div>
+                            <div class="resena-estrellas">
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star"></span>
+                            </div>
+                            <p>Buen servicio, aunque tardó un poco más de lo esperado.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="perfil-sidebar">
+                <section class="perfil-seccion">
+                    <h2>Disponibilidad</h2>
+                    <div class="calendar-wrapper" data-calendar>
+                        <div class="calendar-controls">
+                            <button class="cal-btn" data-calendar-prev aria-label="Mes anterior" disabled>
+                                <span>&larr;</span>
+                            </button>
+                            <h3 class="calendar-title" data-calendar-title>Noviembre 2025</h3>
+                            <button class="cal-btn" data-calendar-next aria-label="Mes siguiente">
+                                <span>&rarr;</span>
+                            </button>
+                        </div>
+                        <div class="calendar-weekdays">
+                            <span>L</span>
+                            <span>M</span>
+                            <span>M</span>
+                            <span>J</span>
+                            <span>V</span>
+                            <span>S</span>
+                            <span>D</span>
+                        </div>
+                        <div class="calendar-grid" data-calendar-grid></div>
+                        <div class="calendar-legend">
+                            <span><span class="legend-dot free"></span> Disponible</span>
+                            <span><span class="legend-dot busy"></span> Reservado</span>
+                            <span><span class="legend-dot mixed"></span> Visitas / media jornada</span>
+                        </div>
+                        <p class="calendar-note">La agenda es referencial. Las fechas finales se confirman en el chat privado.</p>
+                    </div>
+                </section>
+
+                <section class="perfil-seccion">
+                    <h2>Certificaciones</h2>
+                    <div class="certificaciones-lista">
+                        <div class="certificacion">Técnico Electricista Matriculado</div>
+                        <div class="certificacion">Seguridad Eléctrica</div>
+                        <div class="certificacion">Instalaciones de Alta Tensión</div>
+                    </div>
+                </section>
+
+                <section class="perfil-seccion">
+                    <h2>Zona de Trabajo</h2>
+                    <p>Ciudad Autónoma de Buenos Aires y Gran Buenos Aires</p>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2025 ManosSeguras</p>
+        </div>
+    </footer>
+
+    <script>
+        (() => {
+            const calendar = document.querySelector('[data-calendar]');
+            if (!calendar) return;
+
+            const titleEl = calendar.querySelector('[data-calendar-title]');
+            const gridEl = calendar.querySelector('[data-calendar-grid]');
+            const prevBtn = calendar.querySelector('[data-calendar-prev]');
+            const nextBtn = calendar.querySelector('[data-calendar-next]');
+
+            const initialMonth = new Date(2025, 10); // Noviembre 2025
+            const maxMonthsAhead = 5;
+            let currentMonth = new Date(initialMonth);
+
+            const availability = {
+                '2025-11-18': 'busy',
+                '2025-11-19': 'free',
+                '2025-11-20': 'mixed',
+                '2025-11-21': 'busy',
+                '2025-11-23': 'free',
+                '2025-11-28': 'mixed',
+                '2025-12-02': 'busy',
+                '2025-12-05': 'free',
+                '2025-12-12': 'mixed',
+                '2026-01-08': 'busy',
+                '2026-01-09': 'free'
+            };
+
+            const monthNames = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+            const formatMonth = (date) => `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+
+            const renderCalendar = () => {
+                const year = currentMonth.getFullYear();
+                const month = currentMonth.getMonth();
+                titleEl.textContent = formatMonth(currentMonth);
+                gridEl.innerHTML = '';
+
+                const firstDay = new Date(year, month, 1);
+                const lastDay = new Date(year, month + 1, 0).getDate();
+                const offset = (firstDay.getDay() + 6) % 7; // lunes = 0
+
+                for (let i = 0; i < offset; i++) {
+                    const filler = document.createElement('span');
+                    filler.className = 'calendar-day empty';
+                    gridEl.appendChild(filler);
+                }
+
+                for (let day = 1; day <= lastDay; day++) {
+                    const cell = document.createElement('span');
+                    cell.className = 'calendar-day';
+                    cell.textContent = day;
+                    const iso = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                    const status = availability[iso];
+                    if (status) {
+                        cell.dataset.status = status;
+                    }
+                    gridEl.appendChild(cell);
+                }
+
+                const nextLimit = new Date(initialMonth.getFullYear(), initialMonth.getMonth() + maxMonthsAhead);
+                prevBtn.disabled = currentMonth <= initialMonth;
+                nextBtn.disabled = currentMonth >= nextLimit;
+            };
+
+            prevBtn.addEventListener('click', () => {
+                if (prevBtn.disabled) return;
+                currentMonth.setMonth(currentMonth.getMonth() - 1);
+                renderCalendar();
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (nextBtn.disabled) return;
+                currentMonth.setMonth(currentMonth.getMonth() + 1);
+                renderCalendar();
+            });
+
+            renderCalendar();
+        })();
+    </script>
+</body>
+</html>

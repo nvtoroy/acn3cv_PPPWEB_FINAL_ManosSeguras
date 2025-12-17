@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - ManosSeguras</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+        <header class="site-header">
+        <nav class="nav-main">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="../img/main-logo.png" alt="ManosSeguras">
+                </a>
+            </div>
+            <div class="nav-links-wrapper">
+                <ul class="nav-links">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="profesionales.html">Profesionales</a></li>
+                    <li><a href="miperfil.html">Mi Perfil</a></li>
+                    <li><a href="admin.html">Admin</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <a href="login.html" class="btn btn-outline">Ingresar</a>
+                    <a href="registro.html" class="btn btn-primary">Crear cuenta</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <main class="auth-wrapper">
+        <section class="auth-card">
+            <div class="auth-header">
+                <p class="eyebrow">Registro</p>
+                <h1>Crear cuenta</h1>
+                <p>Elegí si vas a solicitar servicios o a ofrecerlos, completa tus datos y comenzá a operar en la plataforma</p>
+            </div>
+            <form id="registro-form" class="auth-form">
+                <div class="role-toggle" aria-label="Tipo de usuario">
+                    <label class="role-option" data-active="true">
+                        <input type="radio" name="tipo" value="cliente" checked>
+                        Cliente
+                    </label>
+                    <label class="role-option" data-active="false">
+                        <input type="radio" name="tipo" value="profesional">
+                        Profesional
+                    </label>
+                </div>
+
+                <div class="form-grid two-columns">
+                    <div class="input-group">
+                        <label for="nombre">Nombre completo</label>
+                        <input type="text" id="nombre" name="nombre" class="input-control" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="telefono">Teléfono</label>
+                        <input type="tel" id="telefono" name="telefono" class="input-control" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="email">Correo electrónico</label>
+                        <input type="email" id="email" name="email" class="input-control" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Contraseña</label>
+                        <input type="password" id="password" name="password" class="input-control" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="direccion">Dirección</label>
+                        <input type="text" id="direccion" name="direccion" class="input-control" required>
+                    </div>
+                </div>
+
+                <div class="input-group professional-fields">
+                    <label for="especialidad">Especialidad</label>
+                    <select id="especialidad" name="especialidad" class="input-control">
+                        <option value="">Selecciona una especialidad</option>
+                        <option value="electricista">Electricista</option>
+                        <option value="plomero">Plomero</option>
+                        <option value="gasista">Gasista</option>
+                    </select>
+                </div>
+
+                <div class="form-grid two-columns professional-fields">
+                    <div class="input-group">
+                        <label for="certificaciones">Certificaciones (separadas por coma)</label>
+                        <input type="text" id="certificaciones" name="certificaciones" class="input-control">
+                    </div>
+                    <div class="input-group">
+                        <label for="experiencia">Años de experiencia</label>
+                        <input type="number" id="experiencia" name="experiencia" min="0" class="input-control">
+                    </div>
+                </div>
+
+                <div class="auth-actions">
+                    <button type="submit" class="btn btn-primary">Crear cuenta</button>
+                </div>
+                <div class="auth-meta">
+                    ¿Ya tenés una cuenta? <a href="login.html">Iniciá sesión</a>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2025 ManosSeguras</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('registro-form');
+            const professionalFields = document.querySelectorAll('.professional-fields');
+            const tipoUsuario = document.querySelectorAll('input[name="tipo"]');
+            const roleLabels = document.querySelectorAll('.role-option');
+
+            const updateRoleStyles = () => {
+                roleLabels.forEach(label => {
+                    const radio = label.querySelector('input');
+                    label.dataset.active = radio.checked ? 'true' : 'false';
+                });
+            };
+
+            const toggleProfessionalFields = (isProfessional) => {
+                professionalFields.forEach(field => {
+                    const controls = field.querySelectorAll('input, select');
+                    if (isProfessional) {
+                        field.classList.add('active');
+                        controls.forEach(ctrl => ctrl.required = true);
+                    } else {
+                        field.classList.remove('active');
+                        controls.forEach(ctrl => ctrl.required = false);
+                    }
+                });
+            };
+
+            tipoUsuario.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    updateRoleStyles();
+                    toggleProfessionalFields(this.value === 'profesional');
+                });
+            });
+
+            updateRoleStyles();
+            toggleProfessionalFields(false);
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Aquí iría la lógica de envío del formulario
+                alert('Registro enviado con éxito');
+            });
+        });
+    </script>
+</body>
+</html>

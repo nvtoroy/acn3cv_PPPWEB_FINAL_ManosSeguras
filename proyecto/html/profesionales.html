@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profesionales - ManosSeguras</title>
+        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="../css/profesionales.css">
+</head>
+<body>
+        <header class="site-header">
+        <nav class="nav-main">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="../img/main-logo.png" alt="ManosSeguras">
+                </a>
+            </div>
+            <div class="nav-links-wrapper">
+                <ul class="nav-links">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="profesionales.html">Profesionales</a></li>
+                    <li><a href="miperfil.html">Mi Perfil</a></li>
+                    <li><a href="admin.html">Admin</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <a href="login.html" class="btn btn-outline">Ingresar</a>
+                    <a href="registro.html" class="btn btn-primary">Crear cuenta</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <main class="profesionales-container">
+        <section class="profesionales-filtros">
+            <h1>Buscar profesionales</h1>
+            <div class="filtros-grid">
+                <div class="filtro-grupo">
+                    <label for="especialidad">Especialidad</label>
+                    <select id="especialidad">
+                        <option value="">Todas las especialidades</option>
+                        <option value="electricista">Electricista</option>
+                        <option value="plomero">Plomero</option>
+                        <option value="gasista">Gasista</option>
+                    </select>
+                </div>
+                <div class="filtro-grupo">
+                    <label for="ubicacion">Ubicación</label>
+                    <input type="text" id="ubicacion" placeholder="Ingresa tu ubicación">
+                </div>
+                <div class="filtro-grupo">
+                    <label for="calificacion">Calificación mínima</label>
+                    <select id="calificacion">
+                        <option value="">Todas las calificaciones</option>
+                        <option value="4">4+ estrellas</option>
+                        <option value="4.5">4.5+ estrellas</option>
+                        <option value="5">5 estrellas</option>
+                    </select>
+                </div>
+                <div class="filtro-grupo">
+                    <label for="verificado">Estado</label>
+                    <select id="verificado">
+                        <option value="">Todos</option>
+                        <option value="verificado">Verificados</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <section class="profesionales-grid">
+            <!-- Profesional 1 -->
+            <article class="profesional-card">
+                <div class="profesional-info">
+                    <div class="profesional-header">
+                        <img src="../img/usuarios/nicolas.jpg" alt="Juan Pérez" class="profesional-avatar">
+                        <div>
+                            <h3 class="profesional-nombre">Juan Pérez</h3>
+                            <p class="profesional-especialidad">Electricista</p>
+                        </div>
+                    </div>
+                    <div class="profesional-verificado">
+                        <span class="status-pill success">Perfil verificado</span>
+                    </div>
+                    <div class="profesional-stats">
+                        <div class="stat">
+                            <div class="stat-value">4.9</div>
+                            <div class="stat-label">Calificación</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">127</div>
+                            <div class="stat-label">Trabajos</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">8</div>
+                            <div class="stat-label">Años exp.</div>
+                        </div>
+                    </div>
+                    <a href="perfil-public.html?id=1" class="btn-contactar">Ver Perfil</a>
+                </div>
+            </article>
+
+            <!-- Profesional 2 -->
+            <article class="profesional-card">
+                <div class="profesional-info">
+                    <div class="profesional-header">
+                        <img src="../img/usuarios/sofia.jpg" alt="María García" class="profesional-avatar">
+                        <div>
+                            <h3 class="profesional-nombre">María García</h3>
+                            <p class="profesional-especialidad">Plomera</p>
+                        </div>
+                    </div>
+                    <div class="profesional-verificado">
+                        <span class="status-pill success">Perfil verificado</span>
+                    </div>
+                    <div class="profesional-stats">
+                        <div class="stat">
+                            <div class="stat-value">4.8</div>
+                            <div class="stat-label">Calificación</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">93</div>
+                            <div class="stat-label">Trabajos</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">5</div>
+                            <div class="stat-label">Años exp.</div>
+                        </div>
+                    </div>
+                    <a href="perfil-public.html?id=2" class="btn-contactar">Ver Perfil</a>
+                </div>
+            </article>
+
+            <!-- Profesional 3 -->
+            <article class="profesional-card">
+                <div class="profesional-info">
+                    <div class="profesional-header">
+                        <img src="../img/usuarios/carlos.jpg" alt="Carlos Rodríguez" class="profesional-avatar">
+                        <div>
+                            <h3 class="profesional-nombre">Carlos Rodríguez</h3>
+                            <p class="profesional-especialidad">Gasista</p>
+                        </div>
+                    </div>
+                    <div class="profesional-verificado">
+                        <span class="status-pill success">Perfil verificado</span>
+                    </div>
+                    <div class="profesional-stats">
+                        <div class="stat">
+                            <div class="stat-value">5.0</div>
+                            <div class="stat-label">Calificación</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">156</div>
+                            <div class="stat-label">Trabajos</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">12</div>
+                            <div class="stat-label">Años exp.</div>
+                        </div>
+                    </div>
+                    <a href="perfil-public.html?id=3" class="btn-contactar">Ver Perfil</a>
+                </div>
+            </article>
+        </section>
+
+        <div class="paginacion">
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>></button>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2025 ManosSeguras</p>
+        </div>
+    </footer>
+</body>
+</html>
