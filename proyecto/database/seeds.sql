@@ -128,6 +128,18 @@ INSERT INTO professional_availability (professional_id, fecha, estado) VALUES
 (10, '2025-12-29', 'mixed');
 
 -- ============================================
+-- SERVICIOS PARA PROFESIONALES
+-- ============================================
+INSERT INTO professional_services (professional_id, nombre, precio_desde, precio_hasta) VALUES
+(1, 'Instalación eléctrica completa', 15000, 50000),
+(1, 'Reparaciones urgentes', 3000, 10000),
+(2, 'Destapes y plomería general', 5000, 20000),
+(3, 'Certificación de gas', 10000, 30000),
+(4, 'Montaje de tableros trifásicos', 20000, 45000),
+(5, 'Cañerías y destapes', 6000, 18000),
+(6, 'Revisión de calefactor', 7000, 16000);
+
+-- ============================================
 -- SOLICITUDES
 -- estados variados, con y sin profesional asignado
 -- ============================================
