@@ -167,8 +167,14 @@
     const maxMonthsAhead = 5;
     let currentMonth = new Date(initialMonth);
 
-    // Sample availability data
     const availability = {};
+    let hasAvailability = false;
+    <% if (availability && availability.length) { %>
+        <% availability.forEach(function(slot){ %>
+            availability["<%= slot.fecha %>"] = "<%= slot.estado %>";
+        <% }) %>
+        hasAvailability = true;
+    <% } %>
 
     const monthNames = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
     const formatMonth = (date) => `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
@@ -197,12 +203,13 @@
             const status = availability[iso];
             if (status) {
                 cell.dataset.status = status;
-            }
-            // Mark some random days as available for demo
-            if (day > today.getDate() || month > today.getMonth() || year > today.getFullYear()) {
-                if (day % 3 === 0) cell.dataset.status = 'free';
-                if (day % 7 === 0) cell.dataset.status = 'busy';
-                if (day % 5 === 0 && day % 3 !== 0) cell.dataset.status = 'mixed';
+            } else if (!hasAvailability) {
+                // fallback demo only si no hay datos reales
+                if (day % 7 === 0) {
+                    cell.dataset.status = 'busy';
+                } else if (day % 5 === 0) {
+                    cell.dataset.status = 'free';
+                }
             }
             gridEl.appendChild(cell);
         }

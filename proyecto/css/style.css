@@ -219,12 +219,16 @@ main {
     border: 1px solid var(--color-border);
     background: var(--color-surface);
     box-shadow: var(--shadow-sm);
+    display: flex;
+    justify-content: center;
 }
 
 .alert .container {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    width: 100%;
+    max-width: 1080px;
 }
 
 .alert-success { border-color: rgba(24, 176, 164, 0.35); background: rgba(24, 176, 164, 0.1); color: #0b7c72; }

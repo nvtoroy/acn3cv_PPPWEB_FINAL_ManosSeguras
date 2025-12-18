@@ -108,6 +108,26 @@ INSERT INTO certificaciones (professional_id, nombre, archivo) VALUES
 (10, 'Curso domótica básica', 'certificaciones/cert_domotica_rodrigo_navarro.pdf');
 
 -- ============================================
+-- DISPONIBILIDAD (calendario público) para algunos profesionales
+-- ============================================
+INSERT INTO professional_availability (professional_id, fecha, estado) VALUES
+(1, '2025-12-19', 'free'),
+(1, '2025-12-20', 'busy'),
+(1, '2025-12-21', 'mixed'),
+(2, '2025-12-18', 'busy'),
+(2, '2025-12-22', 'free'),
+(3, '2025-12-23', 'free'),
+(3, '2025-12-24', 'busy'),
+(4, '2025-12-19', 'mixed'),
+(4, '2025-12-20', 'free'),
+(5, '2025-12-25', 'busy'),
+(6, '2025-12-24', 'mixed'),
+(7, '2025-12-26', 'free'),
+(8, '2025-12-27', 'busy'),
+(9, '2025-12-28', 'free'),
+(10, '2025-12-29', 'mixed');
+
+-- ============================================
 -- SOLICITUDES
 -- estados variados, con y sin profesional asignado
 -- ============================================

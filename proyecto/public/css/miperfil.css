@@ -503,3 +503,78 @@
         align-items: stretch;
     }
 }
+
+/* Solicitud detail */
+.solicitud-detail {
+    gap: 1.5rem;
+    max-width: 1280px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.solicitud-hero {
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.solicitud-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+}
+
+.meta-block {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+}
+
+.solicitud-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.solicitud-info p {
+    margin: 0.35rem 0;
+}
+
+.solicitud-chat {
+    background: var(--color-bg);
+    border-radius: var(--radius-sm);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.empty-state {
+    color: var(--color-muted);
+    font-style: italic;
+}
+
+.solicitud-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+.chat-card {
+    width: 100%;
+    max-width: 1200px;
+    min-width: min(1080px, 100%);
+    align-self: center;
+    margin-top: 0.5rem;
+}
+
+@media (max-width: 900px) {
+    .chat-card {
+        min-width: 100%;
+    }
+}

@@ -312,6 +312,33 @@
     color: var(--color-muted);
 }
 
+/* Paginación */
+.paginacion {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.paginacion a,
+.paginacion button {
+    border: 1px solid var(--color-primary);
+    background: #fff;
+    color: var(--color-primary);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.paginacion a.active,
+.paginacion button.active {
+    background: var(--color-primary);
+    color: #fff;
+}
+
 @media (max-width: 900px) {
     .table-row {
         grid-template-columns: 1fr;

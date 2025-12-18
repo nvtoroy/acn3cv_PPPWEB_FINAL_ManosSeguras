@@ -8,6 +8,8 @@ const User = require('../models/User');
 const Professional = require('../models/Professional');
 const Solicitud = require('../models/Solicitud');
 const Certificacion = require('../models/Certificacion');
+const Availability = require('../models/Availability');
+const Service = require('../models/Service');
 
 /**
  * Показать личный кабинет
@@ -29,12 +31,16 @@ exports.show = async (req, res) => {
         let professional = null;
         let solicitudes = [];
         let certificaciones = [];
+        let services = [];
+        const activeTab = req.query.tab || 'solicitudes';
 
         // Если профессионал - получаем доп. данные
         if (userRole === 'profesional') {
             professional = await Professional.findByUserId(userId);
             if (professional) {
                 certificaciones = await Certificacion.findByProfessional(professional.id);
+                availability = await Availability.findByProfessional(professional.id);
+                services = await Service.findByProfessional(professional.id);
             }
             
             // Получаем заявки профессионала
@@ -60,6 +66,9 @@ exports.show = async (req, res) => {
             professional,
             solicitudes,
             certificaciones,
+            services,
+            activeTab,
+            availability,
             extraCSS: '<link rel="stylesheet" href="/css/miperfil.css">'
         });
 
@@ -77,7 +86,7 @@ exports.show = async (req, res) => {
 exports.update = async (req, res) => {
     try {
         const userId = req.session.userId;
-        const { nombre, apellido, telefono, direccion, experiencia, descripcion, especialidad, zona_cobertura } = req.body;
+        const { nombre, apellido, telefono, direccion, experiencia, descripcion, especialidad, zona_cobertura, avatar_url } = req.body;
 
         // Actualizar datos básicos del usuario
         const nombreCompleto = [nombre, apellido].filter(Boolean).join(' ').trim() || nombre;
@@ -86,7 +95,7 @@ exports.update = async (req, res) => {
             nombre: nombreCompleto,
             telefono,
             direccion,
-            avatar: null  // TODO: implementar upload de avatar
+            avatar: avatar_url || null
         });
 
         // Si es profesional, actualizar también perfil profesional
@@ -107,7 +116,8 @@ exports.update = async (req, res) => {
         req.session.userName = nombreCompleto;
 
         req.flash('success', 'Perfil actualizado correctamente');
-        res.redirect('/profile');
+        const tab = req.body.tab || 'datos-personales';
+        res.redirect(`/profile?tab=${tab}`);
 
     } catch (error) {
         console.error('Error al actualizar perfil:', error);
@@ -156,5 +166,140 @@ exports.changePassword = async (req, res) => {
         console.error('Error al actualizar contraseña:', error);
         req.flash('error', 'No se pudo actualizar la contraseña');
         res.redirect('/profile');
+    }
+};
+
+/**
+ * Guardar disponibilidad del profesional
+ * POST /profile/availability
+ */
+exports.updateAvailability = async (req, res) => {
+    try {
+        if (req.session.userRole !== 'profesional') {
+            req.flash('error', 'Solo los profesionales pueden editar su calendario');
+            return res.redirect('/profile');
+        }
+
+        const professional = await Professional.findByUserId(req.session.userId);
+        if (!professional) {
+            req.flash('error', 'Perfil profesional no encontrado');
+            return res.redirect('/profile');
+        }
+
+        const { slots } = req.body; // JSON string or object
+        let parsed = [];
+        if (typeof slots === 'string') {
+            parsed = JSON.parse(slots);
+        } else if (Array.isArray(slots)) {
+            parsed = slots;
+        }
+
+        // Normalizamos y filtramos
+        const normalized = parsed
+            .filter(s => s.fecha && s.estado)
+            .map(s => ({
+                fecha: s.fecha,
+                estado: s.estado
+            }));
+
+        await Availability.replaceAll(professional.id, normalized);
+
+        req.flash('success', 'Disponibilidad actualizada');
+        res.redirect('/profile?tab=calendario');
+    } catch (error) {
+        console.error('Error al actualizar disponibilidad:', error);
+        req.flash('error', 'No se pudo guardar la disponibilidad');
+        res.redirect('/profile?tab=calendario');
+    }
+};
+
+/**
+ * Crear certificación
+ */
+exports.addCertificacion = async (req, res) => {
+    try {
+        const professional = await Professional.findByUserId(req.session.userId);
+        if (!professional) {
+            req.flash('error', 'No se encontró el perfil profesional');
+            return res.redirect('/profile?tab=certificaciones');
+        }
+        const { nombre, archivo } = req.body;
+        if (!nombre) {
+            req.flash('error', 'Nombre de certificación requerido');
+            return res.redirect('/profile?tab=certificaciones');
+        }
+        await Certificacion.create({
+            professional_id: professional.id,
+            nombre,
+            archivo: archivo || ''
+        });
+        req.flash('success', 'Certificación agregada');
+        res.redirect('/profile?tab=certificaciones');
+    } catch (error) {
+        console.error('Error al agregar certificación:', error);
+        req.flash('error', 'No se pudo agregar la certificación');
+        res.redirect('/profile?tab=certificaciones');
+    }
+};
+
+/**
+ * Eliminar certificación
+ */
+exports.deleteCertificacion = async (req, res) => {
+    try {
+        const certId = parseInt(req.params.id);
+        await Certificacion.delete(certId);
+        req.flash('success', 'Certificación eliminada');
+        res.redirect('/profile?tab=certificaciones');
+    } catch (error) {
+        console.error('Error al eliminar certificación:', error);
+        req.flash('error', 'No se pudo eliminar la certificación');
+        res.redirect('/profile?tab=certificaciones');
+    }
+};
+
+/**
+ * Crear servicio
+ */
+exports.addService = async (req, res) => {
+    try {
+        const professional = await Professional.findByUserId(req.session.userId);
+        if (!professional) {
+            req.flash('error', 'No se encontró el perfil profesional');
+            return res.redirect('/profile?tab=servicios');
+        }
+        const { nombre, precio_desde, precio_hasta } = req.body;
+        if (!nombre) {
+            req.flash('error', 'Nombre de servicio requerido');
+            return res.redirect('/profile?tab=servicios');
+        }
+        await Service.create({
+            professional_id: professional.id,
+            nombre,
+            precio_desde: precio_desde || null,
+            precio_hasta: precio_hasta || null
+        });
+        req.flash('success', 'Servicio agregado');
+        res.redirect('/profile?tab=servicios');
+    } catch (error) {
+        console.error('Error al agregar servicio:', error);
+        req.flash('error', 'No se pudo agregar el servicio');
+        res.redirect('/profile?tab=servicios');
+    }
+};
+
+/**
+ * Eliminar servicio
+ */
+exports.deleteService = async (req, res) => {
+    try {
+        const serviceId = parseInt(req.params.id);
+        await Service.delete(serviceId);
+        req.flash('success', 'Servicio eliminado');
+        res.redirect('/profile?tab=servicios');
+    } catch (error) {
+        console.error('Error al eliminar servicio:', error);
+        req.flash('error', 'No se pudo eliminar el servicio');
+        res.redirect('/profile?tab=servicios');
     }
 };

@@ -38,16 +38,15 @@
     </section>
 
     <section class="admin-tabs">
-        <button class="admin-tab-link active" data-admin-tab="pendientes">Pendientes</button>
-        <button class="admin-tab-link" data-admin-tab="usuarios">Usuarios</button>
-        <button class="admin-tab-link" data-admin-tab="resenas">Reseñas</button>
+        <button class="admin-tab-link <%= activeTab === 'pendientes' ? 'active' : '' %>" data-admin-tab="pendientes">Pendientes</button>
+        <button class="admin-tab-link <%= activeTab === 'usuarios' ? 'active' : '' %>" data-admin-tab="usuarios">Usuarios</button>
+        <button class="admin-tab-link <%= activeTab === 'resenas' ? 'active' : '' %>" data-admin-tab="resenas">Reseñas</button>
     </section>
 
     <section class="admin-panels">
         <!-- Profesionales Pendientes -->
-        <article class="admin-section admin-panel active" id="pendientes">
+        <article class="admin-section admin-panel <%= activeTab === 'pendientes' ? 'active' : '' %>" id="pendientes">
             <h2>Profesionales Pendientes de Aprobación</h2>
-            <p><a href="/admin/profesionales" class="btn-link">Ver todos</a></p>
             <div class="admin-table">
                 <div class="table-row header-row">
                     <div class="col-photo">Foto</div>
@@ -98,15 +97,22 @@
                     </div>
                 <% } %>
             </div>
+            <% if (totalPendingPages > 1) { %>
+                <div class="paginacion">
+                    <% for (let i = 1; i <= totalPendingPages; i++) { %>
+                        <a class="<%= i === currentPendingPage ? 'active' : '' %>" href="/admin?tab=pendientes&prof_page=<%= i %>&users_page=<%= currentUsersPage %>&rev_page=<%= currentReviewsPage %>&estado=<%= reviewsEstado %>"><%= i %></a>
+                    <% } %>
+                </div>
+            <% } %>
         </article>
 
         <!-- Gestión de Usuarios -->
-        <article class="admin-section admin-panel" id="usuarios">
+        <article class="admin-section admin-panel <%= activeTab === 'usuarios' ? 'active' : '' %>" id="usuarios">
             <h2>Gestión de Usuarios</h2>
             <div class="filters">
-                <button class="filter-btn active">Todos</button>
-                <button class="filter-btn" type="button">Clientes</button>
-                <button class="filter-btn" type="button">Profesionales</button>
+                <a class="filter-btn <%= !roleFilter ? 'active' : '' %>" href="/admin?tab=usuarios&rol=&users_page=1&prof_page=<%= currentPendingPage %>&rev_page=<%= currentReviewsPage %>&estado=<%= reviewsEstado %>">Todos</a>
+                <a class="filter-btn <%= roleFilter === 'cliente' ? 'active' : '' %>" href="/admin?tab=usuarios&rol=cliente&users_page=1&prof_page=<%= currentPendingPage %>&rev_page=<%= currentReviewsPage %>&estado=<%= reviewsEstado %>">Clientes</a>
+                <a class="filter-btn <%= roleFilter === 'profesional' ? 'active' : '' %>" href="/admin?tab=usuarios&rol=profesional&users_page=1&prof_page=<%= currentPendingPage %>&rev_page=<%= currentReviewsPage %>&estado=<%= reviewsEstado %>">Profesionales</a>
             </div>
             <div class="admin-table">
                 <div class="table-row header-row">
@@ -135,12 +141,23 @@
                     <% }); %>
                 <% } %>
             </div>
+            <% if (totalUsersPages > 1) { %>
+                <div class="paginacion">
+                    <% for (let i = 1; i <= totalUsersPages; i++) { %>
+                        <a class="<%= i === currentUsersPage ? 'active' : '' %>" href="/admin?tab=usuarios&users_page=<%= i %>&prof_page=<%= currentPendingPage %>&rev_page=<%= currentReviewsPage %>&estado=<%= reviewsEstado %>&rol=<%= roleFilter %>"><%= i %></a>
+                    <% } %>
+                </div>
+            <% } %>
         </article>
 
         <!-- Moderación de Reseñas -->
-        <article class="admin-section admin-panel" id="resenas">
+        <article class="admin-section admin-panel <%= activeTab === 'resenas' ? 'active' : '' %>" id="resenas">
             <h2>Moderación de Reseñas</h2>
-            <p><a href="/admin/reviews" class="btn-link">Ver todas</a></p>
+            <div class="filters">
+                <a href="/admin?tab=resenas&estado=pendiente&rev_page=1&prof_page=<%= currentPendingPage %>&users_page=<%= currentUsersPage %>" class="filter-btn <%= reviewsEstado === 'pendiente' ? 'active' : '' %>">Pendientes</a>
+                <a href="/admin?tab=resenas&estado=aprobada&rev_page=1&prof_page=<%= currentPendingPage %>&users_page=<%= currentUsersPage %>" class="filter-btn <%= reviewsEstado === 'aprobada' ? 'active' : '' %>">Aprobadas</a>
+                <a href="/admin?tab=resenas&estado=rechazada&rev_page=1&prof_page=<%= currentPendingPage %>&users_page=<%= currentUsersPage %>" class="filter-btn <%= reviewsEstado === 'rechazada' ? 'active' : '' %>">Rechazadas</a>
+            </div>
             <div class="reviews-list">
                 <% if (pendingReviewsList && pendingReviewsList.length > 0) { %>
                     <% pendingReviewsList.forEach(function(review) { %>
@@ -173,25 +190,45 @@
                     <p>No hay reseñas pendientes de moderación.</p>
                 <% } %>
             </div>
+            <% if (totalReviewsPages > 1) { %>
+                <div class="paginacion">
+                    <% for (let i = 1; i <= totalReviewsPages; i++) { %>
+                        <a class="<%= i === currentReviewsPage ? 'active' : '' %>" href="/admin?tab=resenas&rev_page=<%= i %>&estado=<%= reviewsEstado %>&prof_page=<%= currentPendingPage %>&users_page=<%= currentUsersPage %>"><%= i %></a>
+                    <% } %>
+                </div>
+            <% } %>
         </article>
     </section>
 </main>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const tabLinks = document.querySelectorAll('.admin-tab-link');
-    const panels = document.querySelectorAll('.admin-panel');
+        const tabLinks = document.querySelectorAll('.admin-tab-link');
+        const panels = document.querySelectorAll('.admin-panel');
 
-    tabLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            const targetTab = this.dataset.adminTab;
+        tabLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                const targetTab = this.dataset.adminTab;
 
-            tabLinks.forEach(l => l.classList.remove('active'));
-            panels.forEach(p => p.classList.remove('active'));
+                tabLinks.forEach(l => l.classList.remove('active'));
+                panels.forEach(p => p.classList.remove('active'));
 
-            this.classList.add('active');
-            document.getElementById(targetTab).classList.add('active');
+                this.classList.add('active');
+                document.getElementById(targetTab).classList.add('active');
+
+                // Actualizar parámetro tab en URL sin recarga
+                const url = new URL(window.location.href);
+                url.searchParams.set('tab', targetTab);
+                // Reiniciar páginas al cambiar tab
+                if (targetTab === 'usuarios') {
+                    url.searchParams.set('users_page', 1);
+                } else if (targetTab === 'pendientes') {
+                    url.searchParams.set('prof_page', 1);
+                } else if (targetTab === 'resenas') {
+                    url.searchParams.set('rev_page', 1);
+                }
+                window.history.replaceState({}, '', url.toString());
+            });
         });
     });
-});
 </script>

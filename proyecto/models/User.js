@@ -144,22 +144,23 @@ class User {
      * @param {number} offset - смещение для пагинации
      * @returns {Promise<Array>}
      */
-    static findAll(limit = 30, offset = 0) {
+    static findAll(limit = 30, offset = 0, role = null) {
         return new Promise((resolve, reject) => {
             const db = createConnection();
-            
-            db.all(
-                `SELECT id, nombre, email, telefono, rol, created_at 
-                 FROM users 
-                 ORDER BY created_at DESC
-                 LIMIT ? OFFSET ?`,
-                [limit, offset],
-                (err, rows) => {
-                    db.close();
-                    if (err) reject(err);
-                    else resolve(rows || []);
-                }
-            );
+            let query = `SELECT id, nombre, email, telefono, rol, created_at FROM users`;
+            const params = [];
+            if (role) {
+                query += ' WHERE rol = ?';
+                params.push(role);
+            }
+            query += ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
+            params.push(limit, offset);
+
+            db.all(query, params, (err, rows) => {
+                db.close();
+                if (err) reject(err);
+                else resolve(rows || []);
+            });
         });
     }
 
@@ -167,18 +168,20 @@ class User {
      * Подсчитать общее количество пользователей
      * @returns {Promise<number>}
      */
-    static count() {
+    static count(filters = {}) {
         return new Promise((resolve, reject) => {
             const db = createConnection();
-            
-            db.get(
-                'SELECT COUNT(*) as total FROM users',
-                (err, row) => {
-                    db.close();
-                    if (err) reject(err);
-                    else resolve(row.total);
-                }
-            );
+            let query = 'SELECT COUNT(*) as total FROM users';
+            const params = [];
+            if (filters.rol) {
+                query += ' WHERE rol = ?';
+                params.push(filters.rol);
+            }
+            db.get(query, params, (err, row) => {
+                db.close();
+                if (err) reject(err);
+                else resolve(row.total);
+            });
         });
     }
 

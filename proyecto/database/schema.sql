@@ -102,3 +102,27 @@ CREATE INDEX IF NOT EXISTS idx_solicitudes_profesional_id ON solicitudes(profesi
 CREATE INDEX IF NOT EXISTS idx_solicitudes_estado ON solicitudes(estado);
 CREATE INDEX IF NOT EXISTS idx_reviews_estado ON reviews(estado);
 CREATE INDEX IF NOT EXISTS idx_mensajes_solicitud ON mensajes(solicitud_id);
+
+-- Disponibilidad pública de profesionales (calendario simple)
+CREATE TABLE IF NOT EXISTS professional_availability (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    professional_id INTEGER NOT NULL,
+    fecha DATE NOT NULL,
+    estado VARCHAR(20) NOT NULL, -- 'free', 'busy', 'mixed'
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(professional_id, fecha),
+    FOREIGN KEY (professional_id) REFERENCES professionals(id) ON DELETE CASCADE
+);
+CREATE INDEX IF NOT EXISTS idx_availability_prof ON professional_availability(professional_id);
+
+-- Servicios ofrecidos por profesionales
+CREATE TABLE IF NOT EXISTS professional_services (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    professional_id INTEGER NOT NULL,
+    nombre VARCHAR(150) NOT NULL,
+    precio_desde DECIMAL(10,2),
+    precio_hasta DECIMAL(10,2),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (professional_id) REFERENCES professionals(id) ON DELETE CASCADE
+);
+CREATE INDEX IF NOT EXISTS idx_services_prof ON professional_services(professional_id);

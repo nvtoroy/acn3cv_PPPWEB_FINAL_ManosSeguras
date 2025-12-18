@@ -15,24 +15,41 @@ const Solicitud = require('../models/Solicitud');
  */
 exports.dashboard = async (req, res) => {
     try {
-        // Получаем статистику
+        const activeTab = req.query.tab || 'pendientes';
+
+        // Stats
         const totalUsers = await User.count();
         const totalProfessionals = await Professional.count();
         const pendingReviews = await Review.count('pendiente');
         const unverifiedProfs = await Professional.count({ verificado: 0 });
 
-        // Получаем последних пользователей
-        const recentUsers = await User.findAll(5, 0);
+        // Paginación en cada panel
+        const usersPage = parseInt(req.query.users_page) || 1;
+        const perPageUsers = 15;
+        const usersOffset = (usersPage - 1) * perPageUsers;
+        const roleFilter = req.query.rol || '';
+        const users = await User.findAll(perPageUsers, usersOffset, roleFilter);
+        const totalUsersFiltered = await User.count(roleFilter ? { rol: roleFilter } : {});
+        const totalUsersPages = Math.ceil(totalUsersFiltered / perPageUsers);
 
-        // Получаем непроверенных профессионалов
+        const pendingPage = parseInt(req.query.prof_page) || 1;
+        const perPagePending = 10;
+        const pendingOffset = (pendingPage - 1) * perPagePending;
         const pendingProfessionals = await Professional.findAll({
             verificado: 0,
-            limit: 10,
-            offset: 0
+            limit: perPagePending,
+            offset: pendingOffset
         });
+        const totalPending = await Professional.count({ verificado: 0 });
+        const totalPendingPages = Math.ceil(totalPending / perPagePending);
 
-        // Получаем reviews на модерацию
-        const pendingReviewsList = await Review.findAll('pendiente', 5, 0);
+        const reviewsEstado = req.query.estado || 'pendiente';
+        const reviewsPage = parseInt(req.query.rev_page) || 1;
+        const perPageReviews = 10;
+        const reviewsOffset = (reviewsPage - 1) * perPageReviews;
+        const pendingReviewsList = await Review.findAll(reviewsEstado, perPageReviews, reviewsOffset);
+        const totalReviews = await Review.count(reviewsEstado);
+        const totalReviewsPages = Math.ceil(totalReviews / perPageReviews);
 
         res.render('admin', {
             title: 'Panel de Administración',
@@ -42,10 +59,19 @@ exports.dashboard = async (req, res) => {
                 pendingReviews,
                 unverifiedProfs
             },
-            recentUsers,
+            recentUsers: users,
             pendingProfessionals,
             pendingReviewsList,
-            users: recentUsers,
+            users,
+            activeTab,
+            currentUsersPage: usersPage,
+            totalUsersPages,
+            currentPendingPage: pendingPage,
+            totalPendingPages,
+            currentReviewsPage: reviewsPage,
+            totalReviewsPages,
+            reviewsEstado,
+            roleFilter,
             extraCSS: '<link rel="stylesheet" href="/css/admin.css">'
         });
 
@@ -96,18 +122,21 @@ exports.deleteUser = async (req, res) => {
         // No permitir eliminar al propio admin
         if (userId === req.session.userId) {
             req.flash('error', 'No puedes eliminar tu propia cuenta');
-            return res.redirect('/admin/usuarios');
+            const back = req.get('referer') || '/admin?tab=usuarios';
+            return res.redirect(back.includes('/admin') ? back : '/admin?tab=usuarios');
         }
 
         await User.delete(userId);
         
         req.flash('success', 'Usuario eliminado correctamente');
-        res.redirect('/admin/usuarios');
+        const back = req.get('referer') || '/admin?tab=usuarios';
+        res.redirect(back.includes('/admin') ? back : '/admin?tab=usuarios');
 
     } catch (error) {
         console.error('Error al eliminar usuario:', error);
         req.flash('error', 'Error al eliminar el usuario');
-        res.redirect('/admin/usuarios');
+        const back = req.get('referer') || '/admin?tab=usuarios';
+        res.redirect(back.includes('/admin') ? back : '/admin?tab=usuarios');
     }
 };
 

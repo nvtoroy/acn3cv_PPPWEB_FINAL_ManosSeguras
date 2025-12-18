@@ -2,6 +2,7 @@
     <section class="profesionales-filtros">
         <h1>Buscar profesionales</h1>
         <form id="filtros-prof" action="/profesionales" method="GET" class="filtros-grid">
+            <input type="hidden" name="page" id="page-input" value="<%= currentPage %>">
             <div class="filtro-grupo">
                 <label for="especialidad">Especialidad</label>
                 <select id="especialidad" name="especialidad">
@@ -33,8 +34,7 @@
             </div>
         </form>
         <div class="filtros-actions">
-            <button type="submit" form="filtros-prof" class="btn btn-primary">Aplicar filtros</button>
-            <a href="/profesionales" class="btn btn-outline">Limpiar</a>
+            <a href="/profesionales" class="btn btn-outline" aria-label="Limpiar filtros">✕</a>
         </div>
     </section>
 
@@ -88,10 +88,10 @@
     <% if (totalPages > 1) { %>
         <div class="paginacion">
             <% for (let i = 1; i <= totalPages; i++) { %>
-                <button onclick="window.location.href='?page=<%= i %><%= especialidad ? '&especialidad=' + especialidad : '' %><%= ubicacion ? '&ubicacion=' + encodeURIComponent(ubicacion) : '' %><%= calificacion ? '&calificacion=' + calificacion : '' %><%= verificado ? '&verificado=' + verificado : '' %>'" class="<%= i === currentPage ? 'active' : '' %>"><%= i %></button>
+                <button type="button" data-page="<%= i %>" class="<%= i === currentPage ? 'active' : '' %>"><%= i %></button>
             <% } %>
             <% if (currentPage < totalPages) { %>
-                <button onclick="window.location.href='?page=<%= currentPage + 1 %><%= especialidad ? '&especialidad=' + especialidad : '' %><%= ubicacion ? '&ubicacion=' + encodeURIComponent(ubicacion) : '' %><%= calificacion ? '&calificacion=' + calificacion : '' %><%= verificado ? '&verificado=' + verificado : '' %>'">></button>
+                <button type="button" data-page="<%= currentPage + 1 %>">></button>
             <% } %>
         </div>
     <% } %>
@@ -100,6 +100,7 @@
 <script>
 (() => {
     const form = document.getElementById('filtros-prof');
+    const pageInput = document.getElementById('page-input');
     if (!form) return;
     ['especialidad', 'calificacion', 'verificado'].forEach(id => {
         const el = document.getElementById(id);
@@ -111,5 +112,11 @@
             if (e.key === 'Enter') form.submit();
         });
     }
+    document.querySelectorAll('.paginacion button[data-page]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (pageInput) pageInput.value = btn.dataset.page;
+            form.submit();
+        });
+    });
 })();
 </script>

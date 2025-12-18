@@ -26,6 +26,13 @@
     gap: 1.25rem;
 }
 
+.filtros-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 0.75rem;
+}
+
 .filtro-grupo label {
     display: block;
     font-weight: 600;

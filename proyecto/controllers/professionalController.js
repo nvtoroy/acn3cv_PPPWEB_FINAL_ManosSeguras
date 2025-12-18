@@ -7,6 +7,7 @@
 const Professional = require('../models/Professional');
 const Review = require('../models/Review');
 const Certificacion = require('../models/Certificacion');
+const Availability = require('../models/Availability');
 
 /**
  * Показать список профессионалов с фильтрами
@@ -81,12 +82,14 @@ exports.show = async (req, res) => {
         // Obtener reviews aprobadas
         const reviews = await Review.findByProfessional(professionalId, true);
         const certificaciones = await Certificacion.findByProfessional(professionalId);
+        const availability = await Availability.findByProfessional(professionalId);
 
         res.render('perfil-public', {
             title: professional.nombre,
             professional,
             reviews,
             certificaciones,
+            availability,
             extraCSS: '<link rel="stylesheet" href="/css/perfil-public.css">'
         });
 

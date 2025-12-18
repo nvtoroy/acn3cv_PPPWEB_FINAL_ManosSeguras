@@ -116,11 +116,12 @@
                     <p>Mantené tres meses a la vista y actualizá tu disponibilidad manualmente.</p>
                 </div>
             </div>
-            <div class="pro-calendar" data-multi-calendar>
+            <form class="pro-calendar" data-multi-calendar method="POST" action="/profile/availability">
+                <input type="hidden" name="slots" id="slots-input">
                 <div class="calendar-controls">
-                    <button class="cal-btn" data-cal-prev aria-label="Mes anterior">&larr;</button>
+                    <button class="cal-btn" data-cal-prev aria-label="Mes anterior" type="button">&larr;</button>
                     <h3 class="calendar-range" data-cal-range>Diciembre 2025 - Febrero 2026</h3>
-                    <button class="cal-btn" data-cal-next aria-label="Mes siguiente">&rarr;</button>
+                    <button class="cal-btn" data-cal-next aria-label="Mes siguiente" type="button">&rarr;</button>
                 </div>
                 <div class="calendar-columns" data-calendar-columns>
                     <!-- columnas generadas por script -->
@@ -130,7 +131,10 @@
                     <span><span class="legend-dot busy"></span> Reservado</span>
                     <span><span class="legend-dot past"></span> Pasado</span>
                 </div>
-            </div>
+                <div class="form-actions" style="margin-top:1rem;">
+                    <button type="submit" class="btn btn-primary">Guardar disponibilidad</button>
+                </div>
+            </form>
         </article>
         <% } %>
 
@@ -144,6 +148,7 @@
                 </div>
             </div>
             <form class="panel-form" method="POST" action="/profile/update">
+                <input type="hidden" name="tab" value="datos-personales">
                 <div class="avatar-block">
                     <% if (user.avatar) { %>
                         <img src="<%= user.avatar %>" alt="Avatar" class="avatar">
@@ -151,8 +156,11 @@
                         <div class="avatar perfil-avatar-placeholder"><%= user.nombre.charAt(0).toUpperCase() %></div>
                     <% } %>
                     <div>
-                        <button type="button" class="btn-outline small">Cambiar foto</button>
-                        <p class="help-text">PNG o JPG - máx 2 MB</p>
+                        <label class="btn-outline small">
+                            URL de foto
+                            <input type="url" name="avatar_url" value="<%= user.avatar || '' %>" placeholder="https://..." style="margin-top:0.35rem;">
+                        </label>
+                        <p class="help-text">Ingresa URL a tu foto (PNG/JPG)</p>
                     </div>
                 </div>
                 <div class="form-row">
@@ -212,6 +220,7 @@
                 </div>
             </div>
             <form class="panel-form compact" method="POST" action="/profile/password">
+                <input type="hidden" name="tab" value="seguridad">
                 <label>Email de acceso
                     <input type="email" value="<%= user.email %>" disabled>
                 </label>
@@ -227,7 +236,7 @@
                     </label>
                 </div>
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Actualizar seguridad</button>
+                    <button type="submit" class="btn btn-primary">Actualizar</button>
                 </div>
             </form>
         </article>
@@ -243,38 +252,44 @@
                 </div>
             </div>
             <div class="servicios-lista">
-                <div class="servicio-row">
-                    <div>
-                        <h4>Instalación eléctrica completa</h4>
-                        <p>$15.000 - $50.000</p>
-                    </div>
-                    <div class="row-actions">
-                        <button class="btn-link">Editar</button>
-                        <button class="btn-link danger">Eliminar</button>
-                    </div>
-                </div>
-                <div class="servicio-row">
-                    <div>
-                        <h4>Reparaciones urgentes</h4>
-                        <p>$3.000 - $10.000</p>
-                    </div>
-                    <div class="row-actions">
-                        <button class="btn-link">Editar</button>
-                        <button class="btn-link danger">Eliminar</button>
-                    </div>
-                </div>
-                <div class="servicio-row">
-                    <div>
-                        <h4>Mantenimiento preventivo</h4>
-                        <p>$2.000 - $8.000</p>
-                    </div>
-                    <div class="row-actions">
-                        <button class="btn-link">Editar</button>
-                        <button class="btn-link danger">Eliminar</button>
-                    </div>
-                </div>
+                <% if (services && services.length) { %>
+                    <% services.forEach(function(serv) { %>
+                        <div class="servicio-row">
+                            <div>
+                                <h4><%= serv.nombre %></h4>
+                                <p>
+                                    <%= serv.precio_desde ? '$' + serv.precio_desde : 'A convenir' %>
+                                    <% if (serv.precio_hasta) { %> - $<%= serv.precio_hasta %><% } %>
+                                </p>
+                            </div>
+                            <div class="row-actions">
+                                <form method="POST" action="/profile/servicios/<%= serv.id %>/delete">
+                                    <button class="btn-link danger" type="submit">Eliminar</button>
+                                </form>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p class="empty-state">No cargaste servicios aún.</p>
+                <% } %>
             </div>
-            <button class="btn btn-outline full">Agregar nuevo servicio</button>
+            <form class="panel-form" method="POST" action="/profile/servicios">
+                <input type="hidden" name="tab" value="servicios">
+                <div class="form-row">
+                    <label>Nombre
+                        <input type="text" name="nombre" required placeholder="Ej: Instalación eléctrica completa">
+                    </label>
+                    <label>Precio desde
+                        <input type="number" step="0.01" name="precio_desde" placeholder="15000">
+                    </label>
+                    <label>Precio hasta
+                        <input type="number" step="0.01" name="precio_hasta" placeholder="50000">
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Agregar servicio</button>
+                </div>
+            </form>
         </article>
 
         <!-- Certificaciones -->
@@ -294,7 +309,9 @@
                                 <strong><%= cert.nombre %></strong>
                                 <p><%= cert.archivo || 'Documento cargado' %></p>
                             </div>
-                            <span class="status-pill success">Cargado</span>
+                            <form method="POST" action="/profile/certificaciones/<%= cert.id %>/delete">
+                                <button class="btn-link danger" type="submit">Eliminar</button>
+                            </form>
                         </li>
                     <% }); %>
                 <% } else { %>
@@ -307,6 +324,20 @@
                     </li>
                 <% } %>
             </ul>
+            <form class="panel-form" method="POST" action="/profile/certificaciones">
+                <input type="hidden" name="tab" value="certificaciones">
+                <div class="form-row">
+                    <label>Nombre
+                        <input type="text" name="nombre" required placeholder="Ej: Matrícula profesional">
+                    </label>
+                    <label>Archivo / URL
+                        <input type="text" name="archivo" placeholder="certificaciones/matricula.pdf o https://...">
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Agregar certificación</button>
+                </div>
+            </form>
         </article>
 
         <!-- Zona de trabajo -->
@@ -318,12 +349,18 @@
                     <p>Los clientes verán este radio de cobertura.</p>
                 </div>
             </div>
-            <div class="zona-info">
-                <p><strong>Base:</strong> <%= professional.zona_cobertura || 'Caballito, CABA' %></p>
-                <p><strong>Radio:</strong> Hasta 25 km - GBA Oeste y Norte</p>
-                <p><strong>Disponibilidad:</strong> Lunes a sábado de 8 a 20 h</p>
-            </div>
-            <button class="btn btn-outline">Editar cobertura</button>
+            <form class="panel-form" method="POST" action="/profile/update">
+                <input type="hidden" name="tab" value="zona">
+                <div class="zona-info">
+                    <p><strong>Zona actual:</strong> <%= professional.zona_cobertura || 'No definida' %></p>
+                </div>
+                <label>Zona de cobertura
+                    <input type="text" name="zona_cobertura" value="<%= professional.zona_cobertura || '' %>" placeholder="Ej: CABA y GBA Norte">
+                </label>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Guardar zona</button>
+                </div>
+            </form>
         </article>
         <% } %>
     </section>
@@ -361,6 +398,13 @@ document.addEventListener('DOMContentLoaded', () => {
         let centerMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
         const availability = {};
+        let hasAvailability = false;
+        <% if (availability && availability.length) { %>
+            <% availability.forEach(function(slot){ %>
+                availability["<%= slot.fecha %>"] = "<%= slot.estado %>";
+            <% }); %>
+            hasAvailability = true;
+        <% } %>
 
         const formatMonth = (date) => `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
 
@@ -448,6 +492,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         render();
+
+        // Guardar disponibilidad al enviar el formulario
+        const slotsInput = document.getElementById('slots-input');
+        calendar.addEventListener('submit', (e) => {
+            if (!slotsInput) return;
+            const entries = Object.entries(availability).map(([fecha, estado]) => ({ fecha, estado }));
+            slotsInput.value = JSON.stringify(entries);
+        });
     }
 });
 </script>

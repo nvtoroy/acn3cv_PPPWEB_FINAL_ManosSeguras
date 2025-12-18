@@ -212,25 +212,29 @@ main {
 
 /* Flash messages */
 .alert {
-    margin: 0 0 1rem 0;
-    padding: 0.75rem 1rem;
+    margin: 0;
+    padding: 0.75rem 0;
     font-weight: 600;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid var(--color-border);
     background: var(--color-surface);
-    box-shadow: var(--shadow-sm);
+    display: flex;
+    justify-content: center;
+    text-align: center;
 }
 
 .alert .container {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
 }
 
-.alert-success { border-color: rgba(24, 176, 164, 0.35); background: rgba(24, 176, 164, 0.1); color: #0b7c72; }
-.alert-error { border-color: rgba(220, 53, 69, 0.35); background: rgba(220, 53, 69, 0.08); color: #b21f2d; }
-.alert-warning { border-color: rgba(255, 193, 7, 0.45); background: rgba(255, 193, 7, 0.14); color: #c17d00; }
-.alert-info { border-color: rgba(29, 111, 242, 0.35); background: rgba(29, 111, 242, 0.08); color: var(--color-primary); }
+.alert-success { border-bottom-color: rgba(24, 176, 164, 0.5); background: rgba(24, 176, 164, 0.1); color: #0b7c72; }
+.alert-error { border-bottom-color: rgba(220, 53, 69, 0.5); background: rgba(220, 53, 69, 0.08); color: #b21f2d; }
+.alert-warning { border-bottom-color: rgba(255, 193, 7, 0.6); background: rgba(255, 193, 7, 0.14); color: #c17d00; }
+.alert-info { border-bottom-color: rgba(29, 111, 242, 0.5); background: rgba(29, 111, 242, 0.08); color: var(--color-primary); }
 
 .chip {
     display: inline-flex;
